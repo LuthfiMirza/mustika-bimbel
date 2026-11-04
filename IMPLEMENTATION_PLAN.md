@@ -40,6 +40,6 @@ AI Agent wajib mengerjakan tahapan di bawah ini secara berurutan dan mencentang 
 - [x] Bangun halaman **Manajemen SPP & Kwitansi (`/admin/invoices`)** dengan generator tagihan bulanan massal dan pengingat WA.
 
 ## Fase 5: Persiapan Deployment Hostinger Premium
-- [ ] Jalankan `npm run build` untuk mengompilasi aset ke `public/build`.
-- [ ] Buat file `.htaccess` di root proyek dan panduan singkat deployment ke `public_html` Hostinger.
+- [x] Jalankan `npm run build` untuk mengompilasi aset ke `public/build`.
+- [x] Buat file `.htaccess` di root proyek dan panduan singkat deployment ke `public_html` Hostinger.
 

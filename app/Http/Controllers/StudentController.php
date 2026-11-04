@@ -6,6 +6,7 @@ use App\Models\Program;
 use App\Models\Schedule;
 use App\Models\Student;
 use App\Models\StudentBadge;
+use App\Services\WhatsAppService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -92,6 +93,7 @@ class StudentController extends Controller
 
         $validated['student_code'] = $studentCode;
         $validated['portal_token'] = $portalToken;
+        $validated['parent_whatsapp'] = WhatsAppService::formatPhoneNumber($validated['parent_whatsapp']);
 
         $student = Student::create($validated);
 
@@ -134,6 +136,8 @@ class StudentController extends Controller
             'mipa_mastery_percent' => ['required', 'integer', 'min:0', 'max:100'],
             'status' => ['required', 'in:Aktif,Cuti,Lulus'],
         ]);
+
+        $validated['parent_whatsapp'] = WhatsAppService::formatPhoneNumber($validated['parent_whatsapp']);
 
         $student->update($validated);
 

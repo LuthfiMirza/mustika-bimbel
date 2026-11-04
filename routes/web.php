@@ -11,4 +11,7 @@ Route::get('/cek-raport', [LandingController::class, 'checkReport'])->name('land
 
 // Parent Portal & E-Raport Routes
 Route::get('/raport/{portal_token}', [ParentPortalController::class, 'show'])->name('portal.show');
+Route::get('/raport/{portal_token}/cetak-pdf', [ParentPortalController::class, 'downloadReportPdf'])->name('portal.download-raport');
+Route::get('/raport/{portal_token}/kwitansi/{invoice_id}', [ParentPortalController::class, 'downloadInvoicePdf'])->name('portal.download-invoice');
+
 

@@ -21,12 +21,12 @@ AI Agent wajib mengerjakan tahapan di bawah ini secara berurutan dan mencentang 
 - [x] Bangun seksi **Peta Lokasi** (Perumahan Amarylis Garden, Jalan H Abdul Gani II Blok I No. 11, Harapan Jaya, Cibinong)[cite: 1] dan Modal "Cek Raport Siswa dengan Kode Siswa".
 
 ## Fase 3: Portal Orang Tua & E-Raport Interaktif (`/raport/{portal_token}`)
-- [ ] Buat `ParentPortalController.php` dengan pencarian via `portal_token` maupun `student_code`.
-- [ ] Bangun UI Mobile-First yang menampilkan profil siswa, **Pohon Level Jarimatika (Level 1-6)**, dan persentase penguasaan MIPA.
-- [ ] Integrasikan **Chart.js** untuk menampilkan grafik peningkatan skor latihan soal dan rating kecepatan hitung anak.
-- [ ] Tampilkan riwayat jurnal belajar harian dari pengajar.
-- [ ] Bangun fitur **Kartu Sertifikat / Digital Badge** yang bisa diunduh orang tua menjadi gambar PNG (`html2canvas`) lengkap dengan branding MustikaBimbel[cite: 1].
-- [ ] Tambahkan tombol cetak **E-Raport Bulanan (PDF)** dan **Kwitansi SPP (PDF)**.
+- [x] Buat `ParentPortalController.php` dengan pencarian via `portal_token` maupun `student_code`.
+- [x] Bangun UI Mobile-First yang menampilkan profil siswa, **Pohon Level Jarimatika (Level 1-6)**, dan persentase penguasaan MIPA.
+- [x] Integrasikan **Chart.js** untuk menampilkan grafik peningkatan skor latihan soal dan rating kecepatan hitung anak.
+- [x] Tampilkan riwayat jurnal belajar harian dari pengajar.
+- [x] Bangun fitur **Kartu Sertifikat / Digital Badge** yang bisa diunduh orang tua menjadi gambar PNG (`html2canvas`) lengkap dengan branding MustikaBimbel[cite: 1].
+- [x] Tambahkan tombol cetak **E-Raport Bulanan (PDF)** dan **Kwitansi SPP (PDF)**.
 
 ## Fase 4: Sistem Internal Admin & Pengajar (`/admin/...`)
 - [ ] Buat sistem Login Admin/Pengajar sederhana & aman (`/login`).

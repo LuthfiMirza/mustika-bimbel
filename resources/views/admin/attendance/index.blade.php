@@ -6,7 +6,7 @@
 @section('content')
 <div class="space-y-6"
      x-data="{
-        autoOpenWa: '{{ session('wa_arrival_url') }}',
+        autoOpenWa: '{{ session('wa_arrival_url') ?? session('wa_report_url') }}',
         activeStudent: null,
         journalModalOpen: false,
         openJournalModal(student, session) {
@@ -16,7 +16,7 @@
      }"
      x-init="if (autoOpenWa) { window.open(autoOpenWa, '_blank'); }">
 
-    <!-- WhatsApp Alert Pop-up Notification -->
+    <!-- WhatsApp Alert Pop-up Notification for Arrival -->
     @if (session('wa_arrival_url'))
         <div class="p-4 rounded-2xl bg-[#0F2C59] text-white border-2 border-[#FACC15] shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3">
@@ -32,6 +32,26 @@
                class="px-4 py-2 rounded-xl bg-[#FACC15] text-[#0F2C59] font-extrabold text-xs hover:bg-[#FFD100] transition-colors shrink-0 flex items-center gap-1.5">
                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                 Buka Ulang WhatsApp Orang Tua
+            </a>
+        </div>
+    @endif
+
+    <!-- WhatsApp Alert Pop-up Notification for Study Report -->
+    @if (session('wa_report_url'))
+        <div class="p-4 rounded-2xl bg-emerald-900 text-white border-2 border-emerald-400 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-400 text-emerald-950 flex items-center justify-center font-extrabold shrink-0">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-extrabold text-emerald-200">Laporan Jurnal Pulang Siap Dikirim!</h3>
+                    <p class="text-xs text-slate-200">Jurnal &amp; skor ananda <strong>{{ session('wa_student_name') }}</strong> (lengkap dengan link E-Raport) siap dikirimkan ke orang tua.</p>
+                </div>
+            </div>
+            <a href="{{ session('wa_report_url') }}" target="_blank"
+               class="px-4 py-2 rounded-xl bg-emerald-300 text-emerald-950 font-extrabold text-xs hover:bg-emerald-200 transition-colors shrink-0 flex items-center gap-1.5">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                Buka Tab WhatsApp Laporan
             </a>
         </div>
     @endif

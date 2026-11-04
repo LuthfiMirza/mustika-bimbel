@@ -83,4 +83,49 @@ class AttendanceController extends Controller
             'wa_student_name' => $student->full_name,
         ]);
     }
+
+    /**
+     * Save daily study journal and generate WhatsApp report link.
+     */
+    public function saveJournal(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'student_id' => ['required', 'exists:students,id'],
+            'session_date' => ['required', 'date'],
+            'schedule_id' => ['nullable', 'exists:schedules,id'],
+            'subject_category' => ['required', 'in:Jarimatika,Matematika,Fisika,Kimia,Biologi,Strategi Soal,Persiapan Ujian'],
+            'topic_covered' => ['required', 'string', 'max:255'],
+            'speed_rating' => ['required', 'integer', 'min:1', 'max:5'],
+            'practice_score' => ['required', 'integer', 'min:0', 'max:100'],
+            'tutor_notes' => ['nullable', 'string'],
+        ]);
+
+        $session = StudySession::firstOrNew([
+            'student_id' => $validated['student_id'],
+            'session_date' => $validated['session_date'],
+        ]);
+
+        $session->schedule_id = $validated['schedule_id'];
+        $session->attendance_status = 'Hadir';
+        if (empty($session->check_in_time)) {
+            $session->check_in_time = '18:30:00';
+        }
+        $session->check_out_time = now()->format('H:i:s');
+        $session->subject_category = $validated['subject_category'];
+        $session->topic_covered = $validated['topic_covered'];
+        $session->speed_rating = $validated['speed_rating'];
+        $session->practice_score = $validated['practice_score'];
+        $session->tutor_notes = $validated['tutor_notes'] ?? 'Ananda belajar dengan sangat fokus dan antusias.';
+        $session->wa_report_sent = true;
+        $session->save();
+
+        $student = Student::findOrFail($validated['student_id']);
+        $waUrl = WhatsAppService::generateStudyReportUrl($student, $session);
+
+        return back()->with([
+            'success' => "Jurnal belajar & skor ananda {$student->full_name} berhasil disimpan!",
+            'wa_report_url' => $waUrl,
+            'wa_student_name' => $student->full_name,
+        ]);
+    }
 }

@@ -30,6 +30,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn'])->name('attendance.checkin');
     Route::get('/leads', [TrialLeadController::class, 'index'])->name('leads.index');
     Route::get('/students', [StudentController::class, 'index'])->name('students.index');
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');

@@ -43,3 +43,4 @@ class TrialLead extends Model
         return $this->belongsTo(Schedule::class);
     }
 }
+

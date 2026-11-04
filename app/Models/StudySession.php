@@ -47,3 +47,4 @@ class StudySession extends Model
         return $this->belongsTo(Schedule::class);
     }
 }
+

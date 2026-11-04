@@ -54,3 +54,4 @@ class Schedule extends Model
         return max(0, $this->max_quota - $this->filled_quota);
     }
 }
+

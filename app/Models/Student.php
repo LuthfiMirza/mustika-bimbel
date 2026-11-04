@@ -64,3 +64,4 @@ class Student extends Model
         return $this->hasMany(TuitionInvoice::class);
     }
 }
+

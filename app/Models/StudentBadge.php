@@ -31,3 +31,4 @@ class StudentBadge extends Model
         return $this->belongsTo(Student::class);
     }
 }
+

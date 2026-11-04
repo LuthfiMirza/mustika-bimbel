@@ -45,3 +45,4 @@ class Program extends Model
         return $this->hasMany(TrialLead::class);
     }
 }
+

@@ -79,3 +79,4 @@ class LandingController extends Controller
         return redirect()->to('/raport/' . $student->portal_token);
     }
 }
+

@@ -3,13 +3,13 @@
 AI Agent wajib mengerjakan tahapan di bawah ini secara berurutan dan mencentang `[x]` setiap kali satu sub-tugas selesai diverifikasi.
 
 ## Fase 1: Inisialisasi Proyek & Database MySQL
-- [ ] Setup proyek Laravel 12 dan konfigurasi `.env` untuk MySQL (`mustika_bimbel`).
-- [ ] Install `barryvdh/laravel-dompdf` untuk cetak kwitansi & E-Raport PDF.
-- [ ] Buat seluruh file Migration sesuai `@DATABASE_SCHEMA.md`.
-- [ ] Buat seluruh Eloquent Model (`User`, `Program`, `Schedule`, `TrialLead`, `Student`, `StudySession`, `StudentBadge`, `TuitionInvoice`) lengkap dengan relasinya.
-- [ ] Buat `WhatsAppService.php` di `app/Services/` untuk men-generate link `wa.me` otomatis (Pendaftaran Trial, Notifikasi Anak Tiba, Laporan Jurnal Pulang, dan Pengingat SPP).
-- [ ] Buat `DatabaseSeeder.php` berisi akun Admin (`admin@mustikabimbel.com` / `password`), 3 Program Utama (TK, SD, SMP), 3 Jadwal Resmi (Senin-Kamis 18.30-20.00, Sabtu 16.00-17.30, Minggu 18.30-20.00)[cite: 1], 4 Siswa Dummy (TK, SD, SMP) beserta riwayat 5 pertemuan jurnal belajar, badge sertifikat, dan SPP agar grafik langsung tampil.
-- [ ] Jalankan `php artisan migrate:fresh --seed` tanpa error.
+- [x] Setup proyek Laravel 12 dan konfigurasi `.env` untuk MySQL (`mustika_bimbel`).
+- [x] Install `barryvdh/laravel-dompdf` untuk cetak kwitansi & E-Raport PDF.
+- [x] Buat seluruh file Migration sesuai `@DATABASE_SCHEMA.md`.
+- [x] Buat seluruh Eloquent Model (`User`, `Program`, `Schedule`, `TrialLead`, `Student`, `StudySession`, `StudentBadge`, `TuitionInvoice`) lengkap dengan relasinya.
+- [x] Buat `WhatsAppService.php` di `app/Services/` untuk men-generate link `wa.me` otomatis (Pendaftaran Trial, Notifikasi Anak Tiba, Laporan Jurnal Pulang, dan Pengingat SPP).
+- [x] Buat `DatabaseSeeder.php` berisi akun Admin (`admin@mustikabimbel.com` / `password`), 3 Program Utama (TK, SD, SMP), 3 Jadwal Resmi (Senin-Kamis 18.30-20.00, Sabtu 16.00-17.30, Minggu 18.30-20.00)[cite: 1], 4 Siswa Dummy (TK, SD, SMP) beserta riwayat 5 pertemuan jurnal belajar, badge sertifikat, dan SPP agar grafik langsung tampil.
+- [x] Jalankan `php artisan migrate:fresh --seed` tanpa error.
 
 ## Fase 2: Web Customer (Landing Page Publik & Interactive Lead Magnet)
 - [ ] Buat layout publik (`resources/views/layouts/public.blade.php`) dengan warna Navy `#0F2C59` dan Kuning `#FACC15`[cite: 1], Google Fonts, Tailwind CSS, dan Alpine.js.

@@ -33,6 +33,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn'])->name('attendance.checkin');
     Route::post('/attendance/journal', [AttendanceController::class, 'saveJournal'])->name('attendance.journal');
     Route::get('/leads', [TrialLeadController::class, 'index'])->name('leads.index');
+    Route::patch('/leads/{lead}/status', [TrialLeadController::class, 'updateStatus'])->name('leads.status');
+    Route::post('/leads/{lead}/convert', [TrialLeadController::class, 'convertToStudent'])->name('leads.convert');
+    Route::delete('/leads/{lead}', [TrialLeadController::class, 'destroy'])->name('leads.destroy');
     Route::get('/students', [StudentController::class, 'index'])->name('students.index');
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
     Route::get('/invoices', [TuitionInvoiceController::class, 'index'])->name('invoices.index');

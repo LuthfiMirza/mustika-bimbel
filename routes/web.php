@@ -37,7 +37,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/leads/{lead}/convert', [TrialLeadController::class, 'convertToStudent'])->name('leads.convert');
     Route::delete('/leads/{lead}', [TrialLeadController::class, 'destroy'])->name('leads.destroy');
     Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+    Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
+    Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+    Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
+    Route::post('/students/{student}/badge', [StudentController::class, 'awardBadge'])->name('students.badge');
+    Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
+
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+    Route::put('/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
     Route::get('/invoices', [TuitionInvoiceController::class, 'index'])->name('invoices.index');
 });
 

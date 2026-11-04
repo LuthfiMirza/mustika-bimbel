@@ -29,15 +29,15 @@ AI Agent wajib mengerjakan tahapan di bawah ini secara berurutan dan mencentang 
 - [x] Tambahkan tombol cetak **E-Raport Bulanan (PDF)** dan **Kwitansi SPP (PDF)**.
 
 ## Fase 4: Sistem Internal Admin & Pengajar (`/admin/...`)
-- [ ] Buat sistem Login Admin/Pengajar sederhana & aman (`/login`).
-- [ ] Buat layout Dashboard Admin (`resources/views/layouts/admin.blade.php`) dengan sidebar responsif.
-- [ ] Bangun **Dashboard Utama**: Metrik ringkas, grafik siswa per jenjang (TK/SD/SMP), dan daftar pendaftar trial terbaru.
-- [ ] Bangun halaman **Presensi 1-Klik & Input Jurnal Harian Cepat (`/admin/attendance`)**:
+- [x] Buat sistem Login Admin/Pengajar sederhana & aman (`/login`).
+- [x] Buat layout Dashboard Admin (`resources/views/layouts/admin.blade.php`) dengan sidebar responsif.
+- [x] Bangun **Dashboard Utama**: Metrik ringkas, grafik siswa per jenjang (TK/SD/SMP), dan daftar pendaftar trial terbaru.
+- [x] Bangun halaman **Presensi 1-Klik & Input Jurnal Harian Cepat (`/admin/attendance`)**:
   - Tombol 1-Klik *"Hadir & Kirim WA Kedatangan"*.
   - Modal/Form cepat isi topik hari ini, skor latihan, rating kecepatan hitung, dan tombol *"Kirim WA Laporan Pulang"*.
-- [ ] Bangun halaman **CRM Trial Leads (`/admin/leads`)** dengan fitur *1-Click Convert to Student*.
-- [ ] Bangun halaman **Manajemen Siswa & Pemberian Badge (`/admin/students`)**.
-- [ ] Bangun halaman **Manajemen SPP & Kwitansi (`/admin/invoices`)** dengan generator tagihan bulanan massal dan pengingat WA.
+- [x] Bangun halaman **CRM Trial Leads (`/admin/leads`)** dengan fitur *1-Click Convert to Student*.
+- [x] Bangun halaman **Manajemen Siswa & Pemberian Badge (`/admin/students`)**.
+- [x] Bangun halaman **Manajemen SPP & Kwitansi (`/admin/invoices`)** dengan generator tagihan bulanan massal dan pengingat WA.
 
 ## Fase 5: Persiapan Deployment Hostinger Premium
 - [ ] Jalankan `npm run build` untuk mengompilasi aset ke `public/build`.

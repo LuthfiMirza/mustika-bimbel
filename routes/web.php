@@ -47,6 +47,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
     Route::put('/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
     Route::get('/invoices', [TuitionInvoiceController::class, 'index'])->name('invoices.index');
+    Route::post('/invoices/generate', [TuitionInvoiceController::class, 'generateMonthly'])->name('invoices.generate');
+    Route::patch('/invoices/{invoice}/pay', [TuitionInvoiceController::class, 'markAsPaid'])->name('invoices.pay');
+    Route::delete('/invoices/{invoice}', [TuitionInvoiceController::class, 'destroy'])->name('invoices.destroy');
 });
 
 

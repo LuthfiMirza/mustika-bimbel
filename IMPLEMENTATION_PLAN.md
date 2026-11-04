@@ -12,13 +12,13 @@ AI Agent wajib mengerjakan tahapan di bawah ini secara berurutan dan mencentang 
 - [x] Jalankan `php artisan migrate:fresh --seed` tanpa error.
 
 ## Fase 2: Web Customer (Landing Page Publik & Interactive Lead Magnet)
-- [ ] Buat layout publik (`resources/views/layouts/public.blade.php`) dengan warna Navy `#0F2C59` dan Kuning `#FACC15`[cite: 1], Google Fonts, Tailwind CSS, dan Alpine.js.
-- [ ] Buat `LandingController.php` untuk menampilkan halaman utama dan memproses form `POST /daftar-trial`.
-- [ ] Bangun **Hero Section** & **3 Pilar Keunggulan** (*Konsep Dasar yang Kuat, Teknik Berhitung Cepat, Latihan Soal MIPA*)[cite: 1].
-- [ ] Bangun widget interaktif **Mini-Game "Tantangan Hitung Cepat 30 Detik"** (pilihan soal Jarimatika TK/SD dan MIPA SD/SMP) yang terhubung otomatis dengan form pendaftaran.
-- [ ] Bangun seksi **Visualizer Metode Jarimatika** & **Tab Katalog Materi Unggulan** (Matematika, IPA Fisika/Kimia/Biologi, Strategi Mengerjakan Soal, Persiapan Ujian)[cite: 1].
-- [ ] Bangun seksi **Jadwal Belajar & Sisa Kursi Real-time** serta **Form Klaim Free Trial** yang langsung mengarah ke WhatsApp `087705555190`[cite: 1].
-- [ ] Bangun seksi **Peta Lokasi** (Perumahan Amarylis Garden, Jalan H Abdul Gani II Blok I No. 11, Harapan Jaya, Cibinong)[cite: 1] dan Modal "Cek Raport Siswa dengan Kode Siswa".
+- [x] Buat layout publik (`resources/views/layouts/public.blade.php`) dengan warna Navy `#0F2C59` dan Kuning `#FACC15`[cite: 1], Google Fonts, Tailwind CSS, dan Alpine.js.
+- [x] Buat `LandingController.php` untuk menampilkan halaman utama dan memproses form `POST /daftar-trial`.
+- [x] Bangun **Hero Section** & **3 Pilar Keunggulan** (*Konsep Dasar yang Kuat, Teknik Berhitung Cepat, Latihan Soal MIPA*)[cite: 1].
+- [x] Bangun widget interaktif **Mini-Game "Tantangan Hitung Cepat 30 Detik"** (pilihan soal Jarimatika TK/SD dan MIPA SD/SMP) yang terhubung otomatis dengan form pendaftaran.
+- [x] Bangun seksi **Visualizer Metode Jarimatika** & **Tab Katalog Materi Unggulan** (Matematika, IPA Fisika/Kimia/Biologi, Strategi Mengerjakan Soal, Persiapan Ujian)[cite: 1].
+- [x] Bangun seksi **Jadwal Belajar & Sisa Kursi Real-time** serta **Form Klaim Free Trial** yang langsung mengarah ke WhatsApp `087705555190`[cite: 1].
+- [x] Bangun seksi **Peta Lokasi** (Perumahan Amarylis Garden, Jalan H Abdul Gani II Blok I No. 11, Harapan Jaya, Cibinong)[cite: 1] dan Modal "Cek Raport Siswa dengan Kode Siswa".
 
 ## Fase 3: Portal Orang Tua & E-Raport Interaktif (`/raport/{portal_token}`)
 - [ ] Buat `ParentPortalController.php` dengan pencarian via `portal_token` maupun `student_code`.

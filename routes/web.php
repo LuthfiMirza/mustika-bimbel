@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ParentPortalController;
 use Illuminate\Support\Facades\Route;
@@ -13,5 +14,11 @@ Route::get('/cek-raport', [LandingController::class, 'checkReport'])->name('land
 Route::get('/raport/{portal_token}', [ParentPortalController::class, 'show'])->name('portal.show');
 Route::get('/raport/{portal_token}/cetak-pdf', [ParentPortalController::class, 'downloadReportPdf'])->name('portal.download-raport');
 Route::get('/raport/{portal_token}/kwitansi/{invoice_id}', [ParentPortalController::class, 'downloadInvoicePdf'])->name('portal.download-invoice');
+
+// Authentication Routes
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 

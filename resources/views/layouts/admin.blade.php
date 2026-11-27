@@ -118,6 +118,12 @@
                         <span>Tagihan SPP &amp; Kwitansi</span>
                     </a>
 
+                    <a href="{{ route('admin.settings.index') }}"
+                       class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('admin.settings*') ? 'bg-[#FACC15] text-[#0F2C59] font-extrabold shadow' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                        <span>Pengaturan &amp; Template WA</span>
+                    </a>
+
                     <div class="pt-4 border-t border-white/10 mt-4">
                         <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-2">
                             Pintasan Cepat
@@ -164,15 +170,19 @@
                     </button>
                     <div>
                         <h1 class="text-base sm:text-xl font-extrabold text-[#0F2C59]">@yield('header_title', 'Dashboard')</h1>
-                        <p class="text-xs text-slate-500 hidden sm:block">Perumahan Amarylis Garden Blok I No. 11, Cibinong</p>
+                        <p class="text-xs text-slate-500 hidden sm:block truncate max-w-md">{{ \App\Models\Setting::get('bimbel_address', 'Perumahan Amarylis Garden Blok I No. 11, Cibinong') }}</p>
                     </div>
                 </div>
 
+                @php
+                    $adminWaDisplay = \App\Models\Setting::get('admin_whatsapp', '087705555190');
+                    $adminWaFormatted = \App\Services\WhatsAppService::formatPhoneNumber($adminWaDisplay);
+                @endphp
                 <div class="flex items-center gap-3">
-                    <a href="https://wa.me/6287705555190" target="_blank"
+                    <a href="https://wa.me/{{ $adminWaFormatted }}" target="_blank"
                        class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200 hover:bg-emerald-100 transition-colors">
                         <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-600"></i>
-                        WA: 087705555190
+                        WA: {{ $adminWaDisplay }}
                     </a>
                 </div>
             </header>

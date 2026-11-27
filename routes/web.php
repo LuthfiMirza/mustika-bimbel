@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ParentPortalController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TrialLeadController;
 use App\Http\Controllers\TuitionInvoiceController;
@@ -50,6 +51,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/invoices/generate', [TuitionInvoiceController::class, 'generateMonthly'])->name('invoices.generate');
     Route::patch('/invoices/{invoice}/pay', [TuitionInvoiceController::class, 'markAsPaid'])->name('invoices.pay');
     Route::delete('/invoices/{invoice}', [TuitionInvoiceController::class, 'destroy'])->name('invoices.destroy');
+
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 });
 
 

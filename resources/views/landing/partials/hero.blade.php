@@ -6,7 +6,7 @@
             <div class="absolute left-[4%] top-12 w-56 h-56 rounded-full bg-paper border-[2.5px] border-ink/10"></div>
             <div class="absolute left-[18%] top-2 w-72 h-72 rounded-full bg-paper border-[2.5px] border-ink/10"></div>
             <div class="absolute left-[38%] -top-4 w-80 h-80 rounded-full bg-paper border-[2.5px] border-ink/10"></div>
-            <div class="absolute right-[16%] top-4 w-68 h-68 rounded-full bg-paper border-[2.5px] border-ink/10"></div>
+            <div class="absolute right-[16%] top-4 w-[17rem] h-[17rem] rounded-full bg-paper border-[2.5px] border-ink/10"></div>
             <div class="absolute right-[3%] top-16 w-52 h-52 rounded-full bg-paper border-[2.5px] border-ink/10"></div>
             <div class="absolute inset-x-[12%] top-28 bottom-12 bg-paper rounded-full"></div>
         </div>

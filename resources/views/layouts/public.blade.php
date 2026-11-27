@@ -349,7 +349,7 @@
 
     <!-- Sticky Neo-Brutalist Navbar -->
     <header class="sticky top-0 z-40 transition-all duration-200"
-            :class="scrolled ? 'bg-paper/95 backdrop-blur-md border-b-[2.5px] border-ink shadow-sm' : 'bg-cream/90 backdrop-blur-xs'">
+            :class="scrolled ? 'bg-paper/95 backdrop-blur-md border-b-[2.5px] border-ink shadow-sm' : 'bg-cream/90 backdrop-blur-sm'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-[72px]">
                 <!-- Wordmark Logo with Yellow Star replacing I -->
@@ -360,7 +360,7 @@
                             <svg class="w-3.5 h-3.5 text-gold -mb-1.5 group-hover:rotate-12 transition-transform" viewBox="0 0 24 24" fill="currentColor" stroke="#111" stroke-width="2">
                                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                             </svg>
-                            <span class="block w-[5px] h-[14px] bg-ink rounded-xs"></span>
+                            <span class="block w-[5px] h-[14px] bg-ink rounded-[2px]"></span>
                         </span>
                         KA
                         <span class="ml-1 px-2 py-0.5 rounded-lg bg-navy text-gold text-base sm:text-lg border-2 border-ink">BIMBEL</span>
@@ -437,7 +437,7 @@
 
         <div class="space-y-3 pt-4 border-t-2 border-ink/20">
             <button @click="mobileMenuOpen = false; reportModalOpen = true" type="button"
-                    class="w-full py-3.5 rounded-full border-3 border-ink bg-paper text-ink font-display text-sm uppercase shadow-[4px_4px_0_#111]">
+                    class="w-full py-3.5 rounded-full border-[3px] border-ink bg-paper text-ink font-display text-sm uppercase shadow-[4px_4px_0_#111]">
                 Cek Raport Siswa
             </button>
             <a @click="mobileMenuOpen = false" href="#form-trial" class="btn-pop btn-pop--ink w-full">

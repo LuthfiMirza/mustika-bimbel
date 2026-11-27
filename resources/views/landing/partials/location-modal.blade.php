@@ -91,7 +91,7 @@
 
 <!-- Modal "Cek Raport Siswa dengan Kode Siswa" -->
 <div x-show="reportModalOpen" x-cloak
-     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/75 backdrop-blur-xs"
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/75 backdrop-blur-sm"
      @keydown.escape.window="reportModalOpen = false">
     <div @click.outside="reportModalOpen = false"
          class="bg-paper rounded-[28px] max-w-md w-full overflow-hidden border-[3px] border-ink hard-shadow-lg relative">

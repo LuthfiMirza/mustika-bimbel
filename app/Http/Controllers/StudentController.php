@@ -22,11 +22,22 @@ class StudentController extends Controller
     {
         $gradeFilter = $request->query('grade');
         $statusFilter = $request->query('status');
+        $attentionFilter = $request->boolean('attention');
         $search = $request->query('search');
 
-        $students = Student::with(['program', 'schedule', 'badges'])
+        $students = Student::with(['program', 'schedule', 'badges', 'invoices', 'studySessions'])
             ->when($gradeFilter, fn($q) => $q->where('grade_level', $gradeFilter))
             ->when($statusFilter, fn($q) => $q->where('status', $statusFilter))
+            ->when($attentionFilter, function ($q) {
+                $q->where(function ($sub) {
+                    $sub->whereHas('invoices', function ($iq) {
+                        $iq->whereIn('status', ['Belum Lunas', 'Kurang'])
+                            ->whereDate('due_date', '<', now()->toDateString());
+                    })->orWhereHas('studySessions', function ($sq) {
+                        $sq->where('attendance_status', 'Alpha');
+                    }, '>=', 2);
+                });
+            })
             ->when($search, fn($q) => $q->where(function ($sub) use ($search) {
                 $sub->where('full_name', 'like', "%{$search}%")
                     ->orWhere('student_code', 'like', "%{$search}%")
@@ -37,18 +48,78 @@ class StudentController extends Controller
             ->withQueryString();
 
         $totalActive = Student::where('status', 'Aktif')->count();
+        $attentionCount = Student::where('status', 'Aktif')
+            ->where(function ($sub) {
+                $sub->whereHas('invoices', function ($iq) {
+                    $iq->whereIn('status', ['Belum Lunas', 'Kurang'])
+                        ->whereDate('due_date', '<', now()->toDateString());
+                })->orWhereHas('studySessions', function ($sq) {
+                    $sq->where('attendance_status', 'Alpha');
+                }, '>=', 2);
+            })->count();
         $programs = Program::where('is_active', true)->get();
         $schedules = Schedule::all();
 
         return view('admin.students.index', compact(
             'students',
             'totalActive',
+            'attentionCount',
+            'attentionFilter',
             'gradeFilter',
             'statusFilter',
             'search',
             'programs',
             'schedules'
         ));
+    }
+
+    /**
+     * Display 360-degree student dossier (academic, attendance, finance, badges, internal notes).
+     */
+    public function show(Student $student): View
+    {
+        $student->load([
+            'program',
+            'schedule',
+            'badges' => fn($q) => $q->orderBy('awarded_date', 'desc'),
+            'studySessions' => fn($q) => $q->orderBy('session_date', 'desc'),
+            'invoices' => fn($q) => $q->with('payments')->orderBy('due_date', 'desc'),
+        ]);
+
+        $totalSessions = $student->studySessions->count();
+        $attendedSessions = $student->studySessions->where('attendance_status', 'Hadir')->count();
+        $alphaSessions = $student->studySessions->where('attendance_status', 'Alpha')->count();
+        $attendanceRate = $totalSessions > 0 ? round(($attendedSessions / $totalSessions) * 100) : 100;
+        $avgScore = $totalSessions > 0 ? round($student->studySessions->avg('practice_score')) : 0;
+
+        $totalArrears = $student->total_arrears;
+        $latestUnpaid = $student->invoices->first(fn($i) => in_array($i->status, ['Belum Lunas', 'Kurang'], true));
+        $reminderUrl = $latestUnpaid ? WhatsAppService::generateTuitionReminderUrl($latestUnpaid, $totalArrears) : null;
+
+        return view('admin.students.show', compact(
+            'student',
+            'totalSessions',
+            'attendedSessions',
+            'alphaSessions',
+            'attendanceRate',
+            'avgScore',
+            'totalArrears',
+            'reminderUrl'
+        ));
+    }
+
+    /**
+     * Quick update private internal notes from Student 360 profile.
+     */
+    public function updateNotes(Request $request, Student $student): RedirectResponse
+    {
+        $validated = $request->validate([
+            'internal_notes' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $student->update(['internal_notes' => $validated['internal_notes']]);
+
+        return back()->with('success', "Catatan internal untuk ananda {$student->full_name} berhasil disimpan.");
     }
 
     /**

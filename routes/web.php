@@ -42,6 +42,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/students', [StudentController::class, 'index'])->name('students.index');
     Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
     Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+    Route::get('/students/{student}', [StudentController::class, 'show'])->name('students.show');
+    Route::patch('/students/{student}/notes', [StudentController::class, 'updateNotes'])->name('students.notes');
     Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
     Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
     Route::post('/students/{student}/badge', [StudentController::class, 'awardBadge'])->name('students.badge');

@@ -20,11 +20,20 @@
             <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Akademik MustikaBimbel</span>
             <h2 class="text-xl sm:text-2xl font-extrabold text-[#0F2C59]">Daftar Siswa Binaan ({{ $totalActive }} Siswa Aktif)</h2>
         </div>
-        <a href="{{ route('admin.students.create') }}"
-           class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] shadow-md transition-all">
-            <i data-lucide="user-plus" class="w-4 h-4"></i>
-            <span>Tambah Siswa Baru</span>
-        </a>
+        <div class="flex flex-wrap items-center gap-2">
+            @if(($attentionCount ?? 0) > 0)
+                <a href="{{ route('admin.students.index', ['attention' => $attentionFilter ? null : 1]) }}"
+                   class="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl text-xs font-extrabold {{ $attentionFilter ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100' }} transition-all">
+                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                    <span>Perlu Perhatian ({{ $attentionCount }})</span>
+                </a>
+            @endif
+            <a href="{{ route('admin.students.create') }}"
+               class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] shadow-md transition-all">
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+                <span>Tambah Siswa Baru</span>
+            </a>
+        </div>
     </div>
 
     <!-- Filter & Search Card -->
@@ -92,9 +101,16 @@
                         <tr class="hover:bg-slate-50/80 transition-colors">
                             <!-- Siswa & Kode -->
                             <td class="px-5 py-4">
-                                <div class="font-extrabold text-sm text-[#0F2C59]">{{ $student->full_name }}</div>
+                                <a href="{{ route('admin.students.show', $student) }}" class="font-extrabold text-sm text-[#0F2C59] hover:underline">
+                                    {{ $student->full_name }}
+                                </a>
                                 <div class="font-mono text-xs font-bold text-[#0D9488] mt-0.5">{{ $student->student_code }}</div>
                                 <span class="text-[10px] text-slate-400 block mt-0.5">Ortu: {{ $student->parent_name }}</span>
+                                @if($student->monthly_discount > 0)
+                                    <span class="inline-block mt-1 px-2 py-0.5 rounded-md bg-teal-50 text-teal-800 border border-teal-200 text-[10px] font-bold">
+                                        Diskon Rp {{ number_format($student->monthly_discount, 0, ',', '.') }}/bln
+                                    </span>
+                                @endif
                             </td>
 
                             <!-- Jenjang & Sekolah -->
@@ -141,11 +157,22 @@
                                 <span class="px-2.5 py-1 rounded-full text-xs font-extrabold {{ $student->status === 'Aktif' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700' }}">
                                     {{ $student->status }}
                                 </span>
+                                @if($student->total_arrears > 0)
+                                    <div class="text-[10px] font-extrabold text-rose-600 mt-1">
+                                        ⚠ Tunggakan Rp {{ number_format($student->total_arrears, 0, ',', '.') }}
+                                    </div>
+                                @endif
                             </td>
 
                             <!-- Aksi -->
                             <td class="px-5 py-4 text-right">
                                 <div class="flex items-center justify-end gap-1.5">
+                                    <!-- Profil 360 Siswa -->
+                                    <a href="{{ route('admin.students.show', $student) }}"
+                                       class="p-1.5 rounded-xl bg-[#0F2C59]/10 hover:bg-[#0F2C59] text-[#0F2C59] hover:text-[#FACC15] transition-colors"
+                                       title="Lihat Profil 360° Siswa">
+                                        <i data-lucide="eye" class="w-4 h-4"></i>
+                                    </a>
                                     <!-- Salin Link Raport -->
                                     <button type="button"
                                             onclick="navigator.clipboard.writeText('{{ url('/raport/' . $student->portal_token) }}'); alert('Link E-Raport {{ $student->full_name }} berhasil disalin!');"

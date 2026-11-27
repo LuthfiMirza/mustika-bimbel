@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('title', 'Manajemen Data Siswa & Badges — MustikaBimbel')
-@section('header_title', 'Data Siswa & Kurikulum Perkembangan')
+@section('header_title', 'Data Siswa & Kurikulum')
+@section('breadcrumb', 'Data Siswa')
 
 @section('content')
 <div class="space-y-6"
@@ -23,13 +24,13 @@
         <div class="flex flex-wrap items-center gap-2">
             @if(($attentionCount ?? 0) > 0)
                 <a href="{{ route('admin.students.index', ['attention' => $attentionFilter ? null : 1]) }}"
-                   class="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl text-xs font-extrabold {{ $attentionFilter ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100' }} transition-all">
+                   class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-[10px] text-xs font-bold {{ $attentionFilter ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100' }} transition-colors">
                     <i data-lucide="alert-triangle" class="w-4 h-4"></i>
                     <span>Perlu Perhatian ({{ $attentionCount }})</span>
                 </a>
             @endif
             <a href="{{ route('admin.students.create') }}"
-               class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] shadow-md transition-all">
+               class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-[10px] text-xs sm:text-sm font-bold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] transition-colors">
                 <i data-lucide="user-plus" class="w-4 h-4"></i>
                 <span>Tambah Siswa Baru</span>
             </a>
@@ -37,18 +38,18 @@
     </div>
 
     <!-- Filter & Search Card -->
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-5 border border-slate-200">
         <form method="GET" action="{{ route('admin.students.index') }}" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
             <div class="sm:col-span-6 lg:col-span-5 relative">
-                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
                 <input type="text" name="search" value="{{ $search }}"
                        placeholder="Cari nama, kode MB-..., orang tua..."
-                       class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#0F2C59] outline-none">
+                       class="w-full pl-10 pr-4 py-2.5 rounded-[10px] border border-slate-200 text-xs sm:text-sm focus:border-[#0F2C59] focus:ring-2 focus:ring-[#0F2C59]/15 outline-none">
             </div>
 
             <div class="sm:col-span-3 lg:col-span-3">
                 <select name="grade" onchange="this.form.submit()"
-                        class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-bold bg-white outline-none">
+                        class="w-full px-3 py-2.5 rounded-[10px] border border-slate-200 text-xs sm:text-sm font-semibold bg-white outline-none focus:border-[#0F2C59]">
                     <option value="">Semua Jenjang</option>
                     <option value="TK" {{ $gradeFilter === 'TK' ? 'selected' : '' }}>Jenjang TK (Jarimatika)</option>
                     <option value="SD" {{ $gradeFilter === 'SD' ? 'selected' : '' }}>Jenjang SD (Kelas 1-6)</option>
@@ -58,7 +59,7 @@
 
             <div class="sm:col-span-3 lg:col-span-2">
                 <select name="status" onchange="this.form.submit()"
-                        class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-bold bg-white outline-none">
+                        class="w-full px-3 py-2.5 rounded-[10px] border border-slate-200 text-xs sm:text-sm font-semibold bg-white outline-none focus:border-[#0F2C59]">
                     <option value="">Semua Status</option>
                     <option value="Aktif" {{ $statusFilter === 'Aktif' ? 'selected' : '' }}>Aktif</option>
                     <option value="Cuti" {{ $statusFilter === 'Cuti' ? 'selected' : '' }}>Cuti</option>
@@ -68,12 +69,12 @@
 
             <div class="sm:col-span-12 lg:col-span-2 flex gap-2">
                 <button type="submit"
-                        class="w-full py-2.5 px-4 rounded-xl text-xs font-extrabold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] transition-colors">
+                        class="w-full py-2.5 px-4 rounded-[10px] text-xs font-bold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] transition-colors">
                     Filter
                 </button>
                 @if($search || $gradeFilter || $statusFilter)
                     <a href="{{ route('admin.students.index') }}"
-                       class="py-2.5 px-3 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">
+                       class="py-2.5 px-3 rounded-[10px] text-xs font-semibold text-slate-600 border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
                         Reset
                     </a>
                 @endif
@@ -82,10 +83,10 @@
     </div>
 
     <!-- Students Table -->
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-700">
-                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
+                <thead class="bg-slate-50/70 text-slate-500 font-semibold border-b border-slate-100 text-xs">
                     <tr>
                         <th class="px-5 py-3.5">Siswa &amp; Kode</th>
                         <th class="px-5 py-3.5">Jenjang &amp; Sekolah</th>

@@ -2,6 +2,7 @@
 
 @section('title', 'Tambah Siswa Baru — MustikaBimbel')
 @section('header_title', 'Pendaftaran Siswa Baru')
+@section('breadcrumb', 'Tambah Siswa')
 
 @section('content')
 <div class="max-w-3xl mx-auto space-y-6">
@@ -12,7 +13,7 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200">
         <div class="border-b border-slate-100 pb-4 mb-6">
             <h2 class="text-lg font-extrabold text-[#0F2C59]">Formulir Pendaftaran Siswa Baru</h2>
             <p class="text-xs text-slate-500">Kode Induk MB-... dan token unik E-Raport akan di-generate otomatis.</p>

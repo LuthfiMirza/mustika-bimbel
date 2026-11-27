@@ -2,6 +2,7 @@
 
 @section('title', 'Profil 360° ' . $student->full_name . ' — MustikaBimbel')
 @section('header_title', 'Profil 360° Siswa')
+@section('breadcrumb', $student->full_name)
 
 @section('content')
 <div class="space-y-6" x-data="{ tab: 'sessions' }">
@@ -34,7 +35,7 @@
     </div>
 
     <!-- Header Profile Card -->
-    <div class="bg-[#0F2C59] text-white rounded-3xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-5">
+    <div class="bg-[#0F2C59] text-white rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-5">
         <div class="flex items-center gap-4">
             <div class="w-16 h-16 rounded-2xl bg-[#FACC15] text-[#0F2C59] flex items-center justify-center font-extrabold text-2xl shadow shrink-0">
                 {{ strtoupper(substr($student->full_name, 0, 1)) }}
@@ -96,7 +97,7 @@
     </div>
 
     <!-- Private Internal Tutor Notes -->
-    <div class="bg-amber-50/70 rounded-3xl p-5 border border-amber-200">
+    <div class="bg-amber-50/70 rounded-2xl p-5 border border-amber-200">
         <form action="{{ route('admin.students.notes', $student) }}" method="POST" class="space-y-2.5">
             @csrf
             @method('PATCH')
@@ -135,7 +136,7 @@
     </div>
 
     <!-- Tab 1: Jurnal Belajar -->
-    <div x-show="tab === 'sessions'" class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div x-show="tab === 'sessions'" class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-700">
                 <thead class="bg-slate-50 text-slate-500 uppercase text-[10px] font-extrabold border-b border-slate-200">
@@ -175,7 +176,7 @@
     </div>
 
     <!-- Tab 2: Riwayat SPP & Cicilan -->
-    <div x-show="tab === 'invoices'" x-cloak class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div x-show="tab === 'invoices'" x-cloak class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-700">
                 <thead class="bg-slate-50 text-slate-500 uppercase text-[10px] font-extrabold border-b border-slate-200">
@@ -230,7 +231,7 @@
     <!-- Tab 3: Lencana -->
     <div x-show="tab === 'badges'" x-cloak class="grid grid-cols-1 md:grid-cols-2 gap-4">
         @forelse($student->badges as $badge)
-            <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex items-start gap-3">
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 flex items-start gap-3">
                 <div class="w-10 h-10 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center shrink-0">
                     <i data-lucide="{{ $badge->badge_icon }}" class="w-5 h-5"></i>
                 </div>
@@ -241,10 +242,11 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-2 bg-white rounded-3xl p-8 text-center text-xs text-slate-400 border border-slate-200">
+            <div class="col-span-2 bg-white rounded-2xl p-8 text-center text-xs text-slate-400 border border-slate-200">
                 Belum ada lencana yang diberikan untuk siswa ini.
             </div>
         @endforelse
     </div>
 </div>
 @endsection
+

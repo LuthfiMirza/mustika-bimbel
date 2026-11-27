@@ -130,6 +130,33 @@
                 </div>
             </div>
 
+            <!-- Diskon SPP & Catatan Internal -->
+            <div class="p-4 rounded-2xl bg-teal-50/70 border border-teal-200 space-y-4">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-teal-900 block">
+                    💳 Pengaturan Diskon SPP &amp; Catatan Khusus Admin/Guru
+                </span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1.5">Diskon SPP / Bulan (Rp)</label>
+                        <input type="number" name="monthly_discount" value="{{ old('monthly_discount', 0) }}" min="0" step="5000"
+                               placeholder="0"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-bold text-teal-800 bg-white outline-none">
+                        <p class="text-[10px] text-slate-500 mt-1">Isi 0 jika tarif normal. Contoh: 50000 untuk diskon kakak-beradik.</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1.5">Keterangan Diskon (Opsional)</label>
+                        <input type="text" name="discount_reason" value="{{ old('discount_reason') }}"
+                               placeholder="Contoh: Diskon Kakak-Beradik / Beasiswa"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1.5">Catatan Internal Guru/Admin (Privat)</label>
+                    <textarea name="internal_notes" rows="2" placeholder="Karakter anak, penjemput, catatan belajar khusus (tidak tampil di portal ortu)"
+                              class="w-full px-4 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white outline-none">{{ old('internal_notes') }}</textarea>
+                </div>
+            </div>
+
             <div>
                 <input type="hidden" name="status" value="Aktif">
             </div>

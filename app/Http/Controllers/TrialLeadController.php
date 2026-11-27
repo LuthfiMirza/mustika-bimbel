@@ -108,12 +108,17 @@ class TrialLeadController extends Controller
 
         // 5. Create initial tuition invoice for current month
         $program = Program::find($programId);
+        $fee = (int) ($program?->monthly_fee ?? 250000);
         $monthName = Carbon::now()->translatedFormat('F Y');
         TuitionInvoice::create([
             'invoice_number' => sprintf('INV-MB-%s%02d-%03d', date('Y'), date('m'), $student->id),
             'student_id' => $student->id,
             'billing_period' => $monthName,
-            'amount' => $program?->monthly_fee ?? 250000,
+            'billing_month' => Carbon::now()->format('Y-m'),
+            'base_amount' => $fee,
+            'discount_amount' => 0,
+            'amount' => $fee,
+            'paid_amount' => 0,
             'due_date' => Carbon::now()->addDays(7)->toDateString(),
             'status' => 'Belum Lunas',
             'notes' => 'Tagihan SPP bulan perdana bergabung MustikaBimbel.',

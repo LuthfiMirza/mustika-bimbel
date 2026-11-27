@@ -78,11 +78,17 @@ class StudentController extends Controller
             'address' => ['nullable', 'string', 'max:255'],
             'program_id' => ['required', 'exists:programs,id'],
             'schedule_id' => ['required', 'exists:schedules,id'],
+            'monthly_discount' => ['nullable', 'integer', 'min:0', 'max:5000000'],
+            'discount_reason' => ['nullable', 'string', 'max:120'],
             'jarimatika_level' => ['required', 'integer', 'min:1', 'max:6'],
             'mipa_mastery_percent' => ['required', 'integer', 'min:0', 'max:100'],
             'join_date' => ['required', 'date'],
+            'left_date' => ['nullable', 'date'],
             'status' => ['required', 'in:Aktif,Cuti,Lulus'],
+            'internal_notes' => ['nullable', 'string', 'max:2000'],
         ]);
+
+        $validated['monthly_discount'] = (int) ($validated['monthly_discount'] ?? 0);
 
         $year = date('Y');
         $count = Student::count() + 1;
@@ -132,10 +138,22 @@ class StudentController extends Controller
             'address' => ['nullable', 'string', 'max:255'],
             'program_id' => ['required', 'exists:programs,id'],
             'schedule_id' => ['required', 'exists:schedules,id'],
+            'monthly_discount' => ['nullable', 'integer', 'min:0', 'max:5000000'],
+            'discount_reason' => ['nullable', 'string', 'max:120'],
             'jarimatika_level' => ['required', 'integer', 'min:1', 'max:6'],
             'mipa_mastery_percent' => ['required', 'integer', 'min:0', 'max:100'],
+            'left_date' => ['nullable', 'date'],
             'status' => ['required', 'in:Aktif,Cuti,Lulus'],
+            'internal_notes' => ['nullable', 'string', 'max:2000'],
         ]);
+
+        $validated['monthly_discount'] = (int) ($validated['monthly_discount'] ?? 0);
+        if ($validated['status'] !== 'Aktif' && empty($validated['left_date']) && empty($student->left_date)) {
+            $validated['left_date'] = now()->toDateString();
+        }
+        if ($validated['status'] === 'Aktif') {
+            $validated['left_date'] = null;
+        }
 
         $validated['parent_whatsapp'] = WhatsAppService::formatPhoneNumber($validated['parent_whatsapp']);
 

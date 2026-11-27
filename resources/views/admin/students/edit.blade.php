@@ -150,6 +150,36 @@
                 </div>
             </div>
 
+            <!-- Diskon SPP, Tanggal Berhenti & Catatan Internal -->
+            <div class="p-4 rounded-2xl bg-teal-50/70 border border-teal-200 space-y-4">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-teal-900 block">
+                    💳 Diskon SPP, Status Berhenti &amp; Catatan Internal
+                </span>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-extrabold uppercase text-slate-700 mb-1.5">Diskon SPP / Bulan (Rp)</label>
+                        <input type="number" name="monthly_discount" value="{{ old('monthly_discount', $student->monthly_discount ?? 0) }}" min="0" step="5000"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-bold text-teal-800 bg-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-extrabold uppercase text-slate-700 mb-1.5">Alasan Diskon</label>
+                        <input type="text" name="discount_reason" value="{{ old('discount_reason', $student->discount_reason) }}"
+                               placeholder="Misal: Kakak-Beradik"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-extrabold uppercase text-slate-700 mb-1.5">Tanggal Berhenti / Lulus</label>
+                        <input type="date" name="left_date" value="{{ old('left_date', $student->left_date?->toDateString()) }}"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-extrabold uppercase text-slate-700 mb-1.5">Catatan Internal Guru/Admin (Privat)</label>
+                    <textarea name="internal_notes" rows="2" placeholder="Catatan karakter anak / preferensi belajar (tidak tampil di portal orang tua)"
+                              class="w-full px-4 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white outline-none">{{ old('internal_notes', $student->internal_notes) }}</textarea>
+                </div>
+            </div>
+
             <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
                 <a href="{{ route('admin.students.index') }}" class="px-5 py-3 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">
                     Batal

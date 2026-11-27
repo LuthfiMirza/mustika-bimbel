@@ -3,6 +3,8 @@
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ParentPortalController;
 use App\Http\Controllers\ScheduleController;
@@ -53,6 +55,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::patch('/invoices/{invoice}/pay', [TuitionInvoiceController::class, 'markAsPaid'])->name('invoices.pay');
     Route::delete('/invoices/payments/{payment}', [TuitionInvoiceController::class, 'destroyPayment'])->name('invoices.payments.destroy');
     Route::delete('/invoices/{invoice}', [TuitionInvoiceController::class, 'destroy'])->name('invoices.destroy');
+
+    Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+    Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+    Route::put('/expenses/{expense}', [ExpenseController::class, 'update'])->name('expenses.update');
+    Route::delete('/expenses/{expense}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
+    Route::get('/reports', [FinancialReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/export', [FinancialReportController::class, 'exportCsv'])->name('reports.export');
 
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');

@@ -115,7 +115,19 @@
                     <a href="{{ route('admin.invoices.index') }}"
                        class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('admin.invoices*') ? 'bg-[#FACC15] text-[#0F2C59] font-extrabold shadow' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
                         <i data-lucide="receipt" class="w-4 h-4"></i>
-                        <span>Tagihan SPP &amp; Kwitansi</span>
+                        <span>Tagihan &amp; Kartu SPP</span>
+                    </a>
+
+                    <a href="{{ route('admin.expenses.index') }}"
+                       class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('admin.expenses*') ? 'bg-[#FACC15] text-[#0F2C59] font-extrabold shadow' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                        <i data-lucide="wallet-cards" class="w-4 h-4"></i>
+                        <span>Pengeluaran</span>
+                    </a>
+
+                    <a href="{{ route('admin.reports.index') }}"
+                       class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('admin.reports*') ? 'bg-[#FACC15] text-[#0F2C59] font-extrabold shadow' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                        <span>Laporan Laba Bersih</span>
                     </a>
 
                     <a href="{{ route('admin.settings.index') }}"

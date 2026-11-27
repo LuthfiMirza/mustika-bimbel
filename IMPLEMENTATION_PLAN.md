@@ -43,3 +43,25 @@ AI Agent wajib mengerjakan tahapan di bawah ini secara berurutan dan mencentang 
 - [x] Jalankan `npm run build` untuk mengompilasi aset ke `public/build`.
 - [x] Buat file `.htaccess` di root proyek dan panduan singkat deployment ke `public_html` Hostinger.
 
+## Fase 6: Pengaturan Dinamis & Template WhatsApp (`/admin/settings`)
+- [x] Buat migrasi tabel `settings`, model `Setting` (dengan cache & default), dan `SettingController`.
+- [x] Bangun halaman Pengaturan Dinamis (Identitas, Info Rekening/QRIS, Jatuh Tempo SPP, Periode 12 Bulan, & Template WA + Live Preview).
+- [x] Integrasikan `WhatsAppService.php` & header admin agar memakai data dinamis dari `settings`.
+
+## Fase 7: Manajemen SPP Lengkap (Diskon, Cicilan & Kartu SPP 12 Bulan)
+- [x] Tambahkan kolom `monthly_discount`, `discount_reason`, `left_date`, `internal_notes` di tabel `students`.
+- [x] Upgrade tabel `tuition_invoices` (`billing_month`, `base_amount`, `discount_amount`, `paid_amount`, status `Kurang`) dan buat tabel `invoice_payments`.
+- [x] Dukung input diskon SPP di form siswa, pembayaran penuh/cicilan dengan WA Kuitansi otomatis, serta halaman **Kartu SPP 12 Bulan** (`/admin/invoices/card`).
+
+## Fase 8: Pengeluaran Operasional & Laporan Laba Bersih Bulanan
+- [x] Buat tabel & modul CRUD **Pengeluaran Operasional** (`/admin/expenses`).
+- [x] Buat halaman **Laporan Keuangan & Laba Bersih 12 Bulan** (`/admin/reports`) lengkap dengan grafik Chart.js dan tombol Export CSV.
+
+## Fase 9: Profil 360° Siswa, Early Warning & Upgrade Dashboard
+- [x] Bangun halaman **Profil 360° Siswa** (`/admin/students/{student}`) dengan catatan internal guru, rekap kehadiran, jurnal, SPP/cicilan, dan lencana.
+- [x] Tambahkan filter indikator **Perlu Perhatian** di daftar siswa serta kartu **Laba Bersih Bulan Ini** & **Tunggakan Terbesar** di Dashboard Utama.
+
+## Fase 10 (Future-Ready — Opsional Saat Mulai Merekrut Pengajar)
+- [ ] Master Data Pengajar & Tarif Honor Per Sesi / Khusus.
+- [ ] Rekap Otomatis Sesi Mengajar, Kirim Slip Honor via WA, dan integrasi otomatis ke Laporan Laba Bersih.
+

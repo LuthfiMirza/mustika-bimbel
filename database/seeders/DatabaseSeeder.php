@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Expense;
+use App\Models\InvoicePayment;
 use App\Models\Program;
 use App\Models\Schedule;
+use App\Models\Setting;
 use App\Models\Student;
 use App\Models\StudentBadge;
 use App\Models\StudySession;
@@ -21,6 +24,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // 0. Default Settings (Identitas, Rekening & Template WA)
+        Setting::seedDefaults();
+
         // 1. Admin & Pengajar Users
         User::create([
             'name' => 'Admin MustikaBimbel',
@@ -276,15 +282,28 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
 
-            // Buat TuitionInvoices (Bulan Lalu Lunas & Bulan Berjalan)
-            $fee = $student->program->monthly_fee;
+            // Buat TuitionInvoices (Bulan Lalu Lunas & Bulan Berjalan termasuk contoh diskon & cicilan)
+            $baseFee = (int) $student->program->monthly_fee;
+            $discount = $index === 1 ? 50000 : 0; // Contoh Raffa dapat diskon kakak-beradik Rp 50.000
+            if ($discount > 0) {
+                $student->update([
+                    'monthly_discount' => $discount,
+                    'discount_reason' => 'Diskon Kakak-Beradik',
+                    'internal_notes' => 'Kakak-beradik dengan siswa binaan, sangat rajin di kelas Minggu.',
+                ]);
+            }
+            $netFee = max(0, $baseFee - $discount);
             $numPad = str_pad((string) ($index + 1), 3, '0', STR_PAD_LEFT);
 
-            TuitionInvoice::create([
+            $octInvoice = TuitionInvoice::create([
                 'invoice_number' => "INV-MB-202610-{$numPad}",
                 'student_id' => $student->id,
                 'billing_period' => 'Oktober 2026',
-                'amount' => $fee,
+                'billing_month' => '2026-10',
+                'base_amount' => $baseFee,
+                'discount_amount' => $discount,
+                'amount' => $netFee,
+                'paid_amount' => $netFee,
                 'due_date' => '2026-10-10',
                 'status' => 'Lunas',
                 'paid_at' => Carbon::parse('2026-10-08 14:30:00'),
@@ -292,18 +311,76 @@ class DatabaseSeeder extends Seeder
                 'notes' => 'Pembayaran SPP Oktober tepat waktu. Terima kasih!',
             ]);
 
-            TuitionInvoice::create([
+            InvoicePayment::create([
+                'tuition_invoice_id' => $octInvoice->id,
+                'receipt_number' => "KWT-MB-202610-{$numPad}",
+                'payment_date' => '2026-10-08',
+                'amount' => $netFee,
+                'payment_method' => 'Transfer Bank',
+                'received_by' => 'Admin MustikaBimbel',
+                'notes' => 'Lunas SPP Oktober 2026',
+            ]);
+
+            // November: 0 & 1 Lunas, 2 Kurang (Cicil 50%), 3 Belum Lunas
+            $novStatus = $index < 2 ? 'Lunas' : ($index === 2 ? 'Kurang' : 'Belum Lunas');
+            $novPaid = $novStatus === 'Lunas' ? $netFee : ($novStatus === 'Kurang' ? (int) ($netFee / 2) : 0);
+
+            $novInvoice = TuitionInvoice::create([
                 'invoice_number' => "INV-MB-202611-{$numPad}",
                 'student_id' => $student->id,
                 'billing_period' => 'November 2026',
-                'amount' => $fee,
+                'billing_month' => '2026-11',
+                'base_amount' => $baseFee,
+                'discount_amount' => $discount,
+                'amount' => $netFee,
+                'paid_amount' => $novPaid,
                 'due_date' => '2026-11-10',
-                'status' => $index < 3 ? 'Lunas' : 'Belum Lunas',
-                'paid_at' => $index < 3 ? Carbon::now()->subDays(2) : null,
-                'payment_method' => $index < 3 ? 'QRIS / E-Wallet' : null,
-                'notes' => $index < 3 ? 'Lunas via QRIS MustikaBimbel.' : 'Tagihan SPP bulan berjalan November 2026.',
+                'status' => $novStatus,
+                'paid_at' => $novPaid > 0 ? Carbon::now()->subDays(2) : null,
+                'payment_method' => $novPaid > 0 ? 'QRIS / E-Wallet' : null,
+                'notes' => $novStatus === 'Lunas'
+                    ? 'Lunas via QRIS MustikaBimbel.'
+                    : ($novStatus === 'Kurang' ? 'Pembayaran cicilan tahap 1 diterima.' : 'Tagihan SPP bulan berjalan November 2026.'),
             ]);
+
+            if ($novPaid > 0) {
+                InvoicePayment::create([
+                    'tuition_invoice_id' => $novInvoice->id,
+                    'receipt_number' => "KWT-MB-202611-{$numPad}",
+                    'payment_date' => Carbon::now()->subDays(2)->toDateString(),
+                    'amount' => $novPaid,
+                    'payment_method' => 'QRIS / E-Wallet',
+                    'received_by' => 'Admin MustikaBimbel',
+                    'notes' => $novStatus === 'Kurang' ? 'Cicilan tahap 1' : 'Lunas via QRIS',
+                ]);
+            }
         }
+
+        // 4b. Contoh Pengeluaran Operasional Bimbel (Oktober & November 2026)
+        Expense::create([
+            'expense_date' => '2026-10-05',
+            'category' => 'Modul & ATK',
+            'description' => 'Cetak modul latihan Jarimatika & spidol papan tulis',
+            'amount' => 125000,
+            'payment_method' => 'Tunai',
+            'recorded_by' => 'Admin MustikaBimbel',
+        ]);
+        Expense::create([
+            'expense_date' => '2026-11-03',
+            'category' => 'Sewa & Listrik',
+            'description' => 'Token listrik & Wi-Fi ruang belajar November',
+            'amount' => 200000,
+            'payment_method' => 'Transfer Bank',
+            'recorded_by' => 'Admin MustikaBimbel',
+        ]);
+        Expense::create([
+            'expense_date' => '2026-11-12',
+            'category' => 'Operasional',
+            'description' => 'Pembelian stiker reward & snack evaluasi siswa',
+            'amount' => 75000,
+            'payment_method' => 'QRIS / E-Wallet',
+            'recorded_by' => 'Admin MustikaBimbel',
+        ]);
 
         // 5. Data Calon Siswa (Trial Leads) dari Web Customer
         TrialLead::create([

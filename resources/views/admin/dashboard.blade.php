@@ -69,23 +69,65 @@
             </div>
         </div>
 
-        <!-- Card 4: Total Pemasukan SPP -->
+        <!-- Card 4: Laba Bersih & Keuangan -->
         <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Penerimaan SPP</span>
+                <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Laba Bersih Bulan Ini</span>
                 <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-extrabold shadow-sm">
                     <i data-lucide="wallet" class="w-5 h-5"></i>
                 </div>
             </div>
             <div class="mt-4">
-                <span class="text-2xl sm:text-3xl font-extrabold text-emerald-700">Rp {{ number_format($paidInvoicesSum, 0, ',', '.') }}</span>
-                <div class="flex items-center justify-between text-xs text-slate-500 mt-2">
-                    <span>Tertunda: Rp {{ number_format($unpaidInvoicesSum, 0, ',', '.') }}</span>
-                    <a href="{{ route('admin.invoices.index') }}" class="font-bold text-[#0F2C59] hover:underline">Kelola</a>
+                <span class="text-2xl sm:text-3xl font-extrabold {{ $monthNetProfit >= 0 ? 'text-emerald-700' : 'text-rose-600' }}">Rp {{ number_format($monthNetProfit, 0, ',', '.') }}</span>
+                <div class="text-[11px] text-slate-500 mt-1.5">
+                    Kas Masuk: <strong class="text-emerald-700">Rp {{ number_format($monthCashIn, 0, ',', '.') }}</strong> &bull; Keluar: <strong class="text-rose-600">Rp {{ number_format($monthExpenses, 0, ',', '.') }}</strong>
+                </div>
+                <div class="flex items-center justify-between text-xs text-slate-500 mt-1">
+                    <span>Tunggakan: Rp {{ number_format($unpaidInvoicesSum, 0, ',', '.') }}</span>
+                    <a href="{{ route('admin.reports.index') }}" class="font-bold text-[#0F2C59] hover:underline">Laporan</a>
                 </div>
             </div>
         </div>
     </div>
+
+    @if($topArrears->isNotEmpty())
+        <!-- Widget Tunggakan Terbesar -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-rose-200">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+                <div>
+                    <h3 class="text-sm font-extrabold text-rose-700 flex items-center gap-1.5">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        <span>Daftar Tunggakan SPP Perlu Diingatkan</span>
+                    </h3>
+                    <p class="text-xs text-slate-500">Total sisa tagihan lintas bulan (Belum Lunas / Kurang)</p>
+                </div>
+                <a href="{{ route('admin.invoices.card') }}" class="text-xs font-extrabold text-[#0F2C59] hover:underline">
+                    Buka Kartu SPP 12 Bln &rarr;
+                </a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                @foreach($topArrears as $item)
+                    <div class="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-200 flex items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <a href="{{ route('admin.students.show', $item['student']) }}" class="text-xs font-extrabold text-[#0F2C59] hover:underline block truncate">
+                                {{ $item['student']->full_name }}
+                            </a>
+                            <div class="text-[11px] font-extrabold text-rose-600">
+                                Rp {{ number_format($item['arrears'], 0, ',', '.') }}
+                                <span class="text-[10px] font-semibold text-slate-500">({{ $item['open_count'] }} bln)</span>
+                            </div>
+                        </div>
+                        @if($item['reminder_url'])
+                            <a href="{{ $item['reminder_url'] }}" target="_blank"
+                               class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold shrink-0">
+                                WA
+                            </a>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 
     <!-- Quick Shortcuts / Action Bar -->
     <div class="p-6 rounded-3xl bg-gradient-to-r from-[#0F2C59] to-[#091C3A] text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">

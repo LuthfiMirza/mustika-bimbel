@@ -202,3 +202,36 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+<script>
+    // Folder menumpuk di semua layar: top sticky = di bawah header bila folder muat di layar,
+    // atau (layar - tinggi folder) bila folder lebih tinggi dari layar, supaya bagian bawahnya tetap terbaca.
+    (() => {
+        const stack = document.querySelector('.folder-stack');
+        if (!stack) return;
+        const folders = [...stack.querySelectorAll('.folder')];
+        const header = document.querySelector('header');
+        let raf = 0;
+        const layout = () => {
+            raf = 0;
+            const headerH = header ? header.offsetHeight : 72;
+            const vh = window.innerHeight;
+            const gap = vh < 700 ? 12 : 24;
+            folders.forEach((f) => {
+                const h = f.offsetHeight;
+                const stick = Math.min(headerH + gap, vh - h - gap);
+                f.style.setProperty('--stick', Math.round(stick) + 'px');
+            });
+            stack.classList.add('is-stacking');
+        };
+        const queue = () => { if (!raf) raf = requestAnimationFrame(layout); };
+        window.addEventListener('resize', queue);
+        if ('ResizeObserver' in window) {
+            const ro = new ResizeObserver(queue);
+            folders.forEach((f) => ro.observe(f));
+        }
+        layout();
+    })();
+</script>
+@endpush

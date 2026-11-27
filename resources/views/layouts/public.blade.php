@@ -369,10 +369,13 @@
             .folder__body { min-height: 560px; padding: 44px 40px 40px 48px; display: flex; flex-direction: column; }
             .folder__body > .grid { flex: 1; }
         }
-        /* Sticky hanya bila layar cukup tinggi agar folder (±610px) tidak terpotong */
+        /* Tanpa JS: sticky hanya bila layar cukup tinggi agar folder (±610px) tidak terpotong */
         @media (min-width: 1024px) and (min-height: 760px) {
             .folder { position: sticky; top: 96px; }
         }
+        /* Dengan JS: semua ukuran layar menumpuk. Folder yang lebih tinggi dari layar (mobile)
+           menempel di sisi bawahnya (--stick negatif), jadi isinya terbaca utuh dulu baru tertimpa. */
+        .folder-stack.is-stacking .folder { position: sticky; top: var(--stick, 96px); }
 
         /* 4.5d Micro-interactions: tab/state swap, game feedback, stamp-in */
         .tx-enter { transition: opacity 0.22s ease-out, transform 0.22s ease-out; }

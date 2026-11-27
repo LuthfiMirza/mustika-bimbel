@@ -2,6 +2,7 @@
 
 @section('title', 'Manajemen Jadwal Belajar & Kuota Kursi — MustikaBimbel')
 @section('header_title', 'Jadwal Sesi & Kapasitas Kelas')
+@section('breadcrumb', 'Jadwal & Kuota')
 
 @section('content')
 <div class="space-y-6">
@@ -19,7 +20,7 @@
             @php
                 $pct = $schedule->max_quota > 0 ? min(100, round(($schedule->filled_quota / $schedule->max_quota) * 100)) : 0;
             @endphp
-            <div class="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border-2 border-slate-200 flex flex-col justify-between">
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
                         <span class="text-xs font-extrabold uppercase tracking-wider text-[#0D9488]">

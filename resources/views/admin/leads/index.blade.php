@@ -2,6 +2,7 @@
 
 @section('title', 'CRM Pendaftar Trial (Leads) — MustikaBimbel')
 @section('header_title', 'CRM Calon Siswa Free Trial')
+@section('breadcrumb', 'Pendaftar Trial')
 
 @section('content')
 <div class="space-y-6"
@@ -21,9 +22,9 @@
                 $isActive = ($statusFilter === null && $stName === 'Semua') || ($statusFilter === $stName);
             @endphp
             <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['status' => $stName === 'Semua' ? null : $stName])) }}"
-               class="px-4 py-2 rounded-2xl text-xs font-extrabold transition-all flex items-center gap-2 {{ $isActive ? 'bg-[#0F2C59] text-[#FACC15] shadow-md ring-2 ring-[#FACC15]' : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-200' }}">
+               class="px-3.5 py-2 rounded-[10px] text-xs font-bold transition-all flex items-center gap-2 {{ $isActive ? 'bg-[#0F2C59] text-[#FACC15]' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200' }}">
                 <span>{{ $stName }}</span>
-                <span class="px-2 py-0.5 rounded-full text-[10px] {{ $isActive ? 'bg-[#FACC15] text-[#0F2C59]' : 'bg-slate-100 text-slate-600' }}">
+                <span class="px-2 py-0.5 rounded-md text-[10px] {{ $isActive ? 'bg-[#FACC15] text-[#0F2C59]' : 'bg-slate-100 text-slate-600' }}">
                     {{ $cnt }}
                 </span>
             </a>
@@ -31,28 +32,28 @@
     </div>
 
     <!-- Search & Control Card -->
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-5 border border-slate-200">
         <form method="GET" action="{{ route('admin.leads.index') }}" class="flex flex-col sm:flex-row items-center justify-between gap-4">
             @if($statusFilter)
                 <input type="hidden" name="status" value="{{ $statusFilter }}">
             @endif
 
             <div class="relative w-full sm:w-96">
-                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
                 <input type="text" name="search" value="{{ $search }}"
                        placeholder="Cari nama anak, orang tua, no. WA..."
-                       class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#0F2C59] outline-none">
+                       class="w-full pl-10 pr-4 py-2.5 rounded-[10px] border border-slate-200 text-xs sm:text-sm focus:border-[#0F2C59] focus:ring-2 focus:ring-[#0F2C59]/15 outline-none">
             </div>
 
             <div class="flex items-center gap-2 w-full sm:w-auto">
                 <button type="submit"
-                        class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-extrabold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] transition-colors flex items-center justify-center gap-1.5">
+                        class="w-full sm:w-auto px-5 py-2.5 rounded-[10px] text-xs font-bold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] transition-colors flex items-center justify-center gap-1.5">
                     <i data-lucide="search" class="w-3.5 h-3.5"></i>
                     <span>Cari Data</span>
                 </button>
                 @if($search || $statusFilter)
                     <a href="{{ route('admin.leads.index') }}"
-                       class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">
+                       class="px-4 py-2.5 rounded-[10px] text-xs font-semibold text-slate-600 border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
                         Reset
                     </a>
                 @endif
@@ -61,10 +62,10 @@
     </div>
 
     <!-- Table of Leads -->
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
             <div>
-                <h2 class="text-base sm:text-lg font-extrabold text-[#0F2C59]">Daftar Calon Siswa (Trial Leads)</h2>
+                <h2 class="text-base font-bold text-[#0F2C59]">Daftar Calon Siswa (Trial Leads)</h2>
                 <p class="text-xs text-slate-500">Data pendaftar online yang masuk dari Landing Page</p>
             </div>
             <span class="text-xs font-semibold text-slate-500">
@@ -74,7 +75,7 @@
 
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-700">
-                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
+                <thead class="bg-slate-50/70 text-slate-500 font-semibold border-b border-slate-100 text-xs">
                     <tr>
                         <th class="px-5 py-3.5">Calon Siswa</th>
                         <th class="px-5 py-3.5">Kontak Orang Tua</th>

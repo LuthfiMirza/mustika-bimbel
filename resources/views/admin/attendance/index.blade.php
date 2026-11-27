@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('title', 'Presensi 1-Klik & Notifikasi WA Kedatangan — MustikaBimbel')
-@section('header_title', 'Presensi Sesi & Notifikasi WhatsApp')
+@section('header_title', 'Presensi Sesi & Jurnal WA')
+@section('breadcrumb', 'Presensi & Jurnal')
 
 @section('content')
 <div class="space-y-6"
@@ -57,12 +58,12 @@
     @endif
 
     <!-- Filter Jadwal & Tanggal -->
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-5 border border-slate-200">
         <form method="GET" action="{{ route('admin.attendance.index') }}" class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
             <div class="sm:col-span-6 lg:col-span-5">
-                <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1.5">Pilih Sesi Jadwal Belajar</label>
+                <label class="block text-xs font-bold text-slate-600 mb-1.5">Pilih Sesi Jadwal Belajar</label>
                 <select name="schedule_id" onchange="this.form.submit()"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-bold text-[#0F2C59] bg-white focus:ring-2 focus:ring-[#0F2C59] outline-none">
+                        class="w-full px-3.5 py-2.5 rounded-[10px] border border-slate-200 text-xs sm:text-sm font-semibold text-[#0F2C59] bg-white focus:border-[#0F2C59] outline-none">
                     @foreach($schedules as $sch)
                         <option value="{{ $sch->id }}" {{ $selectedScheduleId == $sch->id ? 'selected' : '' }}>
                             {{ $sch->days_text }} ({{ $sch->start_time }} – {{ $sch->end_time }} WIB) &bull; {{ $sch->program?->category ?? 'MIPA' }}
@@ -72,14 +73,14 @@
             </div>
 
             <div class="sm:col-span-4 lg:col-span-4">
-                <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1.5">Tanggal Sesi</label>
+                <label class="block text-xs font-bold text-slate-600 mb-1.5">Tanggal Sesi</label>
                 <input type="date" name="date" value="{{ $selectedDate }}" onchange="this.form.submit()"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-bold text-[#0F2C59] bg-white focus:ring-2 focus:ring-[#0F2C59] outline-none">
+                       class="w-full px-3.5 py-2.5 rounded-[10px] border border-slate-200 text-xs sm:text-sm font-semibold text-[#0F2C59] bg-white focus:border-[#0F2C59] outline-none">
             </div>
 
             <div class="sm:col-span-2 lg:col-span-3 flex gap-2">
                 <button type="submit"
-                        class="w-full py-3 px-4 rounded-xl text-xs font-extrabold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] transition-colors flex items-center justify-center gap-1.5">
+                        class="w-full py-2.5 px-4 rounded-[10px] text-xs font-bold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] transition-colors flex items-center justify-center gap-1.5">
                     <i data-lucide="filter" class="w-4 h-4"></i>
                     <span>Terapkan</span>
                 </button>
@@ -87,7 +88,7 @@
         </form>
 
         @if($currentSchedule)
-            <div class="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+            <div class="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
                 <span>Program: <strong class="text-[#0F2C59]">{{ $currentSchedule->program->name ?? '-' }}</strong></span>
                 <span>Kapasitas: <strong class="text-[#0D9488]">{{ $students->count() }} Siswa Terdaftar</strong> (Maks {{ $currentSchedule->max_quota }})</span>
             </div>
@@ -95,7 +96,7 @@
     </div>
 
     <!-- Student Attendance List -->
-    <div class="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200">
         <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
             <div>
                 <h2 class="text-base sm:text-lg font-extrabold text-[#0F2C59]">Daftar Siswa Pada Sesi Ini</h2>

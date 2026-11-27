@@ -1,5 +1,5 @@
 <!-- 5.1 HERO SECTION (Krackerz Neo-Brutalism Style + MustikaBimbel Cream/Gold/Navy) -->
-<section id="hero" class="relative bg-cream bg-dots pt-8 pb-8 sm:pt-12 sm:pb-12 overflow-hidden">
+<section id="hero" class="relative bg-cream bg-dots pt-8 pb-6 sm:pt-12 sm:pb-8 overflow-hidden">
     <!-- Giant Cloud Circles ("Awan" Hero Background) -->
     <div class="pointer-events-none absolute inset-x-0 top-6 flex justify-center overflow-hidden" aria-hidden="true">
         <div class="relative w-[1080px] h-[460px] shrink-0">
@@ -35,8 +35,8 @@
                 <span class="block">
                     <span class="relative inline-block">
                         <!-- Desktop Mascot anchored right beside KUAT on line 1 -->
-                        <span class="hidden sm:block absolute right-full mr-3 lg:mr-4 top-1/2 -translate-y-1/2 pointer-events-none z-20">
-                            @include('landing.partials._mascot', ['pose' => 'wave', 'size' => 104, 'class' => 'sm:w-[74px] sm:h-[74px] lg:w-[104px] lg:h-[104px]'])
+                        <span class="hidden sm:block absolute right-full mr-2.5 lg:mr-3 xl:mr-4 top-1/2 -translate-y-1/2 pointer-events-none z-20">
+                            @include('landing.partials._mascot', ['pose' => 'wave', 'size' => 104, 'class' => 'sm:w-[74px] sm:h-[74px] lg:w-[88px] lg:h-[88px] xl:w-[104px] xl:h-[104px]'])
                         </span>
                         KUAT
                     </span>

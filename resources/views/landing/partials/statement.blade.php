@@ -1,5 +1,5 @@
 <!-- 5.2 STATEMENT SECTION ("SEKOLAH NGEJAR MATERI / KAMI NGAJARIN CARANYA") -->
-<section class="pt-8 pb-16 sm:pt-10 sm:pb-20 bg-cream relative overflow-hidden">
+<section class="pt-6 pb-14 sm:pt-8 sm:pb-20 bg-cream relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Giant 2-Line Mixed Headline -->

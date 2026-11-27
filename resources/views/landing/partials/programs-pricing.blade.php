@@ -82,7 +82,7 @@
                     <div class="mt-7 pt-4">
                         <button type="button"
                                 @click="selectedProgramId = '{{ $program->id }}'; selectedGrade = '{{ $program->target_grade === 'TK-SD' ? 'TK' : ($program->target_grade ?: 'SD') }}'; document.getElementById('form-trial')?.scrollIntoView({ behavior: 'smooth' });"
-                                class="btn-pop {{ $isMiddle ? 'btn-pop--ink' : '' }} w-full">
+                                class="btn-pop btn-pop--sm {{ $isMiddle ? 'btn-pop--ink' : '' }} w-full">
                             <span class="btn-roll">
                                 <span>Pilih Program Ini</span>
                                 <span aria-hidden="true">Pilih Program Ini</span>

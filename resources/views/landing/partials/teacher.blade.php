@@ -1,11 +1,13 @@
 <!-- 5.9 KENALAN SAMA PENGAJAR (teacher.blade.php) -->
 @php
-    // TODO: isi data asli pengajar dan foto di public/images/landing/pengajar.jpg
+    $img = fn($f) => file_exists(public_path("images/landing/$f")) ? asset("images/landing/$f") : null;
+    // TODO: isi data asli pengajar (ubah 'is_placeholder' => false) dan foto di public/images/landing/pengajar.jpg
     $teacher = [
+        'is_placeholder' => true,
         'name' => 'Tim Pengajar MustikaBimbel',
         'title' => 'Pengajar Jarimatika & MIPA Cibinong',
         'bio' => 'Mendampingi siswa TK, SD, dan SMP memahami konsep dasar secara sabar, melatih kecepatan hitung Jarimatika, serta membangun rasa percaya diri saat menghadapi soal ujian.',
-        'photo' => file_exists(public_path('images/landing/pengajar.jpg')) ? asset('images/landing/pengajar.jpg') : null,
+        'photo' => $img('pengajar.jpg'),
     ];
     $scheduleTotal = isset($schedules) && $schedules->count() > 0 ? $schedules->count() : 3;
 @endphp
@@ -18,9 +20,19 @@
             <span class="sticker sticker--lime mb-4" style="--tilt: -2deg;">
                 KENALAN DULU
             </span>
-            <h2 class="font-display-hero text-[36px] sm:text-[54px] lg:text-[72px] text-ink">
-                <span class="block">{{ strtoupper($teacher['name']) }}</span>
-            </h2>
+            @if ($teacher['is_placeholder'])
+                <h2 class="font-display-hero text-[36px] sm:text-[54px] lg:text-[72px] text-ink">
+                    <span class="block">KENALAN SAMA</span>
+                    <span class="block mt-2">
+                        PENGAJAR
+                        <span class="sticker-headline sticker-headline--gold text-[0.82em] mx-1" style="--tilt: -2.5deg;">KAMI</span>
+                    </span>
+                </h2>
+            @else
+                <h2 class="font-display-hero text-[36px] sm:text-[54px] lg:text-[72px] text-ink">
+                    <span class="block">{{ strtoupper($teacher['name']) }}</span>
+                </h2>
+            @endif
             <p class="font-script text-2xl sm:text-3xl text-navy mt-1">
                 pengajar di balik MustikaBimbel
             </p>
@@ -35,12 +47,12 @@
                         @include('landing.partials._badge-flower', ['tone' => 'gold', 'icon' => 'heart-handshake', 'size' => 64])
                     </div>
                     <div class="bg-gold rounded-[28px] border-[3px] border-ink hard-shadow-lg p-4 rotate-[-3deg] hover:rotate-0 transition-transform duration-200">
-                        <div class="aspect-square rounded-[20px] border-2 border-ink bg-cream overflow-hidden flex flex-col items-center justify-center p-6 text-center">
+                        <div class="aspect-square rounded-[20px] border-2 border-ink bg-cream overflow-hidden flex flex-col items-center justify-center text-center {{ $teacher['photo'] ? 'p-0' : 'p-6' }}">
                             @if ($teacher['photo'])
                                 <img src="{{ $teacher['photo'] }}"
-                                     alt="{{ $teacher['name'] }}"
+                                     alt="Foto {{ $teacher['name'] }} di MustikaBimbel Cibinong"
                                      loading="lazy"
-                                     class="w-full h-full object-cover rounded-[16px]">
+                                     class="w-full h-full object-cover">
                             @else
                                 @include('landing.partials._mascot', ['pose' => 'wave', 'size' => 150])
                                 <span class="mt-3 font-label text-[11px] font-bold uppercase tracking-wider text-navy bg-paper px-3 py-1 rounded-full border-2 border-ink">

@@ -16,13 +16,14 @@
         <!-- Poster Panel + Overlapping Pain-Point Duo -->
         <div class="relative max-w-5xl mx-auto pb-8 lg:pb-16">
             @php
-                $hasStatementPhoto = file_exists(public_path('images/landing/statement.jpg'));
+                $img = fn($f) => file_exists(public_path("images/landing/$f")) ? asset("images/landing/$f") : null;
+                $statementPhoto = $img('statement.jpg');
             @endphp
 
-            <div class="relative rounded-[28px] border-[3px] border-ink hard-shadow-lg overflow-hidden min-h-[340px] sm:min-h-[400px] flex items-center justify-center p-6 sm:p-10 {{ $hasStatementPhoto ? 'bg-ink' : 'bg-navy bg-dots-light' }}">
-                @if ($hasStatementPhoto)
-                    <img src="{{ asset('images/landing/statement.jpg') }}"
-                         alt="Suasana belajar MustikaBimbel"
+            <div class="relative rounded-[28px] border-[3px] border-ink hard-shadow-lg overflow-hidden min-h-[340px] sm:min-h-[400px] flex items-center justify-center p-6 sm:p-10 {{ $statementPhoto ? 'bg-ink' : 'bg-navy bg-dots-light' }}">
+                @if ($statementPhoto)
+                    <img src="{{ $statementPhoto }}"
+                         alt="Suasana belajar siswa MustikaBimbel di ruang kelas Amarylis Garden Cibinong"
                          loading="lazy"
                          class="absolute inset-0 w-full h-full object-cover opacity-55">
                 @endif

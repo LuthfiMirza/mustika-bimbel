@@ -21,6 +21,7 @@
         </div>
 
         @php
+            $img = fn($f) => file_exists(public_path("images/landing/$f")) ? asset("images/landing/$f") : null;
             $pillars = [
                 [
                     'code' => 'PILAR 01',
@@ -29,6 +30,14 @@
                     'icon' => 'lightbulb',
                     'flowerTone' => 'gold',
                     'flowerIcon' => 'brain',
+                    'photo' => 'pilar-1.jpg',
+                    'alt' => 'Siswa MustikaBimbel belajar memahami konsep dasar Matematika secara visual',
+                    'pose' => 'think',
+                    'stickers' => [
+                        ['text' => 'Paham Konsep', 'tone' => 'sticker--paper', 'tilt' => '-4deg'],
+                        ['text' => 'Anti Lupa Rumus', 'tone' => 'sticker--lime', 'tilt' => '3deg'],
+                        ['text' => 'Logika Dasar', 'tone' => 'sticker--gold', 'tilt' => '-2deg'],
+                    ],
                     'points' => [
                         'Paham alasan di balik rumus, bukan sekadar menghafal buta',
                         'Tidak mudah lupa saat variasi soal ujian diubah guru',
@@ -45,6 +54,14 @@
                     'icon' => 'zap',
                     'flowerTone' => 'lime',
                     'flowerIcon' => 'hand',
+                    'photo' => 'pilar-2.jpg',
+                    'alt' => 'Siswa TK dan SD berlatih metode Jarimatika hitung cepat di MustikaBimbel',
+                    'pose' => 'thumbs',
+                    'stickers' => [
+                        ['text' => '8 × 7 = 56', 'tone' => 'sticker--gold', 'tilt' => '-5deg'],
+                        ['text' => 'Jarimatika', 'tone' => 'sticker--paper', 'tilt' => '4deg'],
+                        ['text' => '3 Detik!', 'tone' => 'sticker--tomato', 'tilt' => '-2deg'],
+                    ],
                     'points' => [
                         'Metode Jarimatika praktis untuk siswa TK &amp; SD',
                         'Trik penyederhanaan angka &amp; aljabar cepat untuk SMP',
@@ -61,6 +78,14 @@
                     'icon' => 'book-open-check',
                     'flowerTone' => 'gold',
                     'flowerIcon' => 'file-bar-chart-2',
+                    'photo' => 'pilar-3.jpg',
+                    'alt' => 'Pendampingan latihan soal MIPA bertahap dan laporan E-Raport untuk orang tua',
+                    'pose' => 'wow',
+                    'stickers' => [
+                        ['text' => 'E = mc²', 'tone' => 'sticker--ink', 'tilt' => '-4deg'],
+                        ['text' => '✓ E-Raport', 'tone' => 'sticker--lime', 'tilt' => '3deg'],
+                        ['text' => 'Notif WA', 'tone' => 'sticker--paper', 'tilt' => '-2deg'],
+                    ],
                     'points' => [
                         'Matematika, Fisika, Kimia, dan Biologi terstruktur',
                         'Latihan bertahap dari soal dasar hingga soal ujian &amp; seleksi SMA',
@@ -91,16 +116,29 @@
                             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                                 <!-- Visual (on top for mobile, right for desktop) -->
                                 <div class="lg:col-span-5 lg:order-2">
-                                    <div class="relative rounded-2xl border-2 border-ink {{ $pilar['accentBg'] }} p-8 sm:p-10 flex flex-col items-center justify-center min-h-[210px]">
-                                        <div class="absolute -top-4 -right-4">
+                                    @php $pilarPhoto = $img($pilar['photo']); @endphp
+                                    <div class="relative rounded-2xl border-2 border-ink {{ $pilar['accentBg'] }} {{ $pilarPhoto ? 'p-3' : 'p-6 sm:p-8' }} flex flex-col items-center justify-center min-h-[225px]">
+                                        <div class="absolute -top-4 -right-4 z-20">
                                             @include('landing.partials._badge-flower', ['tone' => $pilar['flowerTone'], 'icon' => $pilar['flowerIcon'], 'size' => 62])
                                         </div>
-                                        <div class="w-20 h-20 rounded-2xl bg-navy text-gold border-[3px] border-ink hard-shadow flex items-center justify-center">
-                                            <i data-lucide="{{ $pilar['icon'] }}" class="w-10 h-10"></i>
-                                        </div>
-                                        <span class="mt-4 font-label text-xs font-bold uppercase tracking-wider text-ink bg-paper px-3 py-1 rounded-full border-2 border-ink">
-                                            {{ $pilar['code'] }} &bull; MustikaBimbel
-                                        </span>
+
+                                        @if ($pilarPhoto)
+                                            <img src="{{ $pilarPhoto }}"
+                                                 alt="{{ $pilar['alt'] }}"
+                                                 loading="lazy"
+                                                 class="w-full h-56 sm:h-64 object-cover rounded-[20px] border-[3px] border-ink hard-shadow -rotate-2">
+                                        @else
+                                            <div class="relative flex flex-col items-center justify-center py-2">
+                                                @include('landing.partials._mascot', ['pose' => $pilar['pose'], 'size' => 118])
+                                                <div class="mt-3 flex flex-wrap items-center justify-center gap-2">
+                                                    @foreach ($pilar['stickers'] as $st)
+                                                        <span class="sticker {{ $st['tone'] }}" style="--tilt: {{ $st['tilt'] }};">
+                                                            {{ $st['text'] }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
 

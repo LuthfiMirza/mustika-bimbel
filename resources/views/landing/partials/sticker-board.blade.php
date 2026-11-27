@@ -18,31 +18,65 @@
         <div x-data="{
                 topZ: 10,
                 draggingId: null,
+                dragEl: null,
                 startX: 0,
                 startY: 0,
                 origX: 0,
                 origY: 0,
                 defaults: [
-                    { id: 1, x: 10, y: 14, rot: -8, z: 2, mobile: true, type: 'mascot', pose: 'wave' },
-                    { id: 2, x: 74, y: 12, rot: 10, z: 3, mobile: true, type: 'pill', text: '8 × 7 = 56', bg: 'bg-gold text-ink' },
-                    { id: 3, x: 16, y: 66, rot: 6, z: 4, mobile: true, type: 'pill', text: 'E = mc²', bg: 'bg-lime text-ink' },
-                    { id: 4, x: 68, y: 68, rot: -7, z: 5, mobile: true, type: 'pill', text: 'JAGO MIPA!', bg: 'bg-navy text-gold' },
-                    { id: 5, x: 42, y: 16, rot: 5, z: 6, mobile: true, type: 'circle', text: 'π = 3,14', bg: 'bg-tomato text-white' },
-                    { id: 6, x: 44, y: 68, rot: -5, z: 7, mobile: true, type: 'pill', text: '30 DTK', bg: 'bg-paper text-ink' },
+                    { id: 1, x: 10, y: 14, mx: 8, my: 10, rot: -8, z: 2, mobile: true, type: 'mascot', pose: 'wave' },
+                    { id: 2, x: 72, y: 12, mx: 64, my: 14, rot: 10, z: 3, mobile: true, type: 'pill', text: '8 × 7 = 56', bg: 'bg-gold text-ink' },
+                    { id: 3, x: 16, y: 66, mx: 10, my: 68, rot: 6, z: 4, mobile: true, type: 'pill', text: 'E = mc²', bg: 'bg-lime text-ink' },
+                    { id: 4, x: 66, y: 68, mx: 60, my: 66, rot: -7, z: 5, mobile: true, type: 'pill', text: 'JAGO MIPA!', bg: 'bg-navy text-gold' },
+                    { id: 5, x: 42, y: 16, mx: 39, my: 12, rot: 5, z: 6, mobile: true, type: 'circle', text: 'π = 3,14', bg: 'bg-tomato text-white' },
+                    { id: 6, x: 44, y: 68, mx: 38, my: 70, rot: -5, z: 7, mobile: true, type: 'pill', text: '30 DTK', bg: 'bg-paper text-ink' },
                     { id: 7, x: 24, y: 38, rot: -10, z: 8, mobile: false, type: 'mascot', pose: 'thumbs' },
-                    { id: 8, x: 78, y: 40, rot: 8, z: 9, mobile: false, type: 'pill', text: 'MUSTIKA BIMBEL', bg: 'bg-gold text-ink' },
-                    { id: 9, x: 56, y: 42, rot: -4, z: 10, mobile: false, type: 'circle', text: '★ 100', bg: 'bg-lime text-ink' }
+                    { id: 8, x: 72, y: 40, rot: 8, z: 9, mobile: false, type: 'pill', text: 'MUSTIKA BIMBEL', bg: 'bg-gold text-ink' },
+                    { id: 9, x: 54, y: 42, rot: -4, z: 10, mobile: false, type: 'circle', text: '★ 100', bg: 'bg-lime text-ink' }
                 ],
                 stickers: [],
                 init() {
                     this.resetPositions();
                 },
+                clampItem(item, el) {
+                    const board = this.$refs.board;
+                    if (!board || !el || el.offsetWidth === 0) return;
+                    const rect = board.getBoundingClientRect();
+                    if (!rect.width || !rect.height) return;
+                    const maxX = Math.max(2, 100 - ((el.offsetWidth / rect.width) * 100) - 2);
+                    const maxY = Math.max(4, 100 - ((el.offsetHeight / rect.height) * 100) - 2);
+                    item.x = Math.max(2, Math.min(maxX, item.x));
+                    item.y = Math.max(4, Math.min(maxY, item.y));
+                },
+                clampAll() {
+                    const board = this.$refs.board;
+                    if (!board) return;
+                    this.stickers.forEach((st) => {
+                        const el = board.querySelector(`[data-sticker-id='${st.id}']`);
+                        if (el) this.clampItem(st, el);
+                    });
+                },
                 resetPositions() {
-                    this.stickers = JSON.parse(JSON.stringify(this.defaults));
+                    const isMobile = window.innerWidth < 640;
+                    this.stickers = this.defaults.map((d) => ({
+                        ...d,
+                        x: isMobile && d.mx !== undefined ? d.mx : d.x,
+                        y: isMobile && d.my !== undefined ? d.my : d.y,
+                    }));
                     this.topZ = 12;
+                    this.$nextTick(() => this.clampAll());
+                },
+                randomizePositions() {
+                    this.stickers.forEach((st) => {
+                        st.x = 4 + Math.random() * 78;
+                        st.y = 6 + Math.random() * 74;
+                        st.rot = Math.round((Math.random() * 24) - 12);
+                    });
+                    this.$nextTick(() => this.clampAll());
                 },
                 startDrag(e, item) {
                     this.draggingId = item.id;
+                    this.dragEl = e.currentTarget;
                     this.topZ++;
                     item.z = this.topZ;
                     this.startX = e.clientX;
@@ -54,15 +88,20 @@
                 onDrag(e, item) {
                     if (this.draggingId !== item.id) return;
                     const rect = this.$refs.board.getBoundingClientRect();
+                    const el = this.dragEl || e.currentTarget;
+                    const maxX = Math.max(2, 100 - ((el.offsetWidth / rect.width) * 100) - 2);
+                    const maxY = Math.max(4, 100 - ((el.offsetHeight / rect.height) * 100) - 2);
                     const dxPct = ((e.clientX - this.startX) / rect.width) * 100;
                     const dyPct = ((e.clientY - this.startY) / rect.height) * 100;
-                    item.x = Math.max(2, Math.min(82, this.origX + dxPct));
-                    item.y = Math.max(4, Math.min(78, this.origY + dyPct));
+                    item.x = Math.max(2, Math.min(maxX, this.origX + dxPct));
+                    item.y = Math.max(4, Math.min(maxY, this.origY + dyPct));
                 },
                 stopDrag() {
                     this.draggingId = null;
+                    this.dragEl = null;
                 }
-             }">
+             }"
+             @resize.window.debounce.120ms="clampAll()">
 
             <div x-ref="board"
                  role="img"
@@ -81,15 +120,16 @@
                 </div>
 
                 <!-- Subtle Watermark Label -->
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-15">
-                    <span class="font-display text-3xl sm:text-5xl text-navy uppercase tracking-widest -rotate-6">
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-15 px-4">
+                    <span class="font-display text-xl sm:text-5xl text-navy uppercase tracking-widest -rotate-6 whitespace-nowrap">
                         BUKU CATATAN MIPA
                     </span>
                 </div>
 
                 <!-- Draggable Stickers -->
                 <template x-for="st in stickers" :key="st.id">
-                    <div @pointerdown="startDrag($event, st)"
+                    <div :data-sticker-id="st.id"
+                         @pointerdown="startDrag($event, st)"
                          @pointermove="onDrag($event, st)"
                          @pointerup="stopDrag()"
                          @pointercancel="stopDrag()"
@@ -103,35 +143,40 @@
                         <template x-if="st.type === 'mascot'">
                             <div class="pointer-events-none drop-shadow-[3px_3px_0_#111]">
                                 <template x-if="st.pose === 'wave'">
-                                    <div>@include('landing.partials._mascot', ['pose' => 'wave', 'size' => 86, 'animate' => false])</div>
+                                    <div>@include('landing.partials._mascot', ['pose' => 'wave', 'size' => 84, 'animate' => false, 'class' => 'w-16 h-16 sm:w-[84px] sm:h-[84px]'])</div>
                                 </template>
                                 <template x-if="st.pose === 'thumbs'">
-                                    <div>@include('landing.partials._mascot', ['pose' => 'thumbs', 'size' => 82, 'animate' => false])</div>
+                                    <div>@include('landing.partials._mascot', ['pose' => 'thumbs', 'size' => 80, 'animate' => false, 'class' => 'w-16 h-16 sm:w-[80px] sm:h-[80px]'])</div>
                                 </template>
                             </div>
                         </template>
 
                         <template x-if="st.type === 'pill'">
                             <span :class="st.bg"
-                                  class="px-3.5 sm:px-4 py-2 rounded-2xl border-[3px] border-ink shadow-[3px_3px_0_#111] font-display text-xs sm:text-base whitespace-nowrap"
+                                  class="px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-2xl border-[3px] border-ink shadow-[3px_3px_0_#111] font-display text-[11px] sm:text-base whitespace-nowrap"
                                   x-text="st.text"></span>
                         </template>
 
                         <template x-if="st.type === 'circle'">
                             <span :class="st.bg"
-                                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-[3px] border-ink shadow-[3px_3px_0_#111] font-display text-xs sm:text-sm flex items-center justify-center text-center leading-tight p-1"
+                                  class="w-14 h-14 sm:w-20 sm:h-20 rounded-full border-[3px] border-ink shadow-[3px_3px_0_#111] font-display text-[11px] sm:text-sm flex items-center justify-center text-center leading-tight p-1"
                                   x-text="st.text"></span>
                         </template>
                     </div>
                 </template>
             </div>
 
-            <!-- Reset Button -->
-            <div class="mt-4 flex justify-end">
+            <!-- Action Buttons -->
+            <div class="mt-4 flex flex-wrap justify-end gap-2.5">
+                <button type="button" @click="randomizePositions()"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border-2 border-ink bg-gold hover:bg-lime font-label text-xs font-bold uppercase text-ink shadow-[2px_2px_0_#111] transition-colors cursor-pointer">
+                    <i data-lucide="shuffle" class="w-3.5 h-3.5"></i>
+                    <span>Acak Posisi Stiker</span>
+                </button>
                 <button type="button" @click="resetPositions()"
                         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border-2 border-ink bg-paper hover:bg-lime font-label text-xs font-bold uppercase text-ink shadow-[2px_2px_0_#111] transition-colors cursor-pointer">
                     <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-                    <span>Acak Ulang Stiker</span>
+                    <span>Atur Ulang</span>
                 </button>
             </div>
         </div>

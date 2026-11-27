@@ -1,5 +1,5 @@
-<!-- Fitur Interaktif 1: Mini-Game "Tantangan Hitung Cepat 30 Detik" (Alpine.js) -->
-<section id="tantangan-30-detik" class="py-16 sm:py-20 bg-[#F8FAFC] border-b border-slate-200/80"
+<!-- 5.5 TANTANGAN 30 DETIK (#tantangan-30-detik) — Neo-Brutalist Game Console -->
+<section id="tantangan-30-detik" class="py-16 sm:py-24 bg-cream bg-dots relative overflow-hidden"
     x-data="{
         mode: 'jarimatika',
         state: 'idle',
@@ -67,144 +67,182 @@
         }
     }">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-[#0F2C59] rounded-3xl p-6 sm:p-10 text-white shadow-2xl border-4 border-[#FACC15] relative overflow-hidden">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-white/15">
-                <div>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FACC15] text-[#0F2C59] text-xs font-extrabold uppercase tracking-wider">
-                        <i data-lucide="Flame" class="w-3.5 h-3.5"></i>
-                        Interactive Mini-Game
-                    </span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">
-                        Tantangan Hitung Cepat 30 Detik!
-                    </h2>
-                    <p class="text-sm text-slate-300 mt-1">
-                        Uji kecepatan berhitung ananda sekarang. Skor otomatis tersimpan untuk klaim Kelas Coba Gratis!
-                    </p>
+
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-10 reveal" x-intersect.once="$el.classList.add('is-in')">
+            <span class="sticker sticker--lime mb-4" style="--tilt: -2deg;">
+                <i data-lucide="flame" class="w-3.5 h-3.5 text-tomato"></i>
+                <span>Tantangan Hitung Cepat 30 Detik</span>
+            </span>
+            <h2 class="font-display-hero text-[36px] sm:text-[56px] lg:text-[74px] text-ink">
+                <span class="block">
+                    TANTANGAN
+                    <span class="sticker-headline sticker-headline--gold text-[0.8em]" style="--tilt: -2.5deg;">30 DETIK</span>
+                </span>
+                <span class="block mt-2">HITUNG CEPAT</span>
+            </h2>
+            <p class="mt-4 text-sm sm:text-base text-slate-700 font-medium">
+                Uji kecepatan berhitung ananda sekarang. Skor otomatis tersimpan untuk klaim Kelas Coba Gratis!
+            </p>
+        </div>
+
+        <!-- Console Box -->
+        <div class="bg-ink rounded-[28px] border-[3px] border-ink hard-shadow-lg p-3 sm:p-4">
+            <div class="bg-cream rounded-[20px] border-2 border-ink p-5 sm:p-8">
+
+                <!-- Top Bar & Mode Selector -->
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b-2 border-ink/15">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-navy text-gold border-2 border-ink flex items-center justify-center shrink-0">
+                            <i data-lucide="gamepad-2" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="font-label text-[11px] font-bold uppercase tracking-wider text-tomato block">Interactive Mini-Game</span>
+                            <h3 class="font-display text-lg sm:text-xl text-ink">Pilih Level Tantangan</h3>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button"
+                                @click="mode = 'jarimatika'; state = 'idle'"
+                                :class="mode === 'jarimatika' ? 'bg-gold text-ink shadow-[3px_3px_0_#111]' : 'bg-paper text-ink hover:bg-lime'"
+                                class="px-4 py-2 rounded-full border-2 border-ink font-label text-xs font-bold uppercase tracking-wide transition-all">
+                            🖐️ Level TK / SD (Jarimatika)
+                        </button>
+                        <button type="button"
+                                @click="mode = 'mipa'; state = 'idle'"
+                                :class="mode === 'mipa' ? 'bg-gold text-ink shadow-[3px_3px_0_#111]' : 'bg-paper text-ink hover:bg-lime'"
+                                class="px-4 py-2 rounded-full border-2 border-ink font-label text-xs font-bold uppercase tracking-wide transition-all">
+                            🚀 Level SD Atas / SMP (MIPA)
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Mode Selector -->
-                <div class="flex bg-[#091C3A] p-1.5 rounded-2xl border border-white/15 self-start">
-                    <button type="button"
-                            @click="mode = 'jarimatika'; state = 'idle'"
-                            :class="mode === 'jarimatika' ? 'bg-[#FACC15] text-[#0F2C59] font-extrabold shadow' : 'text-slate-300 hover:text-white font-semibold'"
-                            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all">
-                        🖐️ Level TK / SD (Jarimatika)
-                    </button>
-                    <button type="button"
-                            @click="mode = 'mipa'; state = 'idle'"
-                            :class="mode === 'mipa' ? 'bg-[#FACC15] text-[#0F2C59] font-extrabold shadow' : 'text-slate-300 hover:text-white font-semibold'"
-                            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all">
-                        🚀 Level SD Atas / SMP (MIPA)
-                    </button>
-                </div>
-            </div>
+                <!-- State 1: Idle -->
+                <div x-show="state === 'idle'" class="py-10 text-center space-y-6">
+                    <div class="max-w-xl mx-auto bg-paper border-2 border-ink rounded-2xl p-6 shadow-[4px_4px_0_#111]">
+                        <p class="font-label text-xs font-bold uppercase tracking-wider text-navy"
+                           x-text="mode === 'jarimatika' ? 'Mode Terpilih: Jarimatika Tambah, Kurang & Kali Dasar (TK - SD)' : 'Mode Terpilih: Hitung Cepat Kali, Aljabar & Fisika Dasar (SD - SMP)'"></p>
+                        <p class="text-slate-700 text-sm mt-2">
+                            Terdapat <strong>5 soal berurutan</strong> dengan batas waktu total <strong>30 detik</strong>. Di akhir permainan, ananda juga akan melihat rahasia <em>Trik Cepat MustikaBimbel</em>!
+                        </p>
+                    </div>
 
-            <!-- State 1: Idle / Start Screen -->
-            <div x-show="state === 'idle'" class="py-10 text-center space-y-6">
-                <div class="max-w-xl mx-auto bg-white/5 border border-white/15 rounded-2xl p-6">
-                    <p class="text-sm text-[#FACC15] font-bold uppercase tracking-wider"
-                       x-text="mode === 'jarimatika' ? 'Mode Terpilih: Jarimatika Tambah, Kurang & Kali Dasar (TK - SD)' : 'Mode Terpilih: Hitung Cepat Kali, Aljabar & Fisika Dasar (SD - SMP)'"></p>
-                    <p class="text-slate-200 text-sm mt-2">
-                        Terdapat <strong>5 soal berurutan</strong> dengan batas waktu total <strong>30 detik</strong>. Di akhir permainan, ananda juga akan melihat rahasia <em>Trik Cepat MustikaBimbel</em>!
-                    </p>
-                </div>
-                <button type="button" @click="startGame()"
-                        class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-base sm:text-lg font-extrabold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] shadow-xl hover:scale-105 transition-all">
-                    <i data-lucide="play" class="w-5 h-5 fill-current"></i>
-                    Mulai Tantangan 30 Detik Sekarang!
-                </button>
-            </div>
-
-            <!-- State 2: Playing Screen -->
-            <div x-show="state === 'playing'" x-cloak class="py-8 space-y-6">
-                <div class="flex items-center justify-between bg-[#091C3A] px-5 py-3 rounded-2xl border border-white/10">
-                    <div class="flex items-center gap-2 text-sm font-bold">
-                        <span class="px-3 py-1 rounded-lg bg-white/10 text-[#FACC15]">
-                            Soal <span x-text="currentIndex + 1"></span> / 5
+                    <button type="button" @click="startGame()" class="btn-pop">
+                        <span class="btn-roll">
+                            <span>Mulai Tantangan 30 Detik</span>
+                            <span aria-hidden="true">Mulai Tantangan 30 Detik</span>
                         </span>
-                        <span class="hidden sm:inline text-slate-300">Pilih jawaban yang paling tepat!</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-lg font-extrabold"
-                         :class="timeLeft <= 10 ? 'text-rose-400 animate-pulse' : 'text-[#FACC15]'">
-                        <i data-lucide="clock" class="w-5 h-5"></i>
-                        <span x-text="timeLeft + ' Detik'"></span>
-                    </div>
+                        <span class="btn-pop__dot"><i data-lucide="play" class="w-4 h-4 fill-current"></i></span>
+                    </button>
                 </div>
 
-                <!-- Question Card -->
-                <div class="bg-white text-[#0F2C59] rounded-3xl p-6 sm:p-8 text-center shadow-inner">
-                    <span class="text-xs font-extrabold uppercase tracking-widest text-[#0D9488]">Pertanyaan Hitung Cepat</span>
-                    <div class="text-2xl sm:text-4xl font-extrabold my-4" x-text="currentQuestion.q"></div>
-
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 max-w-2xl mx-auto">
-                        <template x-for="opt in currentQuestion.options" :key="opt">
-                            <button type="button"
-                                    @click="answerQuestion(opt)"
-                                    class="py-4 px-5 rounded-2xl text-xl sm:text-2xl font-extrabold bg-slate-100 hover:bg-[#FACC15] text-[#0F2C59] border-2 border-slate-200 hover:border-[#0F2C59] transition-all shadow-sm hover:-translate-y-0.5"
-                                    x-text="opt"></button>
-                        </template>
-                    </div>
-                </div>
-            </div>
-
-            <!-- State 3: Finished Screen -->
-            <div x-show="state === 'finished'" x-cloak class="py-8 space-y-6">
-                <div class="bg-white text-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-200 pb-6">
-                        <div class="text-center md:text-left">
-                            <span class="inline-block px-3 py-1 rounded-full bg-[#0D9488]/15 text-[#0D9488] text-xs font-extrabold uppercase">
-                                Hasil Tantangan Selesai!
+                <!-- State 2: Playing -->
+                <div x-show="state === 'playing'" x-cloak class="py-6 space-y-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-xs sm:text-sm font-bold">
+                            <span class="px-3.5 py-1.5 rounded-full bg-navy text-gold border-2 border-ink font-label uppercase">
+                                Soal <span x-text="currentIndex + 1"></span> / 5
                             </span>
-                            <h3 class="text-2xl sm:text-3xl font-extrabold text-[#0F2C59] mt-2"
-                                x-text="score >= 80 ? 'Luar Biasa! Bakat MIPA Sangat Kuat 🌟' : 'Bagus! Yuk Tingkatkan Lagi dengan Jarimatika & Trik Cepat 🚀'"></h3>
-                            <p class="text-sm text-slate-600 mt-1">
-                                Dengan latihan terarah di MustikaBimbel, soal seperti di atas bisa diselesaikan di bawah 3 detik/soal!
-                            </p>
+                            <div class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border-2 border-ink font-display text-base"
+                                 :class="timeLeft <= 10 ? 'bg-tomato text-white animate-pulse' : 'bg-gold text-ink'">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                <span x-text="timeLeft + ' Detik'"></span>
+                            </div>
                         </div>
-
-                        <div class="flex items-center gap-4 shrink-0">
-                            <div class="bg-[#0F2C59] text-white px-5 py-4 rounded-2xl text-center">
-                                <span class="text-xs text-slate-300 block">Skor Akhir</span>
-                                <span class="text-3xl font-extrabold text-[#FACC15]" x-text="score + '/100'"></span>
-                            </div>
-                            <div class="bg-slate-100 text-[#0F2C59] px-5 py-4 rounded-2xl text-center border border-slate-200">
-                                <span class="text-xs text-slate-500 block">Kecepatan</span>
-                                <span class="text-2xl font-extrabold" x-text="avgTime + ' dtk/soal'"></span>
-                            </div>
+                        <!-- Thick Gold Progress Bar -->
+                        <div class="w-full h-4 rounded-full bg-paper border-2 border-ink overflow-hidden">
+                            <div class="h-full transition-all duration-500"
+                                 :class="timeLeft <= 10 ? 'bg-tomato' : 'bg-gold'"
+                                 :style="'width:' + Math.round((timeLeft / 30) * 100) + '%'"></div>
                         </div>
                     </div>
 
-                    <!-- Preview Kunci & Trik Cepat MustikaBimbel -->
-                    <div class="mt-5">
-                        <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-3">
-                            💡 Rahasia Trik Cepat MustikaBimbel untuk Soal Tadi:
-                        </h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                            <template x-for="(item, idx) in currentQuestions.slice(0, 2)" :key="idx">
-                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                                    <span class="font-extrabold text-[#0F2C59]" x-text="item.q + ' (Jawab: ' + item.answer + ')'"></span>
-                                    <p class="text-slate-600 mt-1" x-text="item.tip"></p>
-                                </div>
+                    <div class="bg-paper rounded-2xl border-[3px] border-ink hard-shadow p-6 sm:p-8 text-center">
+                        <span class="font-label text-xs font-bold uppercase tracking-widest text-edu-teal">Pertanyaan Hitung Cepat</span>
+                        <div class="font-display text-3xl sm:text-5xl text-ink my-5" x-text="currentQuestion.q"></div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 max-w-2xl mx-auto">
+                            <template x-for="opt in currentQuestion.options" :key="opt">
+                                <button type="button"
+                                        @click="answerQuestion(opt)"
+                                        class="py-4 px-5 rounded-2xl font-display text-2xl sm:text-3xl bg-cream hover:bg-gold text-ink border-[3px] border-ink shadow-[4px_4px_0_#111] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#111] transition-all cursor-pointer"
+                                        x-text="opt"></button>
                             </template>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Action Buttons -->
-                    <div class="mt-6 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <button type="button" @click="startGame()"
-                                class="w-full sm:w-auto px-5 py-3 rounded-xl text-sm font-bold text-[#0F2C59] bg-slate-100 hover:bg-slate-200 transition-colors">
-                            🔄 Main Lagi
-                        </button>
-                        <button type="button"
-                                @click="applyGameResult(score, avgTime, mode)"
-                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm sm:text-base font-extrabold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100] shadow-lg transition-all">
-                            <span>Simpan Skor &amp; Klaim Kelas Coba Gratis</span>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </button>
+                <!-- State 3: Finished -->
+                <div x-show="state === 'finished'" x-cloak class="py-6 space-y-6">
+                    <div class="bg-paper rounded-2xl border-[3px] border-ink hard-shadow p-6 sm:p-8">
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b-2 border-ink/15 pb-6">
+                            <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                                <div class="shrink-0">
+                                    <div x-show="score >= 80">
+                                        @include('landing.partials._mascot', ['pose' => 'wow', 'size' => 92])
+                                    </div>
+                                    <div x-show="score < 80">
+                                        @include('landing.partials._mascot', ['pose' => 'thumbs', 'size' => 92])
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="sticker sticker--lime mb-2" style="--tilt: -2deg;">
+                                        Hasil Tantangan Selesai!
+                                    </span>
+                                    <h3 class="font-display text-xl sm:text-2xl text-ink mt-1"
+                                        x-text="score >= 80 ? 'LUAR BIASA! BAKAT MIPA SANGAT KUAT' : 'BAGUS! YUK TINGKATKAN LAGI'"></h3>
+                                    <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                                        Dengan latihan terarah di MustikaBimbel, soal seperti di atas bisa diselesaikan di bawah 3 detik/soal!
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 shrink-0">
+                                <div class="bg-navy text-white px-5 py-4 rounded-2xl border-2 border-ink shadow-[3px_3px_0_#111] text-center">
+                                    <span class="font-label text-[10px] uppercase text-slate-300 block">Skor Akhir</span>
+                                    <span class="font-display text-3xl sm:text-4xl text-gold" x-text="score + '/100'"></span>
+                                </div>
+                                <div class="bg-cream text-ink px-5 py-4 rounded-2xl border-2 border-ink shadow-[3px_3px_0_#111] text-center">
+                                    <span class="font-label text-[10px] uppercase text-slate-500 block">Kecepatan</span>
+                                    <span class="font-display text-xl sm:text-2xl" x-text="avgTime + ' dtk'"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview Trik Cepat -->
+                        <div class="mt-5">
+                            <h4 class="font-label text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+                                💡 Rahasia Trik Cepat MustikaBimbel untuk Soal Tadi:
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                                <template x-for="(item, idx) in currentQuestions.slice(0, 2)" :key="idx">
+                                    <div class="p-4 rounded-xl bg-cream border-2 border-ink">
+                                        <span class="font-bold text-ink" x-text="item.q + ' (Jawab: ' + item.answer + ')'"></span>
+                                        <p class="text-slate-600 mt-1" x-text="item.tip"></p>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="mt-6 pt-5 border-t-2 border-ink/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <button type="button" @click="startGame()"
+                                    class="w-full sm:w-auto px-5 py-3 rounded-full border-2 border-ink bg-paper hover:bg-lime font-label text-xs font-bold uppercase text-ink shadow-[3px_3px_0_#111] transition-all">
+                                🔄 Main Lagi
+                            </button>
+                            <button type="button" @click="applyGameResult(score, avgTime, mode)" class="btn-pop w-full sm:w-auto">
+                                <span class="btn-roll">
+                                    <span>Simpan Skor &amp; Klaim Gratis</span>
+                                    <span aria-hidden="true">Simpan Skor &amp; Klaim Gratis</span>
+                                </span>
+                                <span class="btn-pop__dot"><i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 </section>
-

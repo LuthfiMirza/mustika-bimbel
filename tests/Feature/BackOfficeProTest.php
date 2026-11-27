@@ -170,5 +170,63 @@ class BackOfficeProTest extends TestCase
             ->get('/admin/dashboard')
             ->assertStatus(200)
             ->assertSee('Laba Bersih Bulan Ini');
+
+        // Ensure private internal_notes is NEVER exposed in Parent Portal
+        $this->get("/raport/{$student->portal_token}")
+            ->assertStatus(200)
+            ->assertDontSee('Sangat cepat paham jika diberi contoh visual jari.');
+    }
+
+    public function test_audit_regression_student_code_collision_schedule_quota_and_partial_pdf(): void
+    {
+        // 1. Delete a student and create another -> student_code must not collide
+        $tempStudent = Student::create([
+            'student_code' => 'MB-2026-005',
+            'portal_token' => 'raport-temp-005',
+            'full_name' => 'Siswa Sementara',
+            'nickname' => 'Temp',
+            'grade_level' => 'SD',
+            'parent_name' => 'Ibu Temp',
+            'parent_whatsapp' => '6281111111111',
+            'program_id' => 1,
+            'schedule_id' => 1,
+            'jarimatika_level' => 1,
+            'mipa_mastery_percent' => 20,
+            'join_date' => '2026-11-01',
+            'status' => 'Aktif',
+        ]);
+
+        // Delete MB-2026-002's clone gap simulation: delete MB-2026-004 or tempStudent -> count drops, MB-2026-005 remains taken if 004 deleted
+        $student4 = Student::where('student_code', 'MB-2026-004')->firstOrFail();
+        $this->actingAs($this->admin)->delete("/admin/students/{$student4->id}")->assertRedirect();
+
+        $createRes = $this->actingAs($this->admin)->post('/admin/students', [
+            'full_name' => 'Siswa Anti Bentrok',
+            'nickname' => 'Bentrok',
+            'grade_level' => 'SD',
+            'parent_name' => 'Bapak Anti Bentrok',
+            'parent_whatsapp' => '081234500001',
+            'program_id' => 1,
+            'schedule_id' => 1,
+            'monthly_discount' => 25000,
+            'discount_reason' => 'Promo Audit',
+            'jarimatika_level' => 2,
+            'mipa_mastery_percent' => 45,
+            'join_date' => '2026-11-27',
+            'status' => 'Aktif',
+        ]);
+        $createRes->assertRedirect(route('admin.students.index'));
+        $this->assertDatabaseHas('students', ['full_name' => 'Siswa Anti Bentrok']);
+
+        // 2. Partial payment invoice PDF & Parent Portal display
+        $partialInvoice = TuitionInvoice::where('status', 'Kurang')->with('student')->firstOrFail();
+        $this->get("/raport/{$partialInvoice->student->portal_token}")
+            ->assertStatus(200)
+            ->assertSee('Kurang (Cicil)');
+
+        $pdfRes = $this->get("/raport/{$partialInvoice->student->portal_token}/kwitansi/{$partialInvoice->id}");
+        $pdfRes->assertStatus(200);
+        $this->assertStringContainsString('application/pdf', $pdfRes->headers->get('Content-Type'));
     }
 }
+

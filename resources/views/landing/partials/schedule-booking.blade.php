@@ -244,8 +244,8 @@
 
                             <button type="submit" class="btn-pop w-full">
                                 <span class="btn-roll">
-                                    <span>Klaim Gratis &amp; Kirim ke WhatsApp</span>
-                                    <span aria-hidden="true">Klaim Gratis &amp; Kirim ke WhatsApp</span>
+                                    <span>Daftar Gratis via WhatsApp</span>
+                                    <span aria-hidden="true">Daftar Gratis via WhatsApp</span>
                                 </span>
                                 <span class="btn-pop__dot"><i data-lucide="send" class="w-4 h-4"></i></span>
                             </button>

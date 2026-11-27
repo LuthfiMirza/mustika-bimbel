@@ -110,9 +110,17 @@
             text-transform: uppercase;
             font-size: 14px;
             line-height: 1.1;
+            white-space: nowrap;
             box-shadow: 4px 4px 0 var(--ink);
             transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
             cursor: pointer;
+        }
+        @media (max-width: 420px) {
+            .btn-pop {
+                font-size: 12px;
+                padding: 0.75rem 0.85rem 0.75rem 1.2rem;
+                gap: 0.55rem;
+            }
         }
         .btn-pop:hover {
             transform: translate(-2px, -2px);
@@ -155,6 +163,7 @@
         }
         .btn-roll > span {
             display: block;
+            white-space: nowrap;
             transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
         }
         .btn-pop:hover .btn-roll > span {
@@ -359,42 +368,45 @@
                 </a>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex items-center gap-6 font-label text-[13px] font-bold uppercase tracking-wide text-ink">
-                    <a href="#keunggulan" class="hover:text-tomato transition-colors">Keunggulan</a>
-                    <a href="#tantangan-30-detik" class="hover:text-tomato transition-colors inline-flex items-center gap-1.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-lime border border-ink"></span>
+                <nav class="hidden xl:flex items-center gap-6 font-label text-[13px] font-bold uppercase tracking-wide text-ink">
+                    <a href="#keunggulan" class="hover:text-tomato transition-colors whitespace-nowrap">Keunggulan</a>
+                    <a href="#tantangan-30-detik" class="hover:text-tomato transition-colors inline-flex items-center gap-1.5 whitespace-nowrap">
+                        <span class="w-2.5 h-2.5 rounded-full bg-lime border border-ink shrink-0"></span>
                         Tantangan 30 Detik
                     </a>
-                    <a href="#metode-kurikulum" class="hover:text-tomato transition-colors">Program</a>
-                    <a href="#jadwal-belajar" class="hover:text-tomato transition-colors">Jadwal</a>
-                    <a href="#lokasi" class="hover:text-tomato transition-colors">Lokasi</a>
+                    <a href="#metode-kurikulum" class="hover:text-tomato transition-colors whitespace-nowrap">Program</a>
+                    <a href="#jadwal-belajar" class="hover:text-tomato transition-colors whitespace-nowrap">Jadwal</a>
+                    <a href="#lokasi" class="hover:text-tomato transition-colors whitespace-nowrap">Lokasi</a>
                 </nav>
 
-                <!-- Desktop Action Buttons -->
-                <div class="hidden sm:flex items-center gap-3">
-                    <button @click="reportModalOpen = true" type="button"
-                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border-2 border-ink bg-paper hover:bg-lime font-label text-xs font-bold uppercase tracking-wide text-ink shadow-[2px_2px_0_#111] transition-all">
-                        <i data-lucide="file-bar-chart-2" class="w-4 h-4"></i>
-                        <span>Cek Raport</span>
-                    </button>
-                    <a href="#form-trial" class="btn-pop btn-pop--sm">
-                        <span class="btn-roll">
-                            <span>Daftar Gratis</span>
-                            <span aria-hidden="true">Daftar Gratis</span>
-                        </span>
-                        <span class="btn-pop__dot"><i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-                    </a>
-                </div>
+                <!-- Action Buttons & Hamburger -->
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                    <!-- Tablet & Desktop Action Buttons -->
+                    <div class="hidden sm:flex items-center gap-3">
+                        <button @click="reportModalOpen = true" type="button"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border-2 border-ink bg-paper hover:bg-lime font-label text-xs font-bold uppercase tracking-wide text-ink shadow-[2px_2px_0_#111] transition-all whitespace-nowrap">
+                            <i data-lucide="file-bar-chart-2" class="w-4 h-4 shrink-0"></i>
+                            <span>Cek Raport</span>
+                        </button>
+                        <a href="#form-trial" class="btn-pop btn-pop--sm">
+                            <span class="btn-roll">
+                                <span>Daftar Gratis</span>
+                                <span aria-hidden="true">Daftar Gratis</span>
+                            </span>
+                            <span class="btn-pop__dot"><i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                        </a>
+                    </div>
 
-                <!-- Mobile Hamburger Button (44px Square Krackerz Style) -->
-                <div class="flex items-center gap-2 sm:hidden">
+                    <!-- Mobile-Only Compact Raport Button -->
                     <button @click="reportModalOpen = true" type="button"
-                            class="h-11 px-3 rounded-xl border-2 border-ink bg-paper text-ink font-label text-xs font-bold uppercase shadow-[3px_3px_0_#111] flex items-center gap-1">
-                        <i data-lucide="file-bar-chart-2" class="w-4 h-4"></i>
+                            class="sm:hidden h-11 px-3 rounded-xl border-2 border-ink bg-paper text-ink font-label text-xs font-bold uppercase shadow-[3px_3px_0_#111] flex items-center gap-1 whitespace-nowrap">
+                        <i data-lucide="file-bar-chart-2" class="w-4 h-4 shrink-0"></i>
                         <span>Raport</span>
                     </button>
+
+                    <!-- Hamburger Button (< xl) -->
                     <button @click="mobileMenuOpen = !mobileMenuOpen" type="button"
-                            class="w-11 h-11 rounded-xl border-2 border-ink bg-gold text-ink shadow-[3px_3px_0_#111] flex items-center justify-center"
+                            class="xl:hidden w-11 h-11 rounded-xl border-2 border-ink bg-gold text-ink shadow-[3px_3px_0_#111] flex items-center justify-center shrink-0"
                             aria-label="Buka Menu">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
@@ -403,9 +415,9 @@
         </div>
     </header>
 
-    <!-- Fullscreen Gold Mobile Menu -->
+    <!-- Fullscreen Gold Mobile Menu (< xl) -->
     <div x-show="mobileMenuOpen" x-cloak x-transition.opacity
-         class="fixed inset-0 z-50 bg-gold text-ink flex flex-col justify-between p-6 lg:hidden overflow-y-auto">
+         class="fixed inset-0 z-50 bg-gold text-ink flex flex-col justify-between p-6 xl:hidden overflow-y-auto">
         <div class="flex items-center justify-between">
             <span class="font-display text-2xl">MUSTIKA BIMBEL</span>
             <button @click="mobileMenuOpen = false" type="button"

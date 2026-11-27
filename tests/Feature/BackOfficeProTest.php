@@ -228,5 +228,37 @@ class BackOfficeProTest extends TestCase
         $pdfRes->assertStatus(200);
         $this->assertStringContainsString('application/pdf', $pdfRes->headers->get('Content-Type'));
     }
+
+    public function test_landing_redesign_preserves_all_anchors_form_contracts_and_sections(): void
+    {
+        $res = $this->get('/');
+        $res->assertStatus(200);
+
+        // Required Anchor IDs
+        foreach (['id="keunggulan"', 'id="tantangan-30-detik"', 'id="metode-kurikulum"', 'id="jadwal-belajar"', 'id="form-trial"', 'id="lokasi"'] as $anchor) {
+            $res->assertSee($anchor, false);
+        }
+
+        // Required Form Contracts & Alpine Hooks
+        foreach ([
+            'name="parent_name"', 'name="whatsapp"', 'name="student_name"',
+            'name="grade_level"', 'x-model="selectedGrade"', 'name="school_name"',
+            'name="program_id"', 'x-model="selectedProgramId"',
+            'name="schedule_id"', 'x-model="selectedScheduleId"',
+            'name="learning_obstacle"', 'name="quiz_score"', 'name="quiz_avg_time"',
+            'name="kode"', 'reportModalOpen', 'mobileMenuOpen',
+            'prefers-reduced-motion', '@alpinejs/intersect', '@alpinejs/collapse',
+            'Bowlby+One', 'Caveat+Brush',
+        ] as $hook) {
+            $res->assertSee($hook, false);
+        }
+
+        // New Krackerz-inspired sections
+        $res->assertSee('SEKOLAH NGEJAR MATERI');
+        $res->assertSee('KENALAN DULU');
+        $res->assertSee('Pertemuan pertama GRATIS untuk semua program.');
+        $res->assertSee('HIAS');
+        $res->assertSee('JADI YANG PERTAMA');
+    }
 }
 

@@ -14,6 +14,7 @@
                     MIPA-MU
                 </span>
             </h2>
+            {{-- TODO: konfirmasi klaim ke pemilik --}}
             <p class="mt-4 text-sm sm:text-base text-slate-700 max-w-xl mx-auto">
                 Biaya bulanan transparan sesuai jenjang belajar tanpa biaya tersembunyi.
             </p>

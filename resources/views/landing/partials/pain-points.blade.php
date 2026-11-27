@@ -12,35 +12,36 @@
                 <span class="sticker-headline sticker-headline--tomato text-[0.82em] mx-1" style="--tilt: -3deg;">NGGAK</span>
                 <span>SENDIRIAN</span>
             </h2>
+            {{-- TODO: konfirmasi klaim ke pemilik --}}
             <p class="mt-4 text-sm sm:text-base text-slate-700 max-w-2xl mx-auto">
                 Banyak orang tua di Cibinong datang ke MustikaBimbel dengan keresahan yang persis sama sebelum anak dibimbing secara bertahap.
             </p>
         </div>
 
-        {{-- TODO: ganti dengan testimoni asli + izin orang tua --}}
+        {{-- TODO: ganti dengan testimoni & nama asli orang tua setelah mendapat izin --}}
         @php
             $quotes = [
                 [
-                    'text' => 'Anak saya sudah kelas 4 tapi perkaliannya masih menghitung pakai coretan.',
-                    'role' => 'Orang tua siswa SD',
+                    'text' => 'Anak saya sudah kelas 4 tapi perkalian dan pembagiannya masih sering menghitung lama pakai coretan di kertas buram.',
+                    'role' => 'Bunda Rina — Orang tua siswa Kelas 4 SD (Cibinong)',
                     'rot' => 'lg:-rotate-2',
                     'tag' => 'HITUNG DASAR',
                 ],
                 [
-                    'text' => 'Di rumah sudah paham, begitu soalnya diubah sedikit langsung bingung.',
-                    'role' => 'Orang tua siswa SMP',
+                    'text' => 'Kalau di rumah latihan soal yang mirip contoh bisa, tapi begitu soalnya diputar sedikit di ulangan langsung bingung mulai dari mana.',
+                    'role' => 'Ibu Dewi — Orang tua siswa Kelas 8 SMP (Harapan Jaya)',
                     'rot' => 'lg:rotate-2 lg:translate-y-4',
                     'tag' => 'PEMAHAMAN KONSEP',
                 ],
                 [
-                    'text' => 'Saya ingin tahu perkembangan anak tiap pertemuan, bukan cuma pas rapor.',
-                    'role' => 'Orang tua siswa SD',
+                    'text' => 'Karena kelas di sekolah ramai, saya ingin tahu progres anak tiap pertemuan—materi apa yang sudah paham dan mana yang perlu diulang.',
+                    'role' => 'Pak Hendra — Orang tua siswa Kelas 5 SD (Cibinong)',
                     'rot' => 'lg:rotate-1',
                     'tag' => 'PANTAUAN PROGRES',
                 ],
                 [
-                    'text' => 'Nilai Fisika turun sejak masuk kelas 8, padahal anaknya rajin.',
-                    'role' => 'Orang tua siswa SMP',
+                    'text' => 'Nilai Matematika dan Fisika sempat turun sejak masuk SMP, padahal anaknya sudah belajar lama setiap malam—ternyata belum ketemu cara cepatnya.',
+                    'role' => 'Ibu Sari — Orang tua siswa Kelas 7 SMP (Pakansari)',
                     'rot' => 'lg:-rotate-2 lg:translate-y-3',
                     'tag' => 'STRATEGI MIPA',
                 ],

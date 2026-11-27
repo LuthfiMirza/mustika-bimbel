@@ -247,7 +247,9 @@ class TuitionInvoiceController extends Controller
 
         $payAmount = (int) ($validated['amount'] ?? $remaining);
         $paymentDate = $validated['payment_date'] ?? now()->toDateString();
-        $receivedBy = $validated['received_by'] ?: (Auth::user()?->name ?? Setting::get('owner_name', 'Admin MustikaBimbel'));
+        $receivedBy = ! empty($validated['received_by'])
+            ? $validated['received_by']
+            : (Auth::user()?->name ?? Setting::get('owner_name', 'Admin MustikaBimbel'));
 
         $monthStamp = Carbon::parse($paymentDate)->format('Ym');
         $seq = InvoicePayment::whereYear('payment_date', Carbon::parse($paymentDate)->year)

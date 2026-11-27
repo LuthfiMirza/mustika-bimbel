@@ -317,7 +317,7 @@
         }
         .reveal.is-in {
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
 
         /* 4.10 Mascot Wiggle */
@@ -342,6 +342,7 @@
             .btn-roll > span { transition: none !important; }
         }
     </style>
+    <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
     @stack('styles')
 </head>
 <body class="bg-cream text-ink font-sans antialiased selection:bg-gold selection:text-ink"
@@ -569,6 +570,11 @@
             if (window.lucide) {
                 lucide.createIcons();
             }
+            setTimeout(() => {
+                if (!window.Alpine) {
+                    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-in'));
+                }
+            }, 1200);
         });
     </script>
     @stack('scripts')

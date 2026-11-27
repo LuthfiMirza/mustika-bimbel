@@ -52,7 +52,9 @@
         <!-- Alpine Accordion -->
         <div class="space-y-4" x-data="{ open: 0 }">
             @foreach ($faqs as $idx => $faq)
-                <div class="bg-paper rounded-[20px] border-[2.5px] border-ink hard-shadow overflow-hidden">
+                <div class="bg-paper rounded-[20px] border-[2.5px] border-ink hard-shadow overflow-hidden reveal"
+                     x-intersect.once="$el.classList.add('is-in')"
+                     style="transition-delay: {{ $idx * 50 }}ms;">
                     <button type="button"
                             @click="open = open === {{ $idx }} ? -1 : {{ $idx }}"
                             class="w-full px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between gap-4 text-left cursor-pointer hover:bg-cream/60 transition-colors">

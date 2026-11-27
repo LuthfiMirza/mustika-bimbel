@@ -49,20 +49,22 @@
 
         <!-- 4 Tilted Quote Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
-            @foreach ($quotes as $q)
-                <div class="bg-paper rounded-[24px] border-[2.5px] border-ink hard-shadow p-6 sm:p-7 transition-transform duration-200 hover:rotate-0 hover:-translate-y-1 {{ $q['rot'] }}">
-                    <div class="flex items-center justify-between gap-2 mb-3">
-                        <span class="font-display text-5xl leading-none text-gold select-none" style="-webkit-text-stroke: 1.5px #111;">“</span>
-                        <span class="px-2.5 py-0.5 rounded-full bg-cream border-2 border-ink font-label text-[10px] font-bold uppercase text-ink">
-                            {{ $q['tag'] }}
-                        </span>
+            @foreach ($quotes as $idx => $q)
+                <div class="reveal" x-intersect.once="$el.classList.add('is-in')" style="transition-delay: {{ $idx * 70 }}ms;">
+                    <div class="bg-paper rounded-[24px] border-[2.5px] border-ink hard-shadow p-6 sm:p-7 h-full transition-transform duration-200 hover:rotate-0 hover:-translate-y-1 {{ $q['rot'] }}">
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="font-display text-5xl leading-none text-gold select-none" style="-webkit-text-stroke: 1.5px #111;">“</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-cream border-2 border-ink font-label text-[10px] font-bold uppercase text-ink">
+                                {{ $q['tag'] }}
+                            </span>
+                        </div>
+                        <p class="text-base sm:text-lg font-bold text-ink leading-snug">
+                            "{{ $q['text'] }}"
+                        </p>
+                        <p class="mt-4 pt-3 border-t-2 border-dashed border-ink/15 font-label text-xs font-bold uppercase tracking-wide text-navy">
+                            — <em>{{ $q['role'] }}</em>
+                        </p>
                     </div>
-                    <p class="text-base sm:text-lg font-bold text-ink leading-snug">
-                        "{{ $q['text'] }}"
-                    </p>
-                    <p class="mt-4 pt-3 border-t-2 border-dashed border-ink/15 font-label text-xs font-bold uppercase tracking-wide text-navy">
-                        — <em>{{ $q['role'] }}</em>
-                    </p>
                 </div>
             @endforeach
         </div>

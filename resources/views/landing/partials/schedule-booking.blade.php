@@ -30,7 +30,10 @@
                         $isScarce = $remaining <= 3;
                         $rot = $idx % 2 === 0 ? '-1.2deg' : '1.2deg';
                     @endphp
-                    <div class="card-bite flex flex-col justify-between relative" style="--r: {{ $rot }};">
+                    <div class="reveal flex"
+                         x-intersect.once="$el.classList.add('is-in')"
+                         style="transition-delay: {{ $idx * 80 }}ms;">
+                        <div class="card-bite w-full flex flex-col justify-between relative" style="--r: {{ $rot }};">
                         <div class="p-6 sm:p-7 flex-1">
                             <div class="flex items-start justify-between gap-2 mb-3">
                                 <span class="inline-flex items-center gap-1.5 font-label text-xs font-bold uppercase tracking-wider text-navy">
@@ -80,6 +83,7 @@
                                 </span>
                                 <span class="btn-pop__dot"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
                             </button>
+                        </div>
                         </div>
                     </div>
                 @endforeach

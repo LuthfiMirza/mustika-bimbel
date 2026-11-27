@@ -31,7 +31,10 @@
                             ? 'Pendalaman MIPA (Mat, Fis, Kim, Bio) & persiapan ujian'
                             : 'Matematika & IPA dasar + penguatan soal cerita SD');
                 @endphp
-                <div class="rounded-[26px] border-[3px] border-ink p-7 flex flex-col justify-between transition-transform duration-200 {{ $isMiddle ? 'bg-gold hard-shadow-lg md:scale-[1.04] relative z-10' : 'bg-paper hard-shadow hover:-translate-y-1' }}">
+                <div class="reveal flex {{ $isMiddle ? 'relative z-10' : '' }}"
+                     x-intersect.once="$el.classList.add('is-in')"
+                     style="transition-delay: {{ $idx * 80 }}ms;">
+                    <div class="rounded-[26px] border-[3px] border-ink p-7 w-full flex flex-col justify-between transition-transform duration-200 {{ $isMiddle ? 'bg-gold hard-shadow-lg md:scale-[1.04]' : 'bg-paper hard-shadow hover:-translate-y-1' }}">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-4">
                             <span class="sticker {{ $isMiddle ? 'sticker--ink text-gold' : 'sticker--lime' }}" style="--tilt: -2deg;">
@@ -85,6 +88,7 @@
                             </span>
                             <span class="btn-pop__dot"><i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                         </button>
+                    </div>
                     </div>
                 </div>
             @endforeach

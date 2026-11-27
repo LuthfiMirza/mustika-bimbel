@@ -91,17 +91,21 @@
         <div class="mt-12 -mx-4 px-4 sm:mx-0 sm:px-0">
             <div class="flex lg:justify-center items-stretch gap-3 lg:gap-0 overflow-x-auto lg:overflow-visible snap-x snap-mandatory py-5 no-scrollbar">
                 @foreach ($heroCards as $idx => $hc)
-                    <div class="card-bite shrink-0 w-[166px] sm:w-[174px] h-[222px] flex flex-col justify-between snap-center {{ $idx > 0 ? 'lg:-ml-3' : '' }}"
-                         style="--r: {{ $hc['r'] }};">
-                        <div class="flex-1 flex flex-col items-center justify-center p-4 {{ $hc['bg'] }}">
-                            <div class="w-14 h-14 rounded-2xl bg-paper border-2 border-ink shadow-[3px_3px_0_#111] flex items-center justify-center text-ink">
-                                <i data-lucide="{{ $hc['icon'] }}" class="w-7 h-7"></i>
+                    <div class="reveal shrink-0 snap-center hover:z-20 {{ $idx > 0 ? 'lg:-ml-3' : '' }}"
+                         x-intersect.once="$el.classList.add('is-in')"
+                         style="transition-delay: {{ $idx * 60 }}ms;">
+                        <div class="card-bite w-[166px] sm:w-[174px] h-[222px] flex flex-col justify-between"
+                             style="--r: {{ $hc['r'] }};">
+                            <div class="flex-1 flex flex-col items-center justify-center p-4 {{ $hc['bg'] }}">
+                                <div class="w-14 h-14 rounded-2xl bg-paper border-2 border-ink shadow-[3px_3px_0_#111] flex items-center justify-center text-ink">
+                                    <i data-lucide="{{ $hc['icon'] }}" class="w-7 h-7"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-bite__foot px-3 py-4 text-center">
-                            <span class="font-label text-xs font-bold uppercase tracking-wide leading-snug block text-paper">
-                                {{ $hc['text'] }}
-                            </span>
+                            <div class="card-bite__foot px-3 py-4 text-center">
+                                <span class="font-label text-xs font-bold uppercase tracking-wide leading-snug block text-paper">
+                                    {{ $hc['text'] }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 @endforeach

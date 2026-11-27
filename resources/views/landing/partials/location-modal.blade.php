@@ -18,7 +18,8 @@
                 </p>
 
                 <div class="space-y-4">
-                    <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-paper border-2 border-ink shadow-[4px_4px_0_#111]">
+                    <div class="reveal flex items-start gap-3.5 p-4 rounded-2xl bg-paper border-2 border-ink shadow-[4px_4px_0_#111]"
+                         x-intersect.once="$el.classList.add('is-in')">
                         <div class="w-10 h-10 rounded-xl bg-navy text-gold border-2 border-ink flex items-center justify-center shrink-0">
                             <i data-lucide="map-pin" class="w-5 h-5"></i>
                         </div>
@@ -69,7 +70,7 @@
             </div>
 
             <!-- Right: Embedded Map in Neo-Brutalist Frame -->
-            <div class="lg:col-span-7 relative">
+            <div class="lg:col-span-7 relative reveal" x-intersect.once="$el.classList.add('is-in')" style="transition-delay: 100ms;">
                 <div class="absolute -top-4 left-6 z-10">
                     <span class="sticker sticker--gold" style="--tilt: -2deg;">
                         📍 AMARYLIS GARDEN

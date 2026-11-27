@@ -76,7 +76,9 @@
         <!-- 3 Stacked Navy Folders -->
         <div class="space-y-10">
             @foreach ($pillars as $idx => $pilar)
-                <div class="lg:sticky" style="top: {{ 88 + ($idx * 20) }}px;">
+                <div class="lg:sticky reveal"
+                     x-intersect.once="$el.classList.add('is-in')"
+                     style="top: {{ 88 + ($idx * 20) }}px; transition-delay: {{ $idx * 80 }}ms;">
                     <!-- Folder Tab -->
                     <div class="inline-flex items-center gap-2 px-5 py-2 rounded-t-2xl bg-navy text-gold border-t-[3px] border-x-[3px] border-ink ml-6 relative z-10 -mb-[3px]">
                         <i data-lucide="{{ $pilar['icon'] }}" class="w-4 h-4"></i>

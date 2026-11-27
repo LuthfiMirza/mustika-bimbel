@@ -2,36 +2,37 @@
 
 @section('title', 'Pencatatan Pengeluaran Operasional — MustikaBimbel')
 @section('header_title', 'Pengeluaran Operasional Bimbel')
+@section('breadcrumb', 'Pengeluaran')
 
 @section('content')
 <div class="space-y-6" x-data="{ addModalOpen: false }">
 
     <!-- Top KPI Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Pengeluaran Bulan Ini</span>
+        <div class="bg-white rounded-2xl p-5 md:p-6 border border-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Pengeluaran Bulan Ini</span>
             <div class="text-2xl sm:text-3xl font-extrabold text-rose-600 mt-2">
                 Rp {{ number_format($allMonthTotal, 0, ',', '.') }}
             </div>
             <p class="text-xs text-slate-500 mt-1">{{ now()->translatedFormat('F Y') }}</p>
         </div>
 
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Total Sesuai Filter</span>
+        <div class="bg-white rounded-2xl p-5 md:p-6 border border-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Sesuai Filter</span>
             <div class="text-2xl sm:text-3xl font-extrabold text-[#0F2C59] mt-2">
                 Rp {{ number_format($totalFiltered, 0, ',', '.') }}
             </div>
             <p class="text-xs text-slate-500 mt-1">Akumulasi keseluruhan: Rp {{ number_format($allTimeTotal, 0, ',', '.') }}</p>
         </div>
 
-        <div class="bg-[#0F2C59] text-white rounded-3xl p-6 shadow-md flex items-center justify-between gap-4">
+        <div class="bg-[#0F2C59] text-white rounded-2xl p-5 md:p-6 flex items-center justify-between gap-4">
             <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-[#FACC15]">Kas Keluar</span>
                 <h3 class="text-base font-extrabold mt-1">Catat Pengeluaran Baru</h3>
                 <p class="text-xs text-slate-300 mt-0.5">Otomatis masuk hitungan Laba Bersih Bulanan</p>
             </div>
             <button type="button" @click="addModalOpen = true"
-                    class="px-4 py-3 rounded-2xl bg-[#FACC15] hover:bg-[#FFD100] text-[#0F2C59] text-xs font-extrabold shadow-md shrink-0 flex items-center gap-1.5">
+                    class="px-4 py-2.5 rounded-[10px] bg-[#FACC15] hover:bg-[#FFD100] text-[#0F2C59] text-xs font-bold shrink-0 flex items-center gap-1.5">
                 <i data-lucide="plus-circle" class="w-4 h-4"></i>
                 <span>Tambah</span>
             </button>
@@ -39,7 +40,7 @@
     </div>
 
     <!-- Filter Bar -->
-    <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-5 border border-slate-200">
         <form method="GET" action="{{ route('admin.expenses.index') }}" class="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
                 <div>
@@ -69,10 +70,10 @@
     </div>
 
     <!-- Table -->
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-700">
-                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
+                <thead class="bg-slate-50/70 text-slate-500 font-semibold border-b border-slate-100 text-xs">
                     <tr>
                         <th class="px-5 py-3.5">Tanggal</th>
                         <th class="px-5 py-3.5">Kategori</th>
@@ -196,3 +197,4 @@
     </div>
 </div>
 @endsection
+

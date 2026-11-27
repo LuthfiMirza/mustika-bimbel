@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('title', 'Laporan Keuangan & Laba Bersih — MustikaBimbel')
-@section('header_title', 'Laporan Keuangan & Laba Bersih Bulanan')
+@section('header_title', 'Laporan Keuangan & Laba Bersih')
+@section('breadcrumb', 'Laporan Laba Bersih')
 
 @section('content')
 <div class="space-y-6">
@@ -29,32 +30,32 @@
 
     <!-- Period KPI Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200">
-            <span class="text-[11px] font-extrabold uppercase text-slate-500">Total Kas Masuk (12 Bln)</span>
+        <div class="bg-white rounded-2xl p-5 border border-slate-200">
+            <span class="text-[11px] font-bold uppercase text-slate-500">Total Kas Masuk (12 Bln)</span>
             <div class="text-2xl font-extrabold text-emerald-700 mt-1.5">Rp {{ number_format($totals['cash_in'], 0, ',', '.') }}</div>
             <p class="text-[11px] text-slate-500 mt-1">Tingkat Tertagih: <strong>{{ $totals['collection_rate'] }}%</strong></p>
         </div>
-        <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200">
-            <span class="text-[11px] font-extrabold uppercase text-slate-500">Total Pengeluaran (12 Bln)</span>
+        <div class="bg-white rounded-2xl p-5 border border-slate-200">
+            <span class="text-[11px] font-bold uppercase text-slate-500">Total Pengeluaran (12 Bln)</span>
             <div class="text-2xl font-extrabold text-rose-600 mt-1.5">Rp {{ number_format($totals['expenses'], 0, ',', '.') }}</div>
             <p class="text-[11px] text-slate-500 mt-1">Operasional, modul, listrik, dll.</p>
         </div>
-        <div class="bg-[#0F2C59] text-white rounded-3xl p-5 shadow-md">
-            <span class="text-[11px] font-extrabold uppercase text-[#FACC15]">Laba Bersih Periode</span>
+        <div class="bg-[#0F2C59] text-white rounded-2xl p-5">
+            <span class="text-[11px] font-bold uppercase text-[#FACC15]">Laba Bersih Periode</span>
             <div class="text-2xl font-extrabold mt-1.5">Rp {{ number_format($totals['net_profit'], 0, ',', '.') }}</div>
             <p class="text-[11px] text-slate-300 mt-1">Kas Masuk &minus; Pengeluaran</p>
         </div>
-        <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200">
-            <span class="text-[11px] font-extrabold uppercase text-slate-500">Total SPP Tertagih</span>
+        <div class="bg-white rounded-2xl p-5 border border-slate-200">
+            <span class="text-[11px] font-bold uppercase text-slate-500">Total SPP Tertagih</span>
             <div class="text-2xl font-extrabold text-[#0F2C59] mt-1.5">Rp {{ number_format($totals['spp_billed'], 0, ',', '.') }}</div>
             <p class="text-[11px] text-slate-500 mt-1">Terbayar: Rp {{ number_format($totals['spp_paid'], 0, ',', '.') }}</p>
         </div>
     </div>
 
     <!-- Chart.js Financial Trend -->
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-6 border border-slate-200">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-extrabold text-[#0F2C59]">Grafik Arus Kas &amp; Laba Bersih (12 Bulan)</h3>
+            <h3 class="text-sm font-bold text-[#0F2C59]">Grafik Arus Kas &amp; Laba Bersih (12 Bulan)</h3>
         </div>
         <div class="h-64">
             <canvas id="financialTrendChart"></canvas>
@@ -62,10 +63,10 @@
     </div>
 
     <!-- 12-Month Financial Table -->
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-700">
-                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
+                <thead class="bg-slate-50/70 text-slate-500 font-semibold border-b border-slate-100 text-xs">
                     <tr>
                         <th class="px-5 py-3.5">Bulan</th>
                         <th class="px-4 py-3.5 text-center">Siswa Tertagih</th>
@@ -161,3 +162,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 @endpush
+

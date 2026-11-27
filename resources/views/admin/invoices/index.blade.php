@@ -2,6 +2,7 @@
 
 @section('title', 'Manajemen Tagihan SPP & Kwitansi — MustikaBimbel')
 @section('header_title', 'Administrasi SPP, Diskon & Cicilan')
+@section('breadcrumb', 'Tagihan SPP')
 
 @section('content')
 <div class="space-y-6"
@@ -59,30 +60,30 @@
 
     <!-- Top KPI Financial Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Kas SPP Terkumpul</span>
+        <div class="bg-white rounded-2xl p-5 md:p-6 border border-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Kas SPP Terkumpul</span>
             <div class="text-2xl sm:text-3xl font-extrabold text-emerald-700 mt-2">
                 Rp {{ number_format($paidSum, 0, ',', '.') }}
             </div>
             <p class="text-xs text-slate-500 mt-1">{{ $paidCount }} Lunas &bull; {{ $partialCount }} Cicilan (Kurang)</p>
         </div>
 
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Total Sisa Tunggakan SPP</span>
+        <div class="bg-white rounded-2xl p-5 md:p-6 border border-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Sisa Tunggakan SPP</span>
             <div class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-2">
                 Rp {{ number_format($unpaidSum, 0, ',', '.') }}
             </div>
             <p class="text-xs text-slate-500 mt-1">{{ $unpaidCount + $partialCount }} Tagihan Belum Lunas / Kurang</p>
         </div>
 
-        <div class="bg-[#0F2C59] text-white rounded-3xl p-6 shadow-md flex items-center justify-between gap-4">
+        <div class="bg-[#0F2C59] text-white rounded-2xl p-5 md:p-6 flex items-center justify-between gap-4">
             <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-[#FACC15]">Generator Massal</span>
                 <h3 class="text-base font-extrabold mt-1">Buat Tagihan SPP Bulanan</h3>
                 <p class="text-xs text-slate-300 mt-0.5">Otomatis potong diskon SPP tiap siswa aktif</p>
             </div>
             <button type="button" @click="generateModalOpen = true"
-                    class="px-4 py-3 rounded-2xl bg-[#FACC15] hover:bg-[#FFD100] text-[#0F2C59] text-xs font-extrabold shadow-md shrink-0 flex items-center gap-1.5 transition-all">
+                    class="px-4 py-2.5 rounded-[10px] bg-[#FACC15] hover:bg-[#FFD100] text-[#0F2C59] text-xs font-bold shrink-0 flex items-center gap-1.5 transition-all">
                 <i data-lucide="plus-circle" class="w-4 h-4"></i>
                 <span>Generate SPP</span>
             </button>
@@ -90,36 +91,36 @@
     </div>
 
     <!-- Filter & Search Bar -->
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-5 border border-slate-200">
         <form method="GET" action="{{ route('admin.invoices.index') }}" class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('admin.invoices.index', ['search' => $search]) }}"
-                   class="px-3.5 py-2 rounded-xl text-xs font-bold {{ $statusFilter === null ? 'bg-[#0F2C59] text-[#FACC15]' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
+                   class="px-3.5 py-2 rounded-[10px] text-xs font-bold {{ $statusFilter === null ? 'bg-[#0F2C59] text-[#FACC15]' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
                     Semua ({{ $totalInvoicesCount }})
                 </a>
                 <a href="{{ route('admin.invoices.index', ['status' => 'Belum Lunas', 'search' => $search]) }}"
-                   class="px-3.5 py-2 rounded-xl text-xs font-bold {{ $statusFilter === 'Belum Lunas' ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
+                   class="px-3.5 py-2 rounded-[10px] text-xs font-bold {{ $statusFilter === 'Belum Lunas' ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
                     Belum Lunas ({{ $unpaidCount }})
                 </a>
                 <a href="{{ route('admin.invoices.index', ['status' => 'Kurang', 'search' => $search]) }}"
-                   class="px-3.5 py-2 rounded-xl text-xs font-bold {{ $statusFilter === 'Kurang' ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
+                   class="px-3.5 py-2 rounded-[10px] text-xs font-bold {{ $statusFilter === 'Kurang' ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
                     Kurang / Cicil ({{ $partialCount }})
                 </a>
                 <a href="{{ route('admin.invoices.index', ['status' => 'Lunas', 'search' => $search]) }}"
-                   class="px-3.5 py-2 rounded-xl text-xs font-bold {{ $statusFilter === 'Lunas' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
+                   class="px-3.5 py-2 rounded-[10px] text-xs font-bold {{ $statusFilter === 'Lunas' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
                     Lunas ({{ $paidCount }})
                 </a>
             </div>
 
             <div class="flex items-center gap-2 w-full md:w-auto">
                 <div class="relative w-full md:w-64">
-                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5"></i>
                     <input type="text" name="search" value="{{ $search }}"
                            placeholder="Cari no. tagihan / periode / siswa..."
-                           class="w-full pl-10 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0F2C59] outline-none">
+                           class="w-full pl-10 pr-3 py-2 rounded-[10px] border border-slate-200 text-xs focus:border-[#0F2C59] outline-none">
                 </div>
                 <button type="submit"
-                        class="px-4 py-2 rounded-xl text-xs font-bold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100]">
+                        class="px-4 py-2 rounded-[10px] text-xs font-bold text-[#0F2C59] bg-[#FACC15] hover:bg-[#FFD100]">
                     Cari
                 </button>
             </div>
@@ -127,10 +128,10 @@
     </div>
 
     <!-- Table of Invoices -->
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-700">
-                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
+                <thead class="bg-slate-50/70 text-slate-500 font-semibold border-b border-slate-100 text-xs">
                     <tr>
                         <th class="px-5 py-3.5">Nomor &amp; Periode</th>
                         <th class="px-5 py-3.5">Nama Siswa</th>

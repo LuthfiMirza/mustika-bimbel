@@ -2,6 +2,7 @@
 
 @section('title', 'Pengaturan Bimbel & Template WA — MustikaBimbel')
 @section('header_title', 'Pengaturan Bimbel & Template WA')
+@section('breadcrumb', 'Pengaturan')
 
 @section('content')
 <div class="space-y-6"
@@ -90,7 +91,7 @@
         @method('PUT')
 
         <!-- Tab 1: Identitas & Rekening -->
-        <div x-show="tab === 'identity'" x-cloak class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 space-y-5">
+        <div x-show="tab === 'identity'" x-cloak class="bg-white rounded-2xl p-6 border border-slate-200 space-y-5">
             <div class="border-b border-slate-100 pb-3">
                 <h3 class="text-base font-extrabold text-[#0F2C59]">Identitas Bimbel &amp; Rekening Pembayaran</h3>
                 <p class="text-xs text-slate-500">Muncul di kop kwitansi PDF, header admin, dan pesan tagihan WhatsApp.</p>
@@ -129,7 +130,7 @@
         </div>
 
         <!-- Tab 2: Pengaturan Periode SPP -->
-        <div x-show="tab === 'tuition'" x-cloak class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 space-y-5">
+        <div x-show="tab === 'tuition'" x-cloak class="bg-white rounded-2xl p-6 border border-slate-200 space-y-5">
             <div class="border-b border-slate-100 pb-3">
                 <h3 class="text-base font-extrabold text-[#0F2C59]">Pengaturan Jatuh Tempo &amp; Periode 12 Bulan</h3>
                 <p class="text-xs text-slate-500">Menentukan tanggal jatuh tempo default saat generate tagihan serta bulan awal tampilan Kartu SPP &amp; Laporan Laba Bersih.</p>
@@ -170,7 +171,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Template Reminder SPP + Preview -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 space-y-3">
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 space-y-3">
                     <label class="block text-sm font-extrabold text-[#0F2C59]">1. Template Pengingat Tagihan SPP</label>
                     <textarea name="wa_template_reminder" rows="9" x-model="tplReminder" required
                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-[#0F2C59] outline-none"></textarea>
@@ -181,7 +182,7 @@
                 </div>
 
                 <!-- Template Kwitansi / Terima Kasih + Preview -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 space-y-3">
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 space-y-3">
                     <label class="block text-sm font-extrabold text-[#0F2C59]">2. Template Terima Kasih / Kuitansi Pembayaran</label>
                     <textarea name="wa_template_receipt" rows="9" x-model="tplReceipt" required
                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-[#0F2C59] outline-none"></textarea>
@@ -192,14 +193,14 @@
                 </div>
 
                 <!-- Template Kedatangan -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 space-y-3">
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 space-y-3">
                     <label class="block text-sm font-extrabold text-[#0F2C59]">3. Template Notifikasi Anak Tiba</label>
                     <textarea name="wa_template_arrival" rows="6" required
                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-[#0F2C59] outline-none">{{ old('wa_template_arrival', $settings['wa_template_arrival']) }}</textarea>
                 </div>
 
                 <!-- Template Laporan Jurnal Pulang -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 space-y-3">
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 space-y-3">
                     <label class="block text-sm font-extrabold text-[#0F2C59]">4. Template Laporan Jurnal Pulang</label>
                     <textarea name="wa_template_report" rows="6" required
                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-[#0F2C59] outline-none">{{ old('wa_template_report', $settings['wa_template_report']) }}</textarea>
@@ -218,3 +219,4 @@
     </form>
 </div>
 @endsection
+

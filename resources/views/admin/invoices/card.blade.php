@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('title', 'Kartu SPP 12 Bulan — MustikaBimbel')
-@section('header_title', 'Kartu SPP Siswa 12 Bulan & Reminder Tunggakan')
+@section('header_title', 'Kartu SPP Siswa 12 Bulan')
+@section('breadcrumb', 'Kartu SPP 12 Bulan')
 
 @section('content')
 <div class="space-y-6">
@@ -49,7 +50,7 @@
     </div>
 
     <!-- 12-Month Matrix Card Table -->
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-700 border-collapse">
                 <thead class="bg-[#0F2C59] text-white text-[10px] uppercase tracking-wider font-extrabold">
@@ -137,3 +138,4 @@
     </div>
 </div>
 @endsection
+

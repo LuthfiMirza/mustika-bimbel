@@ -1,9 +1,9 @@
 <!-- 5.2 STATEMENT SECTION ("SEKOLAH NGEJAR MATERI / KAMI NGAJARIN CARANYA") -->
-<section class="py-16 sm:py-24 bg-cream relative overflow-hidden">
+<section class="pt-8 pb-16 sm:pt-10 sm:pb-20 bg-cream relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Giant 2-Line Mixed Headline -->
-        <div class="text-center max-w-5xl mx-auto mb-12 reveal" x-intersect.once="$el.classList.add('is-in')">
+        <div class="text-center max-w-5xl mx-auto mb-8 sm:mb-10 reveal" x-intersect.once="$el.classList.add('is-in')">
             <h2 class="font-display-hero text-[36px] sm:text-[58px] lg:text-[82px] text-ink">
                 <span class="block">SEKOLAH NGEJAR MATERI</span>
                 <span class="block mt-2">

@@ -1,5 +1,5 @@
 <!-- 5.1 HERO SECTION (Krackerz Neo-Brutalism Style + MustikaBimbel Cream/Gold/Navy) -->
-<section id="hero" class="relative bg-cream bg-dots pt-8 pb-16 sm:pt-12 sm:pb-24 overflow-hidden">
+<section id="hero" class="relative bg-cream bg-dots pt-8 pb-8 sm:pt-12 sm:pb-12 overflow-hidden">
     <!-- Giant Cloud Circles ("Awan" Hero Background) -->
     <div class="pointer-events-none absolute inset-x-0 top-6 flex justify-center overflow-hidden" aria-hidden="true">
         <div class="relative w-[1080px] h-[460px] shrink-0">

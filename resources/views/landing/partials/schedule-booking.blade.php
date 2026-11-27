@@ -87,7 +87,7 @@
         </div>
 
         <!-- Bagian B: Formulir Klaim Kelas Coba Gratis (Free Trial) -->
-        <div id="form-trial" class="scroll-mt-24">
+        <div id="form-trial">
             <div class="bg-paper rounded-[28px] border-[3px] border-ink hard-shadow-lg overflow-hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-12">
 

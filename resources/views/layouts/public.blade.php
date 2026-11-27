@@ -71,6 +71,7 @@
         }
 
         [x-cloak] { display: none !important; }
+        html { scroll-padding-top: 88px; }
         html, body { overflow-x: clip; }
 
         /* Dot pattern background */

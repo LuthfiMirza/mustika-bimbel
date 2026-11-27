@@ -162,8 +162,12 @@ class StudentController extends Controller
         $validated['monthly_discount'] = (int) ($validated['monthly_discount'] ?? 0);
 
         $year = date('Y');
-        $count = Student::count() + 1;
-        $studentCode = sprintf('MB-%s-%03d', $year, $count);
+        $seq = Student::count() + 1;
+        $studentCode = sprintf('MB-%s-%03d', $year, $seq);
+        while (Student::where('student_code', $studentCode)->exists()) {
+            $seq++;
+            $studentCode = sprintf('MB-%s-%03d', $year, $seq);
+        }
 
         $nameSlug = Str::slug(explode(' ', trim($validated['full_name']))[0]);
         $portalToken = 'raport-' . $nameSlug . '-' . Str::lower(Str::random(5));
@@ -228,7 +232,17 @@ class StudentController extends Controller
 
         $validated['parent_whatsapp'] = WhatsAppService::formatPhoneNumber($validated['parent_whatsapp']);
 
+        $oldScheduleId = $student->schedule_id;
         $student->update($validated);
+
+        if ($oldScheduleId !== (int) $validated['schedule_id']) {
+            if ($oldScheduleId && ($oldSchedule = Schedule::find($oldScheduleId)) && $oldSchedule->filled_quota > 0) {
+                $oldSchedule->decrement('filled_quota');
+            }
+            if ($newSchedule = Schedule::find($validated['schedule_id'])) {
+                $newSchedule->increment('filled_quota');
+            }
+        }
 
         return redirect()->route('admin.students.index')
             ->with('success', "Data perkembangan ananda {$student->full_name} berhasil diperbarui.");
@@ -260,7 +274,7 @@ class StudentController extends Controller
     public function destroy(Student $student): RedirectResponse
     {
         $name = $student->full_name;
-        if ($student->schedule) {
+        if ($student->schedule && $student->schedule->filled_quota > 0) {
             $student->schedule->decrement('filled_quota');
         }
         $student->delete();

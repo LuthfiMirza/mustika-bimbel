@@ -21,7 +21,7 @@ class ParentPortalController extends Controller
             'schedule',
             'badges' => fn($q) => $q->orderBy('awarded_date', 'desc'),
             'studySessions' => fn($q) => $q->orderBy('session_date', 'desc'),
-            'tuitionInvoices' => fn($q) => $q->orderBy('due_date', 'desc'),
+            'tuitionInvoices' => fn($q) => $q->with('payments')->orderBy('due_date', 'desc'),
         ])->where('portal_token', $portal_token)
           ->orWhere('student_code', $portal_token)
           ->firstOrFail();
@@ -99,7 +99,7 @@ class ParentPortalController extends Controller
             ->orWhere('student_code', $portal_token)
             ->firstOrFail();
 
-        $invoice = TuitionInvoice::with('student.program')
+        $invoice = TuitionInvoice::with(['student.program', 'payments'])
             ->where('student_id', $student->id)
             ->where('id', $invoice_id)
             ->firstOrFail();

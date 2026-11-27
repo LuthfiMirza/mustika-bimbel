@@ -69,10 +69,14 @@ class TrialLeadController extends Controller
      */
     public function convertToStudent(Request $request, TrialLead $lead): RedirectResponse
     {
-        // 1. Generate unique student code (MB-YYYY-XXX)
+        // 1. Generate unique collision-proof student code (MB-YYYY-XXX)
         $year = date('Y');
-        $count = Student::count() + 1;
-        $code = sprintf('MB-%s-%03d', $year, $count);
+        $seq = Student::count() + 1;
+        $code = sprintf('MB-%s-%03d', $year, $seq);
+        while (Student::where('student_code', $code)->exists()) {
+            $seq++;
+            $code = sprintf('MB-%s-%03d', $year, $seq);
+        }
 
         // 2. Generate clean portal token
         $nameSlug = Str::slug(explode(' ', trim($lead->student_name))[0]);

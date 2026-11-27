@@ -18,30 +18,30 @@
             </p>
         </div>
 
-        {{-- TODO: ganti dengan testimoni & nama asli orang tua setelah mendapat izin --}}
+        {{-- Keluhan umum, sengaja tanpa nama. JANGAN isi nama orang tua karangan; ganti dengan testimoni asli hanya setelah ada izin tertulis. --}}
         @php
             $quotes = [
                 [
-                    'text' => 'Anak saya sudah kelas 4 tapi perkalian dan pembagiannya masih sering menghitung lama pakai coretan di kertas buram.',
-                    'role' => 'Bunda Rina — Orang tua siswa Kelas 4 SD (Cibinong)',
+                    'text' => 'Anak saya sudah kelas 4 tapi perkaliannya masih menghitung pakai coretan.',
+                    'role' => 'Orang tua siswa SD',
                     'rot' => 'lg:-rotate-2',
                     'tag' => 'HITUNG DASAR',
                 ],
                 [
-                    'text' => 'Kalau di rumah latihan soal yang mirip contoh bisa, tapi begitu soalnya diputar sedikit di ulangan langsung bingung mulai dari mana.',
-                    'role' => 'Ibu Dewi — Orang tua siswa Kelas 8 SMP (Harapan Jaya)',
+                    'text' => 'Di rumah sudah paham, begitu soalnya diubah sedikit langsung bingung.',
+                    'role' => 'Orang tua siswa SMP',
                     'rot' => 'lg:rotate-2 lg:translate-y-4',
                     'tag' => 'PEMAHAMAN KONSEP',
                 ],
                 [
-                    'text' => 'Karena kelas di sekolah ramai, saya ingin tahu progres anak tiap pertemuan—materi apa yang sudah paham dan mana yang perlu diulang.',
-                    'role' => 'Pak Hendra — Orang tua siswa Kelas 5 SD (Cibinong)',
+                    'text' => 'Saya ingin tahu perkembangan anak tiap pertemuan, bukan cuma pas rapor.',
+                    'role' => 'Orang tua siswa SD',
                     'rot' => 'lg:rotate-1',
                     'tag' => 'PANTAUAN PROGRES',
                 ],
                 [
-                    'text' => 'Nilai Matematika dan Fisika sempat turun sejak masuk SMP, padahal anaknya sudah belajar lama setiap malam—ternyata belum ketemu cara cepatnya.',
-                    'role' => 'Ibu Sari — Orang tua siswa Kelas 7 SMP (Pakansari)',
+                    'text' => 'Nilai Fisika turun sejak masuk kelas 8, padahal anaknya rajin.',
+                    'role' => 'Orang tua siswa SMP',
                     'rot' => 'lg:-rotate-2 lg:translate-y-3',
                     'tag' => 'STRATEGI MIPA',
                 ],

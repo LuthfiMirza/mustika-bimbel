@@ -7,6 +7,9 @@
         timerRef: null,
         currentIndex: 0,
         score: 0,
+        displayScore: 0,
+        picked: null,
+        locked: false,
         startTime: 0,
         elapsedSeconds: 0,
         avgTime: 0,
@@ -37,6 +40,9 @@
             this.timeLeft = 30;
             this.currentIndex = 0;
             this.score = 0;
+            this.displayScore = 0;
+            this.picked = null;
+            this.locked = false;
             this.startTime = Date.now();
             if (this.timerRef) clearInterval(this.timerRef);
             this.timerRef = setInterval(() => {
@@ -49,21 +55,48 @@
             }, 1000);
         },
         answerQuestion(choice) {
+            if (this.locked || this.state !== 'playing') return;
+            this.locked = true;
+            this.picked = choice;
             if (choice === this.currentQuestion.answer) {
                 this.score += 20;
             }
-            if (this.currentIndex < this.currentQuestions.length - 1) {
-                this.currentIndex++;
-            } else {
-                this.finishGame();
+            // Jeda singkat agar anak sempat melihat jawaban benar/salah
+            setTimeout(() => {
+                if (this.state !== 'playing') return;
+                this.picked = null;
+                this.locked = false;
+                if (this.currentIndex < this.currentQuestions.length - 1) {
+                    this.currentIndex++;
+                } else {
+                    this.finishGame();
+                }
+            }, 550);
+        },
+        countUpScore() {
+            const target = this.score;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || target === 0) {
+                this.displayScore = target;
+                return;
             }
+            const t0 = performance.now(), dur = 900;
+            const tick = (t) => {
+                const k = Math.min(1, (t - t0) / dur);
+                this.displayScore = Math.round(target * (1 - Math.pow(1 - k, 3)));
+                if (k < 1) requestAnimationFrame(tick);
+            };
+            this.displayScore = 0;
+            requestAnimationFrame(tick);
         },
         finishGame() {
             if (this.timerRef) clearInterval(this.timerRef);
             const totalTime = Math.max(1, (Date.now() - this.startTime) / 1000);
             this.elapsedSeconds = Math.min(30, totalTime).toFixed(1);
             this.avgTime = (this.elapsedSeconds / 5).toFixed(1);
+            this.picked = null;
+            this.locked = false;
             this.state = 'finished';
+            this.$nextTick(() => this.countUpScore());
         }
     }">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -119,7 +152,7 @@
                 </div>
 
                 <!-- State 1: Idle -->
-                <div x-show="state === 'idle'" class="py-10 text-center space-y-6">
+                <div x-show="state === 'idle'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" class="py-10 text-center space-y-6">
                     <div class="max-w-xl mx-auto bg-paper border-2 border-ink rounded-2xl p-6 shadow-[4px_4px_0_#111]">
                         <p class="font-label text-xs font-bold uppercase tracking-wider text-navy"
                            x-text="mode === 'jarimatika' ? 'Mode Terpilih: Jarimatika Tambah, Kurang & Kali Dasar (TK - SD)' : 'Mode Terpilih: Hitung Cepat Kali, Aljabar & Fisika Dasar (SD - SMP)'"></p>
@@ -138,7 +171,7 @@
                 </div>
 
                 <!-- State 2: Playing -->
-                <div x-show="state === 'playing'" x-cloak class="py-6 space-y-6">
+                <div x-show="state === 'playing'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" x-cloak class="py-6 space-y-6">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between text-xs sm:text-sm font-bold">
                             <span class="px-3.5 py-1.5 rounded-full bg-navy text-gold border-2 border-ink font-label uppercase">
@@ -160,13 +193,22 @@
 
                     <div class="bg-paper rounded-2xl border-[3px] border-ink hard-shadow p-6 sm:p-8 text-center">
                         <span class="font-label text-xs font-bold uppercase tracking-widest text-edu-teal">Pertanyaan Hitung Cepat</span>
-                        <div class="font-display text-3xl sm:text-5xl text-ink my-5" x-text="currentQuestion.q"></div>
+                        <span class="sr-only" aria-live="polite" x-text="picked === null ? '' : (picked === currentQuestion.answer ? 'Benar!' : 'Kurang tepat, jawabannya ' + currentQuestion.answer)"></span>
+                        <div class="font-display text-3xl sm:text-5xl text-ink my-5"
+                             x-effect="currentIndex; $el.classList.remove('q-in'); void $el.offsetWidth; $el.classList.add('q-in')"
+                             x-text="currentQuestion.q"></div>
 
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 max-w-2xl mx-auto">
+                        <div class="relative grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 max-w-2xl mx-auto">
+                            <!-- Umpan balik skor -->
+                            <span x-show="picked !== null && picked === currentQuestion.answer" x-cloak
+                                  class="score-pop absolute left-1/2 -top-10 -translate-x-1/2 z-10 px-3 py-1 rounded-full bg-lime border-2 border-ink font-display text-lg text-ink shadow-[3px_3px_0_#111]"
+                                  aria-hidden="true">+20</span>
                             <template x-for="opt in currentQuestion.options" :key="opt">
                                 <button type="button"
                                         @click="answerQuestion(opt)"
-                                        class="py-4 px-5 rounded-2xl font-display text-2xl sm:text-3xl bg-cream hover:bg-gold text-ink border-[3px] border-ink shadow-[4px_4px_0_#111] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#111] transition-all cursor-pointer"
+                                        :disabled="locked"
+                                        :class="picked === null ? '' : (opt === currentQuestion.answer ? 'is-correct' : (opt === picked ? 'is-wrong' : 'is-dim'))"
+                                        class="game-opt py-4 px-5 rounded-2xl font-display text-2xl sm:text-3xl bg-cream hover:bg-gold text-ink border-[3px] border-ink shadow-[4px_4px_0_#111] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#111] transition-all cursor-pointer"
                                         x-text="opt"></button>
                             </template>
                         </div>
@@ -174,7 +216,7 @@
                 </div>
 
                 <!-- State 3: Finished -->
-                <div x-show="state === 'finished'" x-cloak class="py-6 space-y-6">
+                <div x-show="state === 'finished'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" x-cloak class="py-6 space-y-6">
                     <div class="bg-paper rounded-2xl border-[3px] border-ink hard-shadow p-6 sm:p-8">
                         <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b-2 border-ink/15 pb-6">
                             <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
@@ -201,7 +243,7 @@
                             <div class="flex items-center gap-3 shrink-0">
                                 <div class="bg-navy text-white px-5 py-4 rounded-2xl border-2 border-ink shadow-[3px_3px_0_#111] text-center">
                                     <span class="font-label text-[10px] uppercase text-slate-300 block">Skor Akhir</span>
-                                    <span class="font-display text-3xl sm:text-4xl text-gold" x-text="score + '/100'"></span>
+                                    <span class="font-display text-3xl sm:text-4xl text-gold" x-text="displayScore + '/100'"></span>
                                 </div>
                                 <div class="bg-cream text-ink px-5 py-4 rounded-2xl border-2 border-ink shadow-[3px_3px_0_#111] text-center">
                                     <span class="font-label text-[10px] uppercase text-slate-500 block">Kecepatan</span>

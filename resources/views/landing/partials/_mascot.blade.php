@@ -2,11 +2,18 @@
     $pose = $pose ?? 'wave';
     $size = $size ?? 120;
     $animate = $animate ?? true;
+    // Irama goyang berbeda tiap maskot supaya tidak bergerak serempak
+    $GLOBALS['__mascotN'] = ($GLOBALS['__mascotN'] ?? 0) + 1;
+    $mn = $GLOBALS['__mascotN'];
+    $wiggleStyle = $animate
+        ? sprintf('animation-duration: %.2fs; animation-delay: -%.2fs;', 2.6 + ($mn % 4) * 0.35, fmod($mn * 0.83, 3))
+        : '';
 @endphp
 
 <svg width="{{ $size }}" height="{{ $size }}" viewBox="0 0 140 140" fill="none"
      xmlns="http://www.w3.org/2000/svg"
      class="{{ $animate ? 'wiggle' : '' }} {{ $class ?? '' }}"
+     style="{{ $wiggleStyle }}"
      aria-hidden="true">
     <!-- Left Arm / Hand -->
     @if ($pose === 'wave')

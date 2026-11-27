@@ -58,7 +58,7 @@
                             </span>
                         </div>
 
-                        <div x-show="activeVisualizer === 'jarimatika_kali'" class="mt-5 space-y-3 text-sm text-slate-700">
+                        <div x-show="activeVisualizer === 'jarimatika_kali'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" class="mt-5 space-y-3 text-sm text-slate-700">
                             <p class="font-bold text-ink">Soal: Hitung hasil dari 8 × 7</p>
                             <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm">
                                 <li>Anak mencoba menghafal urutan perkalian 8 dari awal (8×1, 8×2, 8×3...).</li>
@@ -67,7 +67,7 @@
                             </ol>
                         </div>
 
-                        <div x-show="activeVisualizer === 'aljabar_cepat'" x-cloak class="mt-5 space-y-3 text-sm text-slate-700">
+                        <div x-show="activeVisualizer === 'aljabar_cepat'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" x-cloak class="mt-5 space-y-3 text-sm text-slate-700">
                             <p class="font-bold text-ink">Soal: Hitung nilai dari 98² - 97²</p>
                             <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm">
                                 <li>Menghitung perkalian bersusun 98 × 98 = 9.604.</li>
@@ -76,7 +76,7 @@
                             </ol>
                         </div>
 
-                        <div x-show="activeVisualizer === 'fisika_perbandingan'" x-cloak class="mt-5 space-y-3 text-sm text-slate-700">
+                        <div x-show="activeVisualizer === 'fisika_perbandingan'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" x-cloak class="mt-5 space-y-3 text-sm text-slate-700">
                             <p class="font-bold text-ink">Soal: Gaya F diperbesar 3 kali dan massa benda m dijadikan setengahnya. Berapa percepatan akhirnya?</p>
                             <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm">
                                 <li>Menulis ulang rumus panjang F₁/m₁ dan F₂/m₂ dengan banyak variabel.</li>
@@ -103,7 +103,7 @@
                             </span>
                         </div>
 
-                        <div x-show="activeVisualizer === 'jarimatika_kali'" class="mt-5 space-y-3 text-sm">
+                        <div x-show="activeVisualizer === 'jarimatika_kali'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" class="mt-5 space-y-3 text-sm">
                             <p class="font-display text-lg text-ink">Soal: 8 × 7 dengan Jarimatika</p>
                             <ul class="space-y-2 text-xs sm:text-sm text-ink font-medium">
                                 <li>🖐️ <strong>Tangan Kiri (8):</strong> Buka 3 jari berdiri (6, 7, 8), 2 jari tertutup.</li>
@@ -113,7 +113,7 @@
                             </ul>
                         </div>
 
-                        <div x-show="activeVisualizer === 'aljabar_cepat'" x-cloak class="mt-5 space-y-3 text-sm">
+                        <div x-show="activeVisualizer === 'aljabar_cepat'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" x-cloak class="mt-5 space-y-3 text-sm">
                             <p class="font-display text-lg text-ink">Soal: 98² - 97² dengan Konsep Selisih Kuadrat</p>
                             <ul class="space-y-2 text-xs sm:text-sm text-ink font-medium">
                                 <li>🧠 <strong>Pahami Pola Konsep:</strong> a² - b² = (a + b)(a - b).</li>
@@ -122,7 +122,7 @@
                             </ul>
                         </div>
 
-                        <div x-show="activeVisualizer === 'fisika_perbandingan'" x-cloak class="mt-5 space-y-3 text-sm">
+                        <div x-show="activeVisualizer === 'fisika_perbandingan'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" x-cloak class="mt-5 space-y-3 text-sm">
                             <p class="font-display text-lg text-ink">Soal: Percepatan a = F / m dengan Penalaran Konsep</p>
                             <ul class="space-y-2 text-xs sm:text-sm text-ink font-medium">
                                 <li>🧠 <strong>Analisis Pola:</strong> Percepatan (a) lurus dengan Gaya (F) dan terbalik dengan Massa (m).</li>
@@ -172,7 +172,7 @@
             </div>
 
             <!-- Tab Content 1: TK -->
-            <div x-show="activeGradeTab === 'TK'" x-cloak class="bg-cream rounded-[28px] p-6 sm:p-10 border-[3px] border-ink hard-shadow">
+            <div x-show="activeGradeTab === 'TK'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" x-cloak class="bg-cream rounded-[28px] p-6 sm:p-10 border-[3px] border-ink hard-shadow">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                     <div class="lg:col-span-1 bg-navy text-white rounded-2xl border-2 border-ink p-6 space-y-4">
                         <span class="sticker sticker--gold" style="--tilt: -2deg;">Usia 4 – 8 Tahun</span>
@@ -212,7 +212,7 @@
             </div>
 
             <!-- Tab Content 2: SD -->
-            <div x-show="activeGradeTab === 'SD'" x-cloak class="bg-cream rounded-[28px] p-6 sm:p-10 border-[3px] border-ink hard-shadow">
+            <div x-show="activeGradeTab === 'SD'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" x-cloak class="bg-cream rounded-[28px] p-6 sm:p-10 border-[3px] border-ink hard-shadow">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                     <div class="lg:col-span-1 bg-navy text-white rounded-2xl border-2 border-ink p-6 space-y-4">
                         <span class="sticker sticker--lime" style="--tilt: -2deg;">SD Kelas 1 – 6</span>
@@ -252,7 +252,7 @@
             </div>
 
             <!-- Tab Content 3: SMP -->
-            <div x-show="activeGradeTab === 'SMP'" class="bg-cream rounded-[28px] p-6 sm:p-10 border-[3px] border-ink hard-shadow">
+            <div x-show="activeGradeTab === 'SMP'" x-transition:enter="tx-enter" x-transition:enter-start="tx-from" x-transition:enter-end="tx-to" class="bg-cream rounded-[28px] p-6 sm:p-10 border-[3px] border-ink hard-shadow">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     <div class="bg-paper rounded-2xl p-6 border-2 border-ink shadow-[4px_4px_0_#111]">
                         <div class="w-11 h-11 rounded-xl bg-gold border-2 border-ink text-ink flex items-center justify-center mb-4">

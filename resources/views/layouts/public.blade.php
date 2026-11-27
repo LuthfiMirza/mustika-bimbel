@@ -328,56 +328,88 @@
         }
         .folder__tab {
             position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            width: 260px;
             height: 100%;
-            margin-left: 34px;
-            padding: 0 14px;
-            background: var(--folder);
             color: var(--paper);
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
             font-size: 15px;
             white-space: nowrap;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
         }
-        .folder__tab::before,
-        .folder__tab::after {
-            content: "";
+        .folder__tabshape {
             position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 40px;
-            background: var(--folder);
-            border-radius: 18px 18px 0 0;
-            z-index: -1;
+            inset: 0;
+            width: 100%;
+            height: calc(100% + 1px);
+            fill: var(--folder);
         }
-        .folder__tab::before { left: -26px; transform: skewX(-24deg); transform-origin: bottom; }
-        .folder__tab::after { right: -26px; transform: skewX(24deg); transform-origin: bottom; }
-        .folder__tab--first { margin-left: 0; padding-left: 26px; border-top-left-radius: 22px; }
-        .folder__tab--first::before { display: none; }
+        .folder__tablabel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            height: 100%;
+            padding: 2px 34px 0 22px;
+        }
+        .folder__tab--first .folder__tablabel { justify-content: flex-start; padding-left: 26px; }
         .folder__body {
             position: relative;
             background: var(--folder);
             border-radius: 26px;
             padding: 28px 22px;
-            box-shadow: 0 -2px 0 rgba(255, 253, 247, 0.04), 0 18px 40px -18px rgba(9, 28, 58, 0.55);
+            box-shadow: 0 18px 40px -18px rgba(9, 28, 58, 0.55);
         }
         @media (min-width: 640px) {
             .folder__body { padding: 40px 40px; }
         }
         @media (min-width: 1024px) {
-            .folder__tabrow { padding-left: calc(var(--tab-x) * 270px); }
-            .folder__tab { min-width: 220px; justify-content: center; }
-            .folder__tab--first { justify-content: flex-start; }
+            .folder__tabrow { padding-left: calc(var(--tab-x) * 250px); }
+            .folder__tab:not(.folder__tab--first) .folder__tablabel { padding: 2px 22px 0; }
             .folder__body { min-height: 560px; padding: 44px 40px 40px 48px; display: flex; flex-direction: column; }
             .folder__body > .grid { flex: 1; }
         }
         /* Sticky hanya bila layar cukup tinggi agar folder (±610px) tidak terpotong */
         @media (min-width: 1024px) and (min-height: 760px) {
             .folder { position: sticky; top: 96px; }
+        }
+
+        /* 4.5d Micro-interactions: tab/state swap, game feedback, stamp-in */
+        .tx-enter { transition: opacity 0.22s ease-out, transform 0.22s ease-out; }
+        .tx-from { opacity: 0; transform: translateY(8px); }
+        .tx-to { opacity: 1; transform: none; }
+
+        .game-opt { transition: transform 0.15s ease, background-color 0.15s ease, opacity 0.2s ease, box-shadow 0.15s ease; }
+        .game-opt.is-correct { background: var(--lime) !important; transform: scale(1.06) rotate(-1.5deg); }
+        .game-opt.is-wrong { background: var(--tomato) !important; color: #fff; animation: shake 0.36s ease; }
+        .game-opt.is-dim { opacity: 0.45; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-7px) rotate(-2deg); }
+            40% { transform: translateX(6px) rotate(2deg); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(3px); }
+        }
+        .score-pop { animation: score-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        @keyframes score-pop {
+            0% { opacity: 0; transform: translate(-50%, 10px) scale(0.6); }
+            60% { opacity: 1; transform: translate(-50%, -4px) scale(1.1); }
+            100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        }
+        .q-in { animation: q-in 0.28s ease-out; }
+        @keyframes q-in {
+            from { opacity: 0; transform: translateY(10px) scale(0.97); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .sticker-headline.stamp-ready {
+            opacity: 0;
+            transform: rotate(calc(var(--tilt, -3deg) + 6deg)) scale(1.45) skewX(-5deg);
+        }
+        .sticker-headline.stamp-in {
+            opacity: 1;
+            transform: rotate(var(--tilt, -3deg));
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.18s ease-out;
         }
 
         /* 4.6 Marquee */
@@ -438,6 +470,8 @@
             }
             .btn-roll > span { transition: none !important; }
             .hero-fan__tilt { transition: none !important; }
+            .game-opt, .score-pop, .q-in, .game-opt.is-wrong { animation: none !important; transition: none !important; }
+            .tx-enter { transition: none !important; }
         }
     </style>
     <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
@@ -667,6 +701,29 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (window.lucide) {
                 lucide.createIcons();
+            }
+            // Stiker judul "dicap" saat pertama terlihat (dilewati bila reduced-motion / tanpa IO)
+            if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const stamps = document.querySelectorAll('.sticker-headline');
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add('stamp-in');
+                        entry.target.classList.remove('stamp-ready');
+                        io.unobserve(entry.target);
+                    });
+                }, { threshold: 0.6 });
+                stamps.forEach((el) => {
+                    const r = el.getBoundingClientRect();
+                    if (r.top < window.innerHeight && r.bottom > 0) {
+                        // Yang sudah terlihat saat load: tetap dicap, sedikit tertunda
+                        el.classList.add('stamp-ready');
+                        setTimeout(() => { el.classList.add('stamp-in'); el.classList.remove('stamp-ready'); }, 350);
+                    } else {
+                        el.classList.add('stamp-ready');
+                        io.observe(el);
+                    }
+                });
             }
             setTimeout(() => {
                 if (!window.Alpine) {

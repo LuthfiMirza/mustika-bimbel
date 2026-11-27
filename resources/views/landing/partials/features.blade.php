@@ -113,13 +113,25 @@
                     <!-- Folder Tab -->
                     <div class="folder__tabrow">
                         <div class="folder__tab {{ $idx === 0 ? 'folder__tab--first' : '' }}">
-                            <i data-lucide="{{ $pilar['icon'] }}" class="w-4 h-4 text-gold"></i>
-                            <span>{!! $pilar['tab'] !!}</span>
+                            {{-- Tab kiri: sisi kiri lurus menyatu dengan sudut folder --}}
+                            <svg class="folder__tabshape {{ $idx > 0 ? 'lg:hidden' : '' }}" viewBox="0 0 260 53" preserveAspectRatio="none" aria-hidden="true">
+                                <path d="M0 53V24C0 10.7 10.7 0 24 0H206C214.5 0 219.6 4.6 222.6 11.6L235 40C238.4 47.6 244.5 52 253 52H260V53Z"/>
+                            </svg>
+                            @if ($idx > 0)
+                                {{-- Tab tengah: kedua sisi miring dengan lengkung cekung di kaki --}}
+                                <svg class="folder__tabshape hidden lg:block" viewBox="0 0 260 53" preserveAspectRatio="none" aria-hidden="true">
+                                    <path d="M0 53V52H7C15.5 52 21.6 47.6 25 40L37.4 11.6C40.4 4.6 45.5 0 54 0H206C214.5 0 219.6 4.6 222.6 11.6L235 40C238.4 47.6 244.5 52 253 52H260V53Z"/>
+                                </svg>
+                            @endif
+                            <span class="folder__tablabel">
+                                <i data-lucide="{{ $pilar['icon'] }}" class="w-4 h-4 text-gold"></i>
+                                <span>{!! $pilar['tab'] !!}</span>
+                            </span>
                         </div>
                     </div>
 
                     <!-- Folder Body -->
-                    <div class="folder__body {{ $idx === 0 ? 'rounded-tl-none' : '' }}">
+                    <div class="folder__body rounded-tl-none {{ $idx > 0 ? 'lg:rounded-tl-[26px]' : '' }}">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 h-full">
                             <!-- Text & Bullets -->
                             <div class="lg:col-span-6 flex flex-col">

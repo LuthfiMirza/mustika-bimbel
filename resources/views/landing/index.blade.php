@@ -23,20 +23,49 @@
         document.getElementById('form-trial')?.scrollIntoView({ behavior: 'smooth' });
     }
 }">
-    {{-- 1. Hero Section & 3 Pilar Utama --}}
-    @include('landing.partials.hero-pillars')
+    {{-- 1. Hero Section --}}
+    @include('landing.partials.hero')
 
-    {{-- 2. Mini-Game Tantangan Hitung Cepat 30 Detik --}}
+    {{-- 2. Statement Section --}}
+    @include('landing.partials.statement')
+
+    {{-- 3. Marquee #1 (Gold) --}}
+    @include('landing.partials._marquee', ['tone' => 'gold', 'tilt' => '-2deg'])
+
+    {{-- 4. Core Features / 3 Pilar (#keunggulan) --}}
+    @include('landing.partials.features')
+
+    {{-- 5. Mini-Game Tantangan Hitung Cepat 30 Detik --}}
     @includeIf('landing.partials.speed-game')
 
-    {{-- 3. Visualizer Metode Jarimatika & Tab Katalog Materi --}}
+    {{-- 6. Marquee #2 (Lime) --}}
+    @include('landing.partials._marquee', ['tone' => 'lime', 'tilt' => '2deg'])
+
+    {{-- 7. Visualizer Metode Jarimatika & Tab Katalog Materi --}}
     @includeIf('landing.partials.curriculum-tabs')
 
-    {{-- 4. Jadwal Belajar Real-Time & Form Klaim Free Trial WA --}}
+    {{-- 8. Kamu Nggak Sendirian (Keluhan Umum Orang Tua) --}}
+    @includeIf('landing.partials.pain-points')
+
+    {{-- 9. Kenalan Sama Pengajar --}}
+    @includeIf('landing.partials.teacher')
+
+    {{-- 10. Program & Biaya --}}
+    @includeIf('landing.partials.programs-pricing')
+
+    {{-- 11. Jadwal Belajar Real-Time & Form Klaim Free Trial WA --}}
     @includeIf('landing.partials.schedule-booking')
 
-    {{-- 5. Lokasi Amarylis Garden Cibinong & Modal Cek Raport --}}
+    {{-- 12. FAQ --}}
+    @includeIf('landing.partials.faq')
+
+    {{-- 13. Hias Buku Tugasmu (Sticker Board Draggable) --}}
+    @includeIf('landing.partials.sticker-board')
+
+    {{-- 14. Big Closing CTA --}}
+    @includeIf('landing.partials.big-cta')
+
+    {{-- 15. Lokasi Amarylis Garden Cibinong & Modal Cek Raport --}}
     @includeIf('landing.partials.location-modal')
 </div>
 @endsection
-

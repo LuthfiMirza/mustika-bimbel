@@ -16,7 +16,7 @@ use Illuminate\View\View;
 class DashboardController extends Controller
 {
     /**
-     * Display executive dashboard metrics.
+     * Display TailAdmin-structured executive dashboard metrics & charts.
      */
     public function index(): View
     {
@@ -30,16 +30,23 @@ class DashboardController extends Controller
         $newLeadsCount = TrialLead::where('status', 'Baru')->count();
         $totalLeads = TrialLead::count();
 
-        // 3. Today's attendance
+        // 3. Today's & overall attendance
         $today = Carbon::today();
         $todaySessionsCount = StudySession::whereDate('session_date', $today)->count();
         $totalSessionsCount = StudySession::count();
 
-        // 4. Financial metrics (Overall & Current Month Net Profit)
-        $allInvoices = TuitionInvoice::select('id', 'student_id', 'amount', 'paid_amount', 'status', 'paid_at')->get();
+        // 4. Financial metrics (Overall & Current Month Target Gauge)
+        $allInvoices = TuitionInvoice::select('id', 'student_id', 'billing_month', 'amount', 'paid_amount', 'due_date', 'status', 'paid_at')->get();
         $paidInvoicesSum = (int) $allInvoices->sum(fn($i) => $i->status === 'Lunas' && (int) $i->paid_amount === 0 ? (int) $i->amount : (int) $i->paid_amount);
         $unpaidInvoicesSum = (int) $allInvoices->whereIn('status', ['Belum Lunas', 'Kurang'])
             ->sum(fn($i) => max(0, (int) $i->amount - (int) $i->paid_amount));
+
+        $currentYm = $today->format('Y-m');
+        $currentMonthInvoices = $allInvoices->filter(fn($i) => ($i->billing_month ?: $i->due_date?->format('Y-m')) === $currentYm);
+        $monthBilledTarget = (int) $currentMonthInvoices->sum('amount');
+        $monthCollected = (int) $currentMonthInvoices->sum(fn($i) => $i->status === 'Lunas' && (int) $i->paid_amount === 0 ? (int) $i->amount : (int) $i->paid_amount);
+        $monthRemaining = max(0, $monthBilledTarget - $monthCollected);
+        $monthCollectionPct = $monthBilledTarget > 0 ? min(100, round(($monthCollected / $monthBilledTarget) * 100)) : 0;
 
         $monthCashIn = (int) InvoicePayment::whereYear('payment_date', $today->year)
             ->whereMonth('payment_date', $today->month)
@@ -49,7 +56,14 @@ class DashboardController extends Controller
             ->sum('amount');
         $monthNetProfit = $monthCashIn - $monthExpenses;
 
-        // 5. Top Arrears Students (Tunggakan Terbesar)
+        // 5. 12-Month Report Series for Bar & Statistics Charts
+        $reportData = FinancialReportController::buildMonthlyReport();
+        $chartLabels = array_column($reportData['rows'], 'short_label');
+        $chartCashIn = array_column($reportData['rows'], 'cash_in');
+        $chartExpenses = array_column($reportData['rows'], 'expenses');
+        $chartNetProfit = array_column($reportData['rows'], 'net_profit');
+
+        // 6. Top Arrears Students (Tunggakan Terbesar)
         $topArrears = Student::with(['invoices' => fn($q) => $q->whereIn('status', ['Belum Lunas', 'Kurang'])->orderBy('due_date')])
             ->get()
             ->map(function (Student $s) {
@@ -67,10 +81,9 @@ class DashboardController extends Controller
             ->take(5)
             ->values();
 
-        // 6. Recent records
+        // 7. Recent records & schedules
         $recentLeads = TrialLead::with(['program', 'schedule'])->latest()->take(5)->get();
         $schedules = Schedule::with('program')->get();
-        $recentSessions = StudySession::with('student')->latest()->take(5)->get();
 
         return view('admin.dashboard', compact(
             'totalStudents',
@@ -83,13 +96,20 @@ class DashboardController extends Controller
             'totalSessionsCount',
             'paidInvoicesSum',
             'unpaidInvoicesSum',
+            'monthBilledTarget',
+            'monthCollected',
+            'monthRemaining',
+            'monthCollectionPct',
             'monthCashIn',
             'monthExpenses',
             'monthNetProfit',
+            'chartLabels',
+            'chartCashIn',
+            'chartExpenses',
+            'chartNetProfit',
             'topArrears',
             'recentLeads',
-            'schedules',
-            'recentSessions'
+            'schedules'
         ));
     }
 }

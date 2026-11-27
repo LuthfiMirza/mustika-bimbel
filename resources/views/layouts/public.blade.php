@@ -346,6 +346,9 @@
 </head>
 <body class="bg-cream text-ink font-sans antialiased selection:bg-gold selection:text-ink"
       x-data="{ mobileMenuOpen: false, reportModalOpen: {{ session('report_error') ? 'true' : 'false' }}, scrolled: false }"
+      x-init="$watch('mobileMenuOpen', val => { if (val) $nextTick(() => $refs.closeMenu?.focus()) })"
+      x-effect="document.documentElement.style.overflow = (mobileMenuOpen || reportModalOpen) ? 'hidden' : ''"
+      @keydown.escape.window="mobileMenuOpen = false"
       @scroll.window="scrolled = window.scrollY > 10">
 
     <!-- Sticky Neo-Brutalist Navbar -->
@@ -407,6 +410,8 @@
 
                     <!-- Hamburger Button (< xl) -->
                     <button @click="mobileMenuOpen = !mobileMenuOpen" type="button"
+                            :aria-expanded="mobileMenuOpen.toString()"
+                            aria-controls="mobile-nav-drawer"
                             class="xl:hidden w-11 h-11 rounded-xl border-2 border-ink bg-gold text-ink shadow-[3px_3px_0_#111] flex items-center justify-center shrink-0"
                             aria-label="Buka Menu">
                         <i data-lucide="menu" class="w-6 h-6"></i>
@@ -417,11 +422,13 @@
     </header>
 
     <!-- Fullscreen Gold Mobile Menu (< xl) -->
-    <div x-show="mobileMenuOpen" x-cloak x-transition.opacity
+    <div id="mobile-nav-drawer"
+         x-show="mobileMenuOpen" x-cloak x-transition.opacity
+         role="dialog" aria-modal="true" aria-label="Menu Navigasi"
          class="fixed inset-0 z-50 bg-gold text-ink flex flex-col justify-between p-6 xl:hidden overflow-y-auto">
         <div class="flex items-center justify-between">
             <span class="font-display text-2xl">MUSTIKA BIMBEL</span>
-            <button @click="mobileMenuOpen = false" type="button"
+            <button x-ref="closeMenu" @click="mobileMenuOpen = false" type="button"
                     class="w-11 h-11 rounded-xl border-2 border-ink bg-paper text-ink shadow-[3px_3px_0_#111] flex items-center justify-center"
                     aria-label="Tutup Menu">
                 <i data-lucide="x" class="w-6 h-6"></i>

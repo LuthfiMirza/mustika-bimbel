@@ -31,14 +31,16 @@
 
         <!-- Giant Mixed Display + Script Headline -->
         <div class="relative inline-block max-w-5xl mx-auto" aria-hidden="true">
-            <!-- Desktop Mascot anchored left of line 1 -->
-            <div class="hidden sm:block absolute -left-20 lg:-left-28 -top-6 z-20">
-                @include('landing.partials._mascot', ['pose' => 'wave', 'size' => 116])
-            </div>
-
             <h1 class="font-display-hero text-[44px] sm:text-[72px] lg:text-[106px] text-ink">
                 <span class="block">
-                    KUAT <span class="font-script lowercase font-normal text-[1.08em] text-navy">konsepnya,</span>
+                    <span class="relative inline-block">
+                        <!-- Desktop Mascot anchored right beside KUAT on line 1 -->
+                        <span class="hidden sm:block absolute right-full mr-3 lg:mr-4 top-1/2 -translate-y-1/2 pointer-events-none z-20">
+                            @include('landing.partials._mascot', ['pose' => 'wave', 'size' => 104, 'class' => 'sm:w-[74px] sm:h-[74px] lg:w-[104px] lg:h-[104px]'])
+                        </span>
+                        KUAT
+                    </span>
+                    <span class="font-script lowercase font-normal text-[1.08em] text-navy">konsepnya,</span>
                 </span>
                 <span class="block mt-1">
                     CEPAT <span class="font-script lowercase font-normal text-[1.08em] text-navy">hitungnya,</span>

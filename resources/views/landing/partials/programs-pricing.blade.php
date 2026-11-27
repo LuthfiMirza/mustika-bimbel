@@ -47,12 +47,12 @@
                         </h3>
 
                         <!-- Monthly Fee directly from DB -->
-                        <div class="mt-5 pb-5 border-b-2 border-ink/15 flex items-baseline gap-1.5">
+                        <div class="mt-5 pb-5 border-b-2 border-ink/15 flex flex-wrap items-baseline gap-x-1 gap-y-0.5">
                             <span class="font-label text-sm font-bold text-ink">Rp</span>
                             <span class="font-display text-4xl sm:text-5xl text-ink tracking-tight">
                                 {{ number_format($program->monthly_fee, 0, ',', '.') }}
                             </span>
-                            <span class="text-xs font-bold text-slate-700">/bulan</span>
+                            <span class="text-xs font-bold text-slate-700 whitespace-nowrap">/bulan</span>
                         </div>
 
                         <ul class="mt-5 space-y-3 text-xs sm:text-sm text-ink font-medium">

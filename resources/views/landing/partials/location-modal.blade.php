@@ -31,19 +31,22 @@
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-paper border-2 border-ink shadow-[4px_4px_0_#111]">
-                        <div class="w-10 h-10 rounded-xl bg-gold text-ink border-2 border-ink flex items-center justify-center shrink-0">
-                            <i data-lucide="clock" class="w-5 h-5"></i>
+                    <a href="#jadwal-belajar"
+                       class="reveal flex items-center justify-between gap-3 p-4 rounded-2xl bg-gold/45 hover:bg-gold border-2 border-ink shadow-[4px_4px_0_#111] transition-colors group"
+                       x-intersect.once="$el.classList.add('is-in')" style="transition-delay: 60ms;">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-gold text-ink border-2 border-ink flex items-center justify-center shrink-0">
+                                <i data-lucide="clock" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-sm text-ink">Jadwal &amp; Ketersediaan Kursi</h3>
+                                <p class="text-xs sm:text-sm font-semibold text-navy group-hover:underline">
+                                    Lihat jadwal &amp; sisa kursi &rarr;
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="font-display text-sm text-ink">Jadwal Belajar Resmi</h3>
-                            <ul class="text-xs sm:text-sm text-slate-700 mt-1 space-y-1">
-                                <li>&bull; <strong>Senin – Kamis:</strong> 18.30 – 20.00 WIB</li>
-                                <li>&bull; <strong>Sabtu:</strong> 16.00 – 17.30 WIB</li>
-                                <li>&bull; <strong>Minggu:</strong> 18.30 – 20.00 WIB</li>
-                            </ul>
-                        </div>
-                    </div>
+                        <i data-lucide="arrow-up-right" class="w-5 h-5 text-ink shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    </a>
                 </div>
 
                 <div class="pt-2 flex flex-wrap items-center gap-4">

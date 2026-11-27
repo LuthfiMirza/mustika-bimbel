@@ -258,7 +258,9 @@ class BackOfficeProTest extends TestCase
         $res->assertSee('KENALAN DULU');
         $res->assertSee('Pertemuan pertama GRATIS untuk semua program.');
         $res->assertSee('HIAS');
-        $res->assertSee('JADI YANG PERTAMA');
+        $res->assertSee('SIAP JADI');
+        $res->assertSee('JAGOAN');
+        $res->assertSee('MIPA?');
     }
 }
 

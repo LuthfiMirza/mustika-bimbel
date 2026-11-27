@@ -7,10 +7,10 @@
         </div>
 
         <h2 class="font-display-hero text-[40px] sm:text-[64px] lg:text-[92px] text-ink leading-[0.95]">
-            <span class="block">JADI YANG PERTAMA</span>
+            <span class="block">SIAP JADI</span>
             <span class="block mt-2">
-                JAGO
-                <span class="sticker-headline text-[0.82em] mx-1" style="--tilt: -3deg;">MIPA</span>
+                JAGOAN
+                <span class="sticker-headline text-[0.82em] mx-1" style="--tilt: -3deg;">MIPA?</span>
             </span>
         </h2>
 

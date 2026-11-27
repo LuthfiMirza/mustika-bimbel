@@ -283,6 +283,103 @@
             pointer-events: none;
         }
 
+        .card-bite__foot--paper {
+            background: var(--paper);
+            color: var(--ink);
+        }
+        .card-bite__foot--paper::before {
+            background: radial-gradient(circle at 12px 13px, var(--paper) 10.5px, var(--ink) 11px, var(--ink) 12.5px, transparent 13px) 0 0 / 24px 13px repeat-x;
+        }
+
+        /* 4.5b Hero fan cards (kipas → tegak saat scroll) */
+        .hero-fan__tilt {
+            transform: rotate(calc(var(--a, 0deg) * 0.5));
+        }
+        @media (min-width: 1024px) {
+            .hero-fan {
+                --p: 0;
+                --cw: 148px;
+                --ov: -10px;
+                --sp: 16px;
+                justify-content: center;
+                overflow: visible;
+                gap: 0;
+            }
+            .hero-fan__item + .hero-fan__item { margin-left: var(--ov); }
+            .hero-fan__tilt {
+                transform:
+                    translateX(calc(var(--k, 0) * var(--p) * var(--sp)))
+                    translateY(calc(var(--dy, 0px) * (1 - var(--p))))
+                    rotate(calc(var(--a, 0deg) * (1 - var(--p))));
+                transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+                will-change: transform;
+            }
+        }
+        @media (min-width: 1280px) {
+            .hero-fan { --cw: 176px; --ov: -16px; --sp: 28px; }
+        }
+
+        /* 4.5c Stacked folders (#keunggulan) */
+        .folder__tabrow {
+            display: flex;
+            height: 52px;
+            position: relative;
+            z-index: 1;
+        }
+        .folder__tab {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            height: 100%;
+            margin-left: 34px;
+            padding: 0 14px;
+            background: var(--folder);
+            color: var(--paper);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            white-space: nowrap;
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+        }
+        .folder__tab::before,
+        .folder__tab::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background: var(--folder);
+            border-radius: 18px 18px 0 0;
+            z-index: -1;
+        }
+        .folder__tab::before { left: -26px; transform: skewX(-24deg); transform-origin: bottom; }
+        .folder__tab::after { right: -26px; transform: skewX(24deg); transform-origin: bottom; }
+        .folder__tab--first { margin-left: 0; padding-left: 26px; border-top-left-radius: 22px; }
+        .folder__tab--first::before { display: none; }
+        .folder__body {
+            position: relative;
+            background: var(--folder);
+            border-radius: 26px;
+            padding: 28px 22px;
+            box-shadow: 0 -2px 0 rgba(255, 253, 247, 0.04), 0 18px 40px -18px rgba(9, 28, 58, 0.55);
+        }
+        @media (min-width: 640px) {
+            .folder__body { padding: 40px 40px; }
+        }
+        @media (min-width: 1024px) {
+            .folder__tabrow { padding-left: calc(var(--tab-x) * 270px); }
+            .folder__tab { min-width: 220px; justify-content: center; }
+            .folder__tab--first { justify-content: flex-start; }
+            .folder__body { min-height: 560px; padding: 44px 40px 40px 48px; display: flex; flex-direction: column; }
+            .folder__body > .grid { flex: 1; }
+        }
+        /* Sticky hanya bila layar cukup tinggi agar folder (±610px) tidak terpotong */
+        @media (min-width: 1024px) and (min-height: 760px) {
+            .folder { position: sticky; top: 96px; }
+        }
+
         /* 4.6 Marquee */
         .marquee {
             overflow: hidden;
@@ -340,6 +437,7 @@
                 transition: none !important;
             }
             .btn-roll > span { transition: none !important; }
+            .hero-fan__tilt { transition: none !important; }
         }
     </style>
     <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>

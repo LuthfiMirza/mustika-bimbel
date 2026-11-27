@@ -1,5 +1,5 @@
 <!-- 5.1 HERO SECTION (Krackerz Neo-Brutalism Style + MustikaBimbel Cream/Gold/Navy) -->
-<section id="hero" class="relative bg-cream bg-dots pt-8 pb-6 sm:pt-12 sm:pb-8 overflow-hidden">
+<section id="hero" class="relative bg-cream pt-8 pb-6 sm:pt-12 sm:pb-8 overflow-hidden">
     <!-- Giant Cloud Circles ("Awan" Hero Background) -->
     <div class="pointer-events-none absolute inset-x-0 top-6 flex justify-center overflow-hidden" aria-hidden="true">
         <div class="relative w-[1080px] h-[460px] shrink-0">
@@ -76,35 +76,44 @@
             </a>
         </div>
 
-        <!-- Row of 6 Scalloped Biscuit Cards ("card-bite") -->
+        <!-- Row of 6 Fanned Photo Cards: kipas miring, merenggang & tegak saat di-scroll (ala Krackerz) -->
+        {{-- Slot foto: taruh hero-1.jpg … hero-6.jpg (potret ±3:4) di public/images/landing/. Tanpa foto, tampil maskot. --}}
         @php
+            $img = fn($f) => file_exists(public_path("images/landing/$f")) ? asset("images/landing/$f") : null;
             $heroCards = [
-                ['text' => 'Belum hafal perkalian', 'icon' => 'x', 'r' => '-3.5deg', 'bg' => 'bg-lime/40'],
-                ['text' => 'Lambat menghitung', 'icon' => 'timer', 'r' => '2.5deg', 'bg' => 'bg-gold/40'],
-                ['text' => 'Takut soal cerita', 'icon' => 'book-open', 'r' => '-2deg', 'bg' => 'bg-sky-100'],
-                ['text' => 'Bingung rumus Fisika', 'icon' => 'atom', 'r' => '3deg', 'bg' => 'bg-rose-100'],
-                ['text' => 'Nilai MIPA turun', 'icon' => 'trending-down', 'r' => '-2.5deg', 'bg' => 'bg-teal-100'],
-                ['text' => 'Panik saat ujian', 'icon' => 'alarm-clock', 'r' => '2deg', 'bg' => 'bg-amber-100'],
+                ['text' => 'Belum hafal perkalian', 'icon' => 'x', 'a' => '-6deg', 'dy' => '0px', 'bg' => 'bg-lime/50', 'pose' => 'think', 'photo' => 'hero-1.jpg'],
+                ['text' => 'Lambat menghitung', 'icon' => 'timer', 'a' => '-4deg', 'dy' => '6px', 'bg' => 'bg-gold/50', 'pose' => 'wow', 'photo' => 'hero-2.jpg'],
+                ['text' => 'Takut soal cerita', 'icon' => 'book-open', 'a' => '-2deg', 'dy' => '10px', 'bg' => 'bg-sky-100', 'pose' => 'think', 'photo' => 'hero-3.jpg'],
+                ['text' => 'Bingung rumus Fisika', 'icon' => 'atom', 'a' => '2deg', 'dy' => '10px', 'bg' => 'bg-rose-100', 'pose' => 'wow', 'photo' => 'hero-4.jpg'],
+                ['text' => 'Nilai MIPA turun', 'icon' => 'trending-down', 'a' => '4deg', 'dy' => '6px', 'bg' => 'bg-teal-100', 'pose' => 'thumbs', 'photo' => 'hero-5.jpg'],
+                ['text' => 'Panik saat ujian', 'icon' => 'alarm-clock', 'a' => '6deg', 'dy' => '0px', 'bg' => 'bg-amber-100', 'pose' => 'wave', 'photo' => 'hero-6.jpg'],
             ];
         @endphp
 
         <div class="mt-12 -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div class="flex lg:justify-center items-stretch gap-3 lg:gap-0 overflow-x-auto lg:overflow-visible snap-x snap-mandatory py-5 no-scrollbar">
+            <div class="hero-fan flex items-stretch gap-3 overflow-x-auto snap-x snap-mandatory pt-6 pb-8 no-scrollbar" data-hero-fan>
                 @foreach ($heroCards as $idx => $hc)
-                    <div class="reveal shrink-0 snap-center hover:z-20 {{ $idx > 0 ? 'lg:-ml-3' : '' }}"
+                    @php $photo = $img($hc['photo']); @endphp
+                    <div class="hero-fan__item reveal shrink-0 snap-center relative hover:z-20"
                          x-intersect.once="$el.classList.add('is-in')"
                          style="transition-delay: {{ $idx * 60 }}ms;">
-                        <div class="card-bite w-[166px] sm:w-[174px] h-[222px] flex flex-col justify-between"
-                             style="--r: {{ $hc['r'] }};">
-                            <div class="flex-1 flex flex-col items-center justify-center p-4 {{ $hc['bg'] }}">
-                                <div class="w-14 h-14 rounded-2xl bg-paper border-2 border-ink shadow-[3px_3px_0_#111] flex items-center justify-center text-ink">
-                                    <i data-lucide="{{ $hc['icon'] }}" class="w-7 h-7"></i>
+                        <div class="hero-fan__tilt" style="--k: {{ $idx - 2.5 }}; --a: {{ $hc['a'] }}; --dy: {{ $hc['dy'] }};">
+                            <div class="card-bite w-[166px] h-[226px] lg:w-[var(--cw)] lg:h-[calc(var(--cw)*1.38)] flex flex-col justify-between" style="--r: 0deg;">
+                                <div class="relative flex-1 flex items-center justify-center overflow-hidden {{ $photo ? 'bg-ink' : $hc['bg'] }}">
+                                    @if ($photo)
+                                        <img src="{{ $photo }}" alt="{{ $hc['text'] }}" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+                                    @else
+                                        @include('landing.partials._mascot', ['pose' => $hc['pose'], 'size' => 92, 'animate' => false])
+                                        <span class="absolute top-2.5 right-2.5 w-9 h-9 rounded-xl bg-paper border-2 border-ink shadow-[2px_2px_0_#111] flex items-center justify-center text-ink rotate-6">
+                                            <i data-lucide="{{ $hc['icon'] }}" class="w-4 h-4"></i>
+                                        </span>
+                                    @endif
                                 </div>
-                            </div>
-                            <div class="card-bite__foot px-3 py-4 text-center">
-                                <span class="font-label text-xs font-bold uppercase tracking-wide leading-snug block text-paper">
-                                    {{ $hc['text'] }}
-                                </span>
+                                <div class="card-bite__foot {{ $idx % 2 === 0 ? 'card-bite__foot--paper' : '' }} px-3 py-4 text-center">
+                                    <span class="font-label text-xs font-bold uppercase tracking-wide leading-snug block {{ $idx % 2 === 0 ? 'text-ink' : 'text-paper' }}">
+                                        {{ $hc['text'] }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -129,3 +138,28 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+<script>
+    // Kartu hero: kipas miring (--p = 0) → merenggang & tegak (--p = 1) mengikuti scroll, hanya di layar lg+.
+    (() => {
+        const row = document.querySelector('[data-hero-fan]');
+        if (!row) return;
+        const desktop = window.matchMedia('(min-width: 1024px)');
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let ticking = false;
+        const update = () => {
+            ticking = false;
+            if (!desktop.matches || reduce.matches) { row.style.setProperty('--p', 0); return; }
+            const top = row.getBoundingClientRect().top + window.scrollY;
+            const from = top * 0.1, to = top * 0.8;
+            const p = Math.min(1, Math.max(0, (window.scrollY - from) / Math.max(1, to - from)));
+            row.style.setProperty('--p', p.toFixed(3));
+        };
+        const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
+    })();
+</script>
+@endpush
